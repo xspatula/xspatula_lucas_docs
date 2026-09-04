@@ -1,0 +1,7 @@
+
+# Local development overrides — pass alongside _config.yml:
+#   bundle exec jekyll serve --config _config.yml,_config_local.yml
+
+url                      :
+baseurl                  : ""
+repository               :

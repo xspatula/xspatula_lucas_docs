@@ -1,0 +1,100 @@
+main_navigation:
+  - title: "Setup Xspatula"
+    children:
+      - title: "Xspatula framework"
+        url: https://xspatula.github.io/xspatula_core_docs/framework/
+      - title: "Setup DB"
+        url: https://xspatula.github.io/xspatula_core_docs/setup_db/
+      - title: "Setup processes"
+        url: https://xspatula.github.io/xspatula_core_docs/setup_processes/
+      - title: "Add user data"
+        url: https://xspatula.github.io/xspatula_core_docs/user_data/
+      - title: "Audit"
+        url: https://xspatula.github.io/xspatula_core_docs/auditing/
+      - title: "Community"
+        url: https://xspatula.github.io/xspatula_core_docs/setup_community/
+      - title: "Building"
+        url: https://xspatula.github.io/xspatula_core_docs/building/
+  - title: "Seed LUCAS data"
+    children:
+      - title: "Dataset meta"
+        url: /dataset_meta/
+      - title: "Sample"
+        url: /sample/
+      - title: "Laboratory"
+        url: /lucas_2009/load_campaign/#lab-observation-log-and-observations
+      - title: "Spectra"
+        url: /spectra/
+      - title: "LUCAS 2009"
+        url: /lucas_2009/
+      - title: "About"
+        url: https://xspatula.github.io/about/
+
+dataset_meta:
+  - title: Dataset metadata
+    children:
+      - title: "Synopsis"
+        url: /dataset_meta/
+      - title: "Manage data source"
+        url: /dataset_meta/manage_data_source/
+      - title: "Manage person"
+        url: /dataset_meta/manage_person/
+      - title: "Manage dataset"
+        url: /dataset_meta/manage_dataset/
+      - title: "Manage campaign"
+        url: /dataset_meta/manage_campaign/
+
+sample:
+  - title: Sample
+    children:
+      - title: "Synopsis"
+        url: /sample/
+      - title: "Manage geolocation"
+        url: /sample/manage_geolocation/
+      - title: "Manage sample"
+        url: /sample/manage_sample/
+
+spectra:
+  - title: Spectra
+    children:
+      - title: "Synopsis"
+        url: /spectra/
+      - title: "Manage spectrometer"
+        url: /spectra/manage_spectrometer/
+      - title: "Manage observation log"
+        url: /spectra/manage_observation_log/
+      - title: "Manage observation"
+        url: /spectra/manage_observation/
+
+lucas_2009:
+  - title: LUCAS 2009 campaign
+    children:
+      - title: "Synopsis"
+        url: /lucas_2009/
+      - title: "Prepare data"
+        url: /lucas_2009/prepare_data/
+      - title: "Insert dataset metadata"
+        url: /lucas_2009/insert_dataset_meta/
+      - title: "Insert utility"
+        url: /lucas_2009/insert_utility/
+      - title: "Load campaign"
+        url: /lucas_2009/load_campaign/
+
+main:
+  - title: "Dataset meta"
+    url: /dataset_meta/
+    description: "Data source, persons, dataset and campaign metadata for LUCAS"
+  - title: "Sample"
+    url: /sample/
+    description: "Geolocations and sample records for LUCAS soil sampling points"
+  - title: "Laboratory"
+    url: /lucas_2009/load_campaign/#lab-observation-log-and-observations
+    description: "Lab-measured soil properties for the LUCAS 2009 campaign"
+  - title: "Spectra"
+    url: /spectra/
+    description: "FOSS XDS RCA spectrometer data for the LUCAS 2009 campaign"
+  - title: "LUCAS 2009"
+    url: /lucas_2009/
+    description: "Download, prepare and load the LUCAS 2009 soil sampling campaign"
+  - title: "About"
+    url: https://xspatula.github.io/about/
