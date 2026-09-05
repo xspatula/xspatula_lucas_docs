@@ -1,48 +1,66 @@
 # Notes for updating `xspatula_lucas`
 
-Written while building `xspatula_lucas_docs` (2026-09-04). Nothing in `xspatula_lucas` was
-touched by this session except `README.md` (rewritten in LUCAS terms, explicitly requested by
-Thomas — see git history). Everything else below is a recommendation, not a record of changes
-made there.
+Written while building `xspatula_lucas_docs` (2026-09-04, updated 2026-09-04 second pass).
+Sessions have touched `xspatula_lucas` twice now: `README.md` (rewritten in LUCAS terms,
+explicitly requested by Thomas) and `lucas/prepare_lucas_data/lucas_2009_to_xspatula.py` (bug fix,
+below, also explicitly requested). Both are uncommitted working-tree edits — see git history for
+everything else, which Thomas has been editing himself in parallel (notebook rename, script
+changes, campaign.xlsx updates). Everything else below is a recommendation, not a record of
+further changes made here.
 
-## Real bug candidate: duplicate/conflicting `lucas_eu_2009` campaign record
+## Resolved: duplicate/conflicting `lucas_eu_2009` campaign record
 
-Documented in the docs site at `/dataset_meta/manage_campaign/` and
-`/lucas_2009/prepare_data/#known-quirk-duplicate-campaign-sampling-log`, but worth flagging here
-directly since it's a genuine pipeline inconsistency, not just a docs gap:
+Previously flagged here and in `/dataset_meta/manage_campaign/`: `campaign.xlsx` (via
+`insert_lucas_dataset_meta.ipynb`) and `lucas_2009_to_xspatula.py`'s old
+`step1_campaign_and_sampling_log()` both generated a `lucas_eu_2009` campaign record with
+different `provision_id__provision_name_array` values. **Fixed by Thomas**: the script's campaign
+generation was removed entirely (now `step1_sampling_log()`, sampling log only) — the campaign
+record has exactly one source now, `campaign.xlsx`. Docs updated to match; no further action
+needed.
 
-- `lucas/import_data/dataset_meta/excel/campaign.xlsx`, loaded via
-  `insert_lucas_dataset_meta.ipynb`, defines one `lucas_eu_2009` campaign row with
-  `provision_id__provision_name_array` = `"foss xds rca,lucas-wetlab-2009"` (**both** provisions).
-- `lucas/prepare_lucas_data/lucas_2009_to_xspatula.py`'s `step1_campaign_and_sampling_log()`
-  independently generates a `manage_campaign` call for the **same name** `lucas_eu_2009`, but with
-  `provision_id__provision_name_array` set to only `lucas-wetlab-2009` (the copy under
-  `process_lab/campaign/`, which `load_LUCAS.ipynb` actually runs — the `process_spectra/campaign/`
-  copy is generated but never loaded by any notebook, so it's dead output either way).
+## Fixed this session: `step1_sampling_log()` tuple bug
 
-If `manage_campaign` is UPDATE-capable (matches by name, replaces fields), running
-`insert_lucas_dataset_meta.ipynb` and then `load_LUCAS.ipynb`'s campaign cell against the same
-database could overwrite the campaign's provision array down to one value, silently dropping
-`foss xds rca`. **This was not tested end-to-end** — I read the script and the Excel source, I
-didn't run the pipeline against a live database. Worth either:
+`for process_dir in (lab_dir):` — without a trailing comma, `(lab_dir)` isn't a tuple, so this
+iterated over the characters of the path string rather than treating `lab_dir` as a single
+directory, silently writing sampling-log output to a pile of garbage single-character-named
+directories instead of `process_lab/sampling_log/`. Fixed directly (explicitly requested) by
+dropping the pointless loop:
 
-1. Testing directly (run both, inspect `observation.campaign.provision_id__provision_name_array`
-   afterward), or
-2. Fixing at the source — either drop `step1_campaign_and_sampling_log()`'s campaign generation
-   from the script (rely on the Excel route as the single source of truth for campaigns) and only
-   keep the sampling-log half, or make the script write the full provision array to match.
+```python
+sampling_log_dir = os.path.join(lab_dir, "sampling_log")
+write_process_json(
+    os.path.join(sampling_log_dir, "manage_process", sampling_log_filename),
+    "manage_sampling_log",
+    sampling_log_params,
+)
+write_pilot_txt(sampling_log_dir, "SAMPLING_LOG", [sampling_log_filename])
+```
 
-Also worth deciding: the `process_spectra/campaign/` and `process_spectra/sampling_log/` copies
-the script generates are pure dead output today (nothing loads them). Either wire them into a
-spectra-only load path, or stop generating them.
+Verified it still compiles (`python3 -m py_compile`); not run end-to-end against real CSV data.
+
+## Orphaned: `lucas/import_data/dataset_meta/excel/sampling_log.xlsx`
+
+New file, not referenced by any process file, job file, or notebook cell — `insert_lucas_dataset_meta.ipynb`
+still only has data_source/person/dataset/campaign cells. Its two rows are also AI4SH example data
+(`ai4sh_se_loennstorp`, `ai4sh_fi_jokioinen`), not LUCAS. Confirmed with Thomas (2026-09-04):
+sampling_log stays sourced from the script, not this file — this looks like an abandoned trial.
+Worth deleting or finishing later; the docs don't reference it.
+
+## `load_LUCAS_2009.ipynb` still has a dead "Manage LUCAS 2009 campaign" cell
+
+Its first job-file cell still points at `job_LUCAS_2009_campaign.json` →
+`process_lab/campaign/`, but the script no longer generates that directory. Confirmed with Thomas
+(2026-09-04): the docs now instruct skipping this cell (see `/lucas_2009/load_lucas_2009/`).
+Worth deleting the cell from the notebook itself next time it's touched, so a reader following the
+notebook top-to-bottom without the docs open doesn't hit a missing-pilot-file error.
 
 ## Deep AI4SH branding beyond the README
 
 The README rewrite (this session) only touched prose and doc links. These are still literally
 named after AI4SH, unchanged:
 
-- `src/ai4sh/` — the Python package `load_LUCAS.ipynb` and friends import (`from src.ai4sh import
-  Run_process`)
+- `src/ai4sh/` — the Python package `load_LUCAS_2009.ipynb` and friends import (`from src.ai4sh
+  import Run_process`)
 - `src/postgres/pg_ai4sh.py`
 - `anaconda/xspatula_ai4sh_py_3.12.yml` and the `xspatula_ai4sh_py_3.12` conda env/kernel name
 - `setup/zzz/scheme_ai4sh_local_setup.json`, `_delete.json`, `_use.json`, `_use_pswd.json`
@@ -56,7 +74,7 @@ scheme/anaconda naming inline so newcomers don't read it as a mistake.
 
 ## Notebook markdown cells reference the wrong docs URL
 
-`load_LUCAS.ipynb`, `insert_lucas_dataset_meta.ipynb`, and `insert_utility.ipynb` all link to
+`load_LUCAS_2009.ipynb`, `insert_lucas_dataset_meta.ipynb`, and `insert_utility.ipynb` all link to
 `https://xspatula.github.io/setup_core_db_docs/framework/scheme_file/` in their "Scheme file"
 markdown cell. That's the old pre-`xspatula_core_docs` URL (see the main `xspatula_lucas_docs`
 CLAUDE.md for why `xspatula_core_docs` supersedes `setup_core_db_docs`). Worth updating to

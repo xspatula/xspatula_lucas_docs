@@ -288,10 +288,6 @@ compress_html:
 collections:
   dataset_meta:
     output: true
-  sample:
-    output: true
-  spectra:
-    output: true
   lucas_2009:
     output: true
 
@@ -303,21 +299,14 @@ nav_order:
     - manage_person
     - manage_dataset
     - manage_campaign
-  sample:
-    - synopsis
-    - manage_geolocation
-    - manage_sample
-  spectra:
-    - synopsis
-    - manage_spectrometer
-    - manage_observation_log
-    - manage_observation
   lucas_2009:
     - synopsis
     - prepare_data
-    - insert_dataset_meta
     - insert_utility
-    - load_campaign
+    - insert_dataset_meta
+    - load_lucas_2009
+    - samples_explained
+    - observations_explained
 
 # Defaults
 defaults:

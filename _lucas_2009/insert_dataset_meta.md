@@ -10,12 +10,16 @@ author_profile: false
 Registers who published the data, the top-level LUCAS dataset, and the campaign record — all
 from hand-authored Excel files, not from the generated CSV output.
 
+## Prerequisites
+
+- [Insert utility][insert_utility] must be complete — `campaign.xlsx` and `dataset.xlsx` both
+  reference utility values (territory, license, spatial reference) by foreign keys.
+
 ## Notebook
 
 **Path**: `xspatula_lucas/lucas/import_data/insert_lucas_dataset_meta.ipynb`
 
-Four cells, each an `insert_tabular_data` process file — translate and insert in one step, no
-separate translate/manage split:
+Four cells, each an `insert_tabular_data` process file — translate and insert in one step:
 
 1. Insert data source (`import_data/dataset_meta/insert_process/data_source.json`)
 2. Insert persons (`import_data/dataset_meta/insert_process/person.json`)
@@ -33,12 +37,11 @@ Each step's process file, source Excel columns, and parameter table is documente
 - [Manage data source]
 - [Manage person]
 - [Manage dataset]
-- [Manage campaign] — **read this one before continuing**: it flags an overlap with the campaign
-  record `lucas_2009_to_xspatula.py` also generates.
+- [Manage campaign]
 
 ## Next step
 
-Proceed to [Insert utility][insert_utility].
+Proceed to [Load LUCAS 2009][load_lucas_2009].
 
 [dataset_meta]: /dataset_meta/
 [Manage data source]: /dataset_meta/manage_data_source/
@@ -46,3 +49,4 @@ Proceed to [Insert utility][insert_utility].
 [Manage dataset]: /dataset_meta/manage_dataset/
 [Manage campaign]: /dataset_meta/manage_campaign/
 [insert_utility]: /lucas_2009/insert_utility/
+[load_lucas_2009]: /lucas_2009/load_lucas_2009/

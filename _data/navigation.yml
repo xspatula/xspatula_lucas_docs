@@ -19,12 +19,6 @@ main_navigation:
     children:
       - title: "Dataset meta"
         url: /dataset_meta/
-      - title: "Sample"
-        url: /sample/
-      - title: "Laboratory"
-        url: /lucas_2009/load_campaign/#lab-observation-log-and-observations
-      - title: "Spectra"
-        url: /spectra/
       - title: "LUCAS 2009"
         url: /lucas_2009/
       - title: "About"
@@ -44,28 +38,6 @@ dataset_meta:
       - title: "Manage campaign"
         url: /dataset_meta/manage_campaign/
 
-sample:
-  - title: Sample
-    children:
-      - title: "Synopsis"
-        url: /sample/
-      - title: "Manage geolocation"
-        url: /sample/manage_geolocation/
-      - title: "Manage sample"
-        url: /sample/manage_sample/
-
-spectra:
-  - title: Spectra
-    children:
-      - title: "Synopsis"
-        url: /spectra/
-      - title: "Manage spectrometer"
-        url: /spectra/manage_spectrometer/
-      - title: "Manage observation log"
-        url: /spectra/manage_observation_log/
-      - title: "Manage observation"
-        url: /spectra/manage_observation/
-
 lucas_2009:
   - title: LUCAS 2009 campaign
     children:
@@ -73,26 +45,21 @@ lucas_2009:
         url: /lucas_2009/
       - title: "Prepare data"
         url: /lucas_2009/prepare_data/
-      - title: "Insert dataset metadata"
-        url: /lucas_2009/insert_dataset_meta/
       - title: "Insert utility"
         url: /lucas_2009/insert_utility/
-      - title: "Load campaign"
-        url: /lucas_2009/load_campaign/
+      - title: "Insert dataset metadata"
+        url: /lucas_2009/insert_dataset_meta/
+      - title: "Load LUCAS 2009"
+        url: /lucas_2009/load_lucas_2009/
+      - title: "Samples explained"
+        url: /lucas_2009/samples_explained/
+      - title: "Observations explained"
+        url: /lucas_2009/observations_explained/
 
 main:
   - title: "Dataset meta"
     url: /dataset_meta/
     description: "Data source, persons, dataset and campaign metadata for LUCAS"
-  - title: "Sample"
-    url: /sample/
-    description: "Geolocations and sample records for LUCAS soil sampling points"
-  - title: "Laboratory"
-    url: /lucas_2009/load_campaign/#lab-observation-log-and-observations
-    description: "Lab-measured soil properties for the LUCAS 2009 campaign"
-  - title: "Spectra"
-    url: /spectra/
-    description: "FOSS XDS RCA spectrometer data for the LUCAS 2009 campaign"
   - title: "LUCAS 2009"
     url: /lucas_2009/
     description: "Download, prepare and load the LUCAS 2009 soil sampling campaign"

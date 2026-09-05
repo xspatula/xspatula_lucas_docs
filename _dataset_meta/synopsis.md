@@ -46,25 +46,28 @@ All four Excel files are in `xspatula_lucas/lucas/import_data/dataset_meta/excel
 | `dataset.xlsx` | `observation.dataset` |
 | `campaign.xlsx` | `observation.campaign` |
 
-Each is translated and inserted in one step via the `insert_tabular_data` process — no separate
-translate/manage split.
+Each is translated and inserted in one step via the `insert_tabular_data` process.
 
 ## Required loading sequence
 
-Data source and person before dataset; dataset before campaign:
+Utility catalogues must already exist (see [LUCAS 2009 → Insert utility][insert_utility] —
+`campaign.xlsx` and `dataset.xlsx` reference them by foreign key). Then, data source and person
+before dataset; dataset before campaign:
 
 1. [Manage data source] — insert the ESDAC-JRC data source record
 2. [Manage person] — insert person record(s) (requires data source)
 3. [Manage dataset] — insert the LUCAS topsoil dataset record (requires data source)
 4. [Manage campaign] — insert campaign record(s), e.g. `lucas_eu_2009` (requires dataset)
 
-After this, continue with [LUCAS 2009][lucas_2009] for the campaign-specific sampling data, or
-[Sample] and [Spectra] for what the resulting tables look like.
+After this, continue with [Load LUCAS 2009][load_lucas_2009] for the campaign-specific sampling
+data, or [Samples explained] and [Observations explained] for what the resulting tables look
+like.
 
 [Manage data source]: /dataset_meta/manage_data_source/
 [Manage person]: /dataset_meta/manage_person/
 [Manage dataset]: /dataset_meta/manage_dataset/
 [Manage campaign]: /dataset_meta/manage_campaign/
-[lucas_2009]: /lucas_2009/
-[Sample]: /sample/
-[Spectra]: /spectra/
+[insert_utility]: /lucas_2009/insert_utility/
+[load_lucas_2009]: /lucas_2009/load_lucas_2009/
+[Samples explained]: /lucas_2009/samples_explained/
+[Observations explained]: /lucas_2009/observations_explained/

@@ -7,8 +7,7 @@ permalink: /lucas_2009/prepare_data/
 author_profile: false
 ---
 
-Generates the JSON job, pilot, and process files needed to load the LUCAS 2009 campaign — one
-process file per sampling point, per lab observation, and per spectral observation.
+Generates the JSON job, pilot, and process files needed to load the LUCAS 2009 campaign data and metadata.
 
 ## 1. Download the source CSV
 
@@ -18,6 +17,8 @@ sampling point, with lab-measured soil properties and FOSS XDS RCA spectral scan
 (`spc.<wavelength>`) together in a single file.
 
 ## 2. Configure and run the script
+
+The content of `LUCAS.SOIL_corr.csv` can not be loaded directly to the database. It must first be translated to a format that is understood by a defined process. It is possible to define a process for reading  `LUCAS.SOIL_corr.csv`, but it will be both complicated and not useful for anything else. The script `lucas_2009_to_xspatula.py` instead translates `LUCAS.SOIL_corr.csv` to generic processes that are already defined as part of the `xspatula_lucas` project.
 
 **Path**: `xspatula_lucas/lucas/prepare_lucas_data/lucas_2009_to_xspatula.py`
 
@@ -46,7 +47,7 @@ final `DONE` line. A `FileNotFoundError` at the start means `CSV_PATH` is wrong.
 
 | Step | Output directory | One record per |
 |---|---|---|
-| 1. Campaign & sampling log | `process_lab/campaign/`, `process_lab/sampling_log/` (+ duplicate under `process_spectra/`, see below) | campaign (static) |
+| 1. Sampling log | `process_lab/sampling_log/` | campaign (static, 1 record) |
 | 2. Observation log | `process_lab/observation_log/`, `process_spectra/observation_log/` | provision (static, 2 records) |
 | 3. Spectrometer | `process_spectra/spectrometer/` | instrument (static, 1 record) |
 | 4. Geolocation | `process_lab/geolocation/` | unique `POINT_ID` |
@@ -54,24 +55,18 @@ final `DONE` line. A `FileNotFoundError` at the start means `CSV_PATH` is wrong.
 | 6. Lab observation | `process_lab/observation/` | CSV row with at least one measured indicator |
 | 7. Spectral observation | `process_spectra/observation/` | CSV row |
 
+The campaign record itself is **not** generated here — it comes solely from `campaign.xlsx` via
+[Insert dataset metadata][insert_dataset_meta], run before this script's output gets loaded. See
+[Load LUCAS 2009][load_lucas_2009] for how the pieces generated here fit together with that.
+
 Steps 4–7 are limited to `RECORDS` rows if you haven't set it to `0`. Each directory gets both a
 `xspatula_add_<category>_pilot.txt` pilot file (a numbered list of the process files in it) and
 the process files themselves under a `manage_process/` subfolder.
 
-## Known quirk: duplicate campaign/sampling log
-
-Step 1 writes a `lucas_eu_2009` campaign **and** sampling log record under **both**
-`process_lab/` and `process_spectra/` — but only the `process_lab/` copy is ever run (see
-[Load campaign][load_campaign]; the `process_spectra/` copy is generated and left unused). This
-also overlaps with the campaign record created via `campaign.xlsx` in
-[Insert dataset metadata][insert_dataset_meta] — read
-[Dataset metadata → Manage campaign][manage_campaign] before running both against the same
-database.
-
 ## Next step
 
-Proceed to [Insert dataset metadata][insert_dataset_meta].
+Proceed to [Insert utility][insert_utility].
 
-[load_campaign]: /lucas_2009/load_campaign/
+[insert_utility]: /lucas_2009/insert_utility/
 [insert_dataset_meta]: /lucas_2009/insert_dataset_meta/
-[manage_campaign]: /dataset_meta/manage_campaign/
+[load_lucas_2009]: /lucas_2009/load_lucas_2009/

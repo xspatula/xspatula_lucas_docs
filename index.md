@@ -18,7 +18,7 @@ The generic Xspatula framework — how to set up the database itself, define pro
 
 - New to Xspatula? Start with [Setup DB][setup_db] on the core docs site.
 - Already have a database running? Jump straight to [LUCAS 2009][lucas_2009] to download and load the campaign.
-- Looking for what a specific table stores? See [Dataset metadata][dataset_meta], [Sample][sample], or [Spectra][spectra].
+- Looking for what a specific table stores? See [Dataset metadata][dataset_meta], [Samples explained][samples], or [Observations explained][observations].
 
 ## Access and license
 
@@ -28,5 +28,5 @@ The generic Xspatula framework — how to set up the database itself, define pro
 [setup_db]: https://xspatula.github.io/xspatula_core_docs/setup_db/
 [lucas_2009]: ./lucas_2009
 [dataset_meta]: ./dataset_meta
-[sample]: ./sample
-[spectra]: ./spectra
+[samples]: ./lucas_2009/samples_explained
+[observations]: ./lucas_2009/observations_explained/

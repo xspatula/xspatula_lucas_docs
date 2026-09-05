@@ -9,10 +9,11 @@ into a PostgreSQL database with the Xspatula framework.
 
 ## Scope
 
-This site documents only the LUCAS-specific parts of the build: dataset metadata, sample and
-spectra records, and the full download → prepare → insert walkthrough for the LUCAS 2009
-campaign. The generic Xspatula framework — database setup, process definitions, auditing,
-community/user management — is documented once for every Xspatula project at
+This site documents only the LUCAS-specific parts of the build: dataset metadata, and a single
+`lucas_2009` collection covering the full download → prepare → insert walkthrough for the LUCAS
+2009 campaign plus reference pages on the sample and observation tables it populates. The generic
+Xspatula framework — database setup, process definitions, auditing, community/user management —
+is documented once for every Xspatula project at
 [xspatula_core_docs](https://xspatula.github.io/xspatula_core_docs/), and this site links out to
 it rather than duplicating it. See `.claude/CLAUDE.md` for the full reasoning behind that split.
 
@@ -21,9 +22,7 @@ it rather than duplicating it. See `.claude/CLAUDE.md` for the full reasoning be
 | Section | URL | Covers |
 |---|---|---|
 | Dataset metadata | `/dataset_meta/` | Data source, persons, dataset, and campaign records |
-| Sample | `/sample/` | Geolocations and sample records for LUCAS sampling points |
-| Spectra | `/spectra/` | FOSS XDS RCA spectrometer, observation logs, and spectral observations |
-| LUCAS 2009 | `/lucas_2009/` | Download the source CSV, run the prep script, and load the full campaign |
+| LUCAS 2009 | `/lucas_2009/` | Download the source CSV, run the prep script, and load the full campaign — plus "Samples explained" and "Observations explained" reference pages |
 
 ## Site architecture
 
@@ -32,11 +31,12 @@ it rather than duplicating it. See `.claude/CLAUDE.md` for the full reasoning be
 - **Build**: `bundle exec jekyll build`
 - **Deploy**: GitHub Actions (`.github/workflows/jekyll.yml`) on push to `main`. Requires
   repo Settings → Pages → Build and deployment → Source = "GitHub Actions".
-- **Content**: one Jekyll collection per LUCAS-specific section (`_dataset_meta/`, `_sample/`,
-  `_spectra/`, `_lucas_2009/`), each with `output: true` in `_config.yml` and a page order under
-  `nav_order:`.
+- **Content**: one Jekyll collection per LUCAS-specific section (`_dataset_meta/`, `_lucas_2009/`),
+  each with `output: true` in `_config.yml` and a page order under `nav_order:`.
 - **Navigation**: hand-maintained in `_data/navigation.yml`. Entries for the generic framework
   sections are external links to `xspatula_core_docs`, not local pages.
+- **Page order**: previous/next pagination follows `_data/story_order.yml`, not Jekyll's default
+  per-collection order — see `_includes/post_pagination.html`.
 
 ## Source repositories
 

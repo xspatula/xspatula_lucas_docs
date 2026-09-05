@@ -1,25 +1,20 @@
 # Flat reading order for the custom previous/next pagination in
 # _includes/post_pagination.html. This follows the actual walkthrough a reader
 # is pointed through by the pages' own cross-links (start at lucas_2009, dip
-# into dataset_meta, back to lucas_2009, then sample and spectra) — not a
-# per-collection block order. Add new pages here in their intended reading
-# position; a page missing from this list simply gets no previous/next links
-# rather than a broken one.
+# into dataset_meta, back to lucas_2009 for the load step, then the two
+# reference/detail pages last) — not a per-collection block order. Add new
+# pages here in their intended reading position; a page missing from this
+# list simply gets no previous/next links rather than a broken one.
 
 - /lucas_2009/
 - /lucas_2009/prepare_data/
+- /lucas_2009/insert_utility/
 - /lucas_2009/insert_dataset_meta/
 - /dataset_meta/
 - /dataset_meta/manage_data_source/
 - /dataset_meta/manage_person/
 - /dataset_meta/manage_dataset/
 - /dataset_meta/manage_campaign/
-- /lucas_2009/insert_utility/
-- /lucas_2009/load_campaign/
-- /sample/
-- /sample/manage_geolocation/
-- /sample/manage_sample/
-- /spectra/
-- /spectra/manage_spectrometer/
-- /spectra/manage_observation_log/
-- /spectra/manage_observation/
+- /lucas_2009/load_lucas_2009/
+- /lucas_2009/samples_explained/
+- /lucas_2009/observations_explained/
