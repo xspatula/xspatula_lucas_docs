@@ -21,8 +21,6 @@ main_navigation:
         url: /dataset_meta/
       - title: "LUCAS 2009"
         url: /lucas_2009/
-      - title: "About"
-        url: https://xspatula.github.io/about/
 
 dataset_meta:
   - title: Dataset metadata
@@ -57,6 +55,9 @@ lucas_2009:
         url: /lucas_2009/observations_explained/
 
 main:
+  - title: "Xspatula"
+    url: /
+    description: "Framework, setup, processes, auditing, community, building"
   - title: "Dataset meta"
     url: /dataset_meta/
     description: "Data source, persons, dataset and campaign metadata for LUCAS"
