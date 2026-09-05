@@ -290,6 +290,8 @@ collections:
     output: true
   lucas_2009:
     output: true
+  machine_learning:
+    output: true
 
 # collection navigation orders
 nav_order:
@@ -307,6 +309,10 @@ nav_order:
     - load_lucas_2009
     - samples_explained
     - observations_explained
+  machine_learning:
+    - explore_select_data
+    - ml_preprocess
+    - ml_model
 
 # Defaults
 defaults:

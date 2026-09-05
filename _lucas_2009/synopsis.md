@@ -19,6 +19,8 @@ database: registering and downloading the source data, generating the JSON impor
 
 ## The pipeline, end to end
 
+### Data loading pipeline
+
 ```
 1. Download   LUCAS.SOIL_corr.csv from ESDAC (registration required)
 2. Prepare    lucas_2009_to_xspatula.py  →  generates job/pilot/process files
@@ -35,9 +37,27 @@ Steps 3–5 correspond to three separate notebooks, all under
 `xspatula_lucas/lucas/import_data/`. Run them in this order — later steps have foreign-key
 dependencies on earlier ones (utility catalogues first, since even the dataset metadata step references them).
 
+### Machine learning pipeline
+
+```
+1. Explore & select   explore_select_data.ipynb  →  browse the loaded data, pull a working subset
+                                                      to local disk, plot it
+2. Preprocess          ml_preprocess.ipynb        →  clean, transform, and select bands, saving
+                                                      each result as a new .parquet/.json pair
+3. Model                ml_model.ipynb             →  train and evaluate regressors against any
+                                                      of the datasets step 2 produced
+```
+
+Unlike the data loading pipeline above, only the three macro-steps are fixed — data must be
+selected before it can be preprocessed, and preprocessed (or not — raw is a valid input too)
+before it can be modeled. *Within* each notebook, the individual cells don't have to run in a
+fixed order or all run at all: which scaling, scatter correction, filtering, or band-selection
+steps you chain together, and in what sequence, is a modeling choice that depends on your data
+and hypothesis, not a requirement of the framework.
+
 ## Pages in this section
 
-**Required, in order:**
+**Required, in order, to load the campaign:**
 
 1. [Prepare data][prepare_data] — download the CSV, run the generator script, inspect its output
 2. [Insert utility][insert_utility] — the lookup catalogues every other insert depends on
@@ -50,6 +70,13 @@ dependencies on earlier ones (utility catalogues first, since even the dataset m
 - [Observations explained] — spectrometer, observation log, and observation tables, job files,
   and parameters
 
+**Machine learning — once the campaign is loaded:**
+
+- [Explore & select data][explore_select_data] — browse and pull a working subset to local disk
+- [ML preprocessing][ml_preprocess] — clean, transform, and select bands; the full catalogue of
+  available algorithms and how output is chained
+- [ML modeling][ml_model] — train and evaluate regressors, and the full list of available ones
+
 For dataset-level tables (data source, person, dataset, campaign), see [Dataset metadata] — that collection documents the schema and parameters behind step 3 above.
 
 [setup_db]: https://xspatula.github.io/xspatula_core_docs/setup_db/
@@ -60,3 +87,6 @@ For dataset-level tables (data source, person, dataset, campaign), see [Dataset 
 [Samples explained]: /lucas_2009/samples_explained/
 [Observations explained]: /lucas_2009/observations_explained/
 [Dataset metadata]: /dataset_meta/
+[explore_select_data]: /lucas_2009/machine_learning/explore_select_data/
+[ml_preprocess]: /lucas_2009/machine_learning/ml_preprocess/
+[ml_model]: /lucas_2009/machine_learning/ml_model/

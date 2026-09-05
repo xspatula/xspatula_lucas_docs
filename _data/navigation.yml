@@ -21,6 +21,14 @@ main_navigation:
         url: /dataset_meta/
       - title: "LUCAS 2009"
         url: /lucas_2009/
+  - title: "Machine learning"
+    children:
+      - title: "Explore & select data"
+        url: /lucas_2009/machine_learning/explore_select_data/
+      - title: "ML preprocessing"
+        url: /lucas_2009/machine_learning/ml_preprocess/
+      - title: "ML modeling"
+        url: /lucas_2009/machine_learning/ml_model/
 
 dataset_meta:
   - title: Dataset metadata
@@ -37,7 +45,7 @@ dataset_meta:
         url: /dataset_meta/manage_campaign/
 
 lucas_2009:
-  - title: LUCAS 2009 campaign
+  - title: Seed LUCAS data
     children:
       - title: "Synopsis"
         url: /lucas_2009/
@@ -53,6 +61,14 @@ lucas_2009:
         url: /lucas_2009/samples_explained/
       - title: "Observations explained"
         url: /lucas_2009/observations_explained/
+  - title: Machine learning
+    children:
+      - title: "Explore & select data"
+        url: /lucas_2009/machine_learning/explore_select_data/
+      - title: "ML preprocessing"
+        url: /lucas_2009/machine_learning/ml_preprocess/
+      - title: "ML modeling"
+        url: /lucas_2009/machine_learning/ml_model/
 
 main:
   - title: "Xspatula"
