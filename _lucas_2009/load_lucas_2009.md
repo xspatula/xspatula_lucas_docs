@@ -43,7 +43,7 @@ pages you don't need to read to complete the walkthrough.
 ## After this notebook
 
 The LUCAS 2009 campaign is fully loaded: sampling log, one geolocation and sample per point, one
-lab observation and one spectral observation per sample. See [Dataset metadata], [Samples
+lab observation and one spectral observation per sample. See [Dataset metadata explained], [Samples
 explained], and [Observations explained] for what the resulting tables look like in more depth.
 
 [insert_dataset_meta]: /lucas_2009/insert_dataset_meta/
@@ -51,4 +51,4 @@ explained], and [Observations explained] for what the resulting tables look like
 [Observations explained]: /lucas_2009/observations_explained/
 [Observations explained (lab)]: /lucas_2009/observations_explained/#laboratory-observations
 [Observations explained (spectra)]: /lucas_2009/observations_explained/#spectral-observations
-[Dataset metadata]: /dataset_meta/
+[Dataset metadata explained]: /lucas_2009/dataset_meta_explained/

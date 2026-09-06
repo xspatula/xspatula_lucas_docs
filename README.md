@@ -9,20 +9,27 @@ into a PostgreSQL database with the Xspatula framework.
 
 ## Scope
 
-This site documents only the LUCAS-specific parts of the build: dataset metadata, and a single
-`lucas_2009` collection covering the full download → prepare → insert walkthrough for the LUCAS
-2009 campaign plus reference pages on the sample and observation tables it populates. The generic
-Xspatula framework — database setup, process definitions, auditing, community/user management —
-is documented once for every Xspatula project at
-[xspatula_core_docs](https://xspatula.github.io/xspatula_core_docs/), and this site links out to
-it rather than duplicating it. See `.claude/CLAUDE.md` for the full reasoning behind that split.
+This site documents only the LUCAS-specific parts of the build, all under a single `lucas_2009`
+collection: the full download → prepare → insert walkthrough for the LUCAS 2009 campaign, its
+downstream explore/preprocess/model machine learning pipeline, and reference pages on the dataset
+metadata, utility, sample, and observation tables involved. There is deliberately no separate
+top-level collection for any of that reference material — it's reachable only from within
+`lucas_2009`, since it's detail, not a parallel entry point. The generic Xspatula framework —
+database setup, process definitions, auditing, community/user management — is documented once for
+every Xspatula project at [xspatula_core_docs](https://xspatula.github.io/xspatula_core_docs/),
+and this site links out to it rather than duplicating it. See `.claude/CLAUDE.md` for the full
+reasoning behind that split, including why an earlier `_dataset_meta` collection was folded back
+into `lucas_2009`.
 
 ## Content sections
 
-| Section | URL | Covers |
+Everything lives under `/lucas_2009/`, split into three groups in its own sidebar:
+
+| Group | Pages | Covers |
 |---|---|---|
-| Dataset metadata | `/dataset_meta/` | Data source, persons, dataset, and campaign records |
-| LUCAS 2009 | `/lucas_2009/` | Download the source CSV, run the prep script, and load the full campaign — plus "Samples explained" and "Observations explained" reference pages |
+| Seed LUCAS data (required, in order) | synopsis, prepare data, insert utility, insert dataset metadata, load LUCAS 2009 | The actual runbook for loading the campaign |
+| Reference (optional) | dataset metadata explained, utility explained, utility inherit/auto explained, samples explained, observations explained | Table/parameter detail behind the runbook steps |
+| Machine learning | explore & select data, ML preprocessing, ML modeling | `/lucas_2009/machine_learning/...` — a separate Jekyll collection, nested under the same URL prefix |
 
 ## Site architecture
 
@@ -31,10 +38,13 @@ it rather than duplicating it. See `.claude/CLAUDE.md` for the full reasoning be
 - **Build**: `bundle exec jekyll build`
 - **Deploy**: GitHub Actions (`.github/workflows/jekyll.yml`) on push to `main`. Requires
   repo Settings → Pages → Build and deployment → Source = "GitHub Actions".
-- **Content**: one Jekyll collection per LUCAS-specific section (`_dataset_meta/`, `_lucas_2009/`),
-  each with `output: true` in `_config.yml` and a page order under `nav_order:`.
+- **Content**: two Jekyll collections, `_lucas_2009/` and `_machine_learning/` (permalinks nested
+  under `/lucas_2009/machine_learning/...` even though it's a separate collection), each with
+  `output: true` in `_config.yml` and a page order under `nav_order:`.
 - **Navigation**: hand-maintained in `_data/navigation.yml`. Entries for the generic framework
-  sections are external links to `xspatula_core_docs`, not local pages.
+  sections are external links to `xspatula_core_docs`, not local pages. The `lucas_2009:` sidebar
+  key is shared by pages in both collections (both set `sidebar: nav: "lucas_2009"`), which is
+  what makes its three-group split show up everywhere.
 - **Page order**: previous/next pagination follows `_data/story_order.yml`, not Jekyll's default
   per-collection order — see `_includes/post_pagination.html`.
 

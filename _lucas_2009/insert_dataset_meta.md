@@ -32,21 +32,15 @@ then run all four cells in order — each depends on the one before it.
 ## Full detail
 
 Each step's process file, source Excel columns, and parameter table is documented in
-[Dataset metadata][dataset_meta]:
-
-- [Manage data source]
-- [Manage person]
-- [Manage dataset]
-- [Manage campaign]
+[Dataset metadata explained][dataset_meta_explained] — including the `inherit` value
+`campaign.xlsx` uses for `contact_name`/`contact_email`, explained further in
+[Utility → inherit and auto][utility_inherit_auto].
 
 ## Next step
 
 Proceed to [Load LUCAS 2009][load_lucas_2009].
 
-[dataset_meta]: /dataset_meta/
-[Manage data source]: /dataset_meta/manage_data_source/
-[Manage person]: /dataset_meta/manage_person/
-[Manage dataset]: /dataset_meta/manage_dataset/
-[Manage campaign]: /dataset_meta/manage_campaign/
+[dataset_meta_explained]: /lucas_2009/dataset_meta_explained/
+[utility_inherit_auto]: /lucas_2009/utility_inherit_auto_explained/
 [insert_utility]: /lucas_2009/insert_utility/
 [load_lucas_2009]: /lucas_2009/load_lucas_2009/

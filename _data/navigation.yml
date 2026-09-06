@@ -15,12 +15,8 @@ main_navigation:
         url: https://xspatula.github.io/xspatula_core_docs/setup_community/
       - title: "Building"
         url: https://xspatula.github.io/xspatula_core_docs/building/
-  - title: "Seed LUCAS data"
-    children:
-      - title: "Dataset meta"
-        url: /dataset_meta/
-      - title: "LUCAS 2009"
-        url: /lucas_2009/
+  - title: "LUCAS 2009"
+    url: /lucas_2009/
   - title: "Machine learning"
     children:
       - title: "Explore & select data"
@@ -29,20 +25,6 @@ main_navigation:
         url: /lucas_2009/machine_learning/ml_preprocess/
       - title: "ML modeling"
         url: /lucas_2009/machine_learning/ml_model/
-
-dataset_meta:
-  - title: Dataset metadata
-    children:
-      - title: "Synopsis"
-        url: /dataset_meta/
-      - title: "Manage data source"
-        url: /dataset_meta/manage_data_source/
-      - title: "Manage person"
-        url: /dataset_meta/manage_person/
-      - title: "Manage dataset"
-        url: /dataset_meta/manage_dataset/
-      - title: "Manage campaign"
-        url: /dataset_meta/manage_campaign/
 
 lucas_2009:
   - title: Seed LUCAS data
@@ -57,6 +39,14 @@ lucas_2009:
         url: /lucas_2009/insert_dataset_meta/
       - title: "Load LUCAS 2009"
         url: /lucas_2009/load_lucas_2009/
+  - title: Reference
+    children:
+      - title: "Dataset metadata explained"
+        url: /lucas_2009/dataset_meta_explained/
+      - title: "Utility explained"
+        url: /lucas_2009/utility_explained/
+      - title: "Utility: inherit and auto"
+        url: /lucas_2009/utility_inherit_auto_explained/
       - title: "Samples explained"
         url: /lucas_2009/samples_explained/
       - title: "Observations explained"
@@ -74,9 +64,6 @@ main:
   - title: "Xspatula"
     url: /
     description: "Framework, setup, processes, auditing, community, building"
-  - title: "Dataset meta"
-    url: /dataset_meta/
-    description: "Data source, persons, dataset and campaign metadata for LUCAS"
   - title: "LUCAS 2009"
     url: /lucas_2009/
     description: "Download, prepare and load the LUCAS 2009 soil sampling campaign"

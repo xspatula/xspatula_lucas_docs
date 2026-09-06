@@ -66,6 +66,12 @@ and hypothesis, not a requirement of the framework.
 
 **Reference — not required, only if you want the detail:**
 
+- [Dataset metadata explained][dataset_meta_explained] — data source, person, dataset, and
+  campaign tables, job files, and parameters
+- [Utility explained][utility_explained] — exactly which catalogue tables each of the four
+  utility cells inserts, and which ship disabled
+- [Utility → inherit and auto][utility_inherit_auto] — the `inherit`/`auto` special values a
+  couple of this project's spreadsheets use
 - [Samples explained] — geolocation and sample tables, job files, and parameters
 - [Observations explained] — spectrometer, observation log, and observation tables, job files,
   and parameters
@@ -77,16 +83,16 @@ and hypothesis, not a requirement of the framework.
   available algorithms and how output is chained
 - [ML modeling][ml_model] — train and evaluate regressors, and the full list of available ones
 
-For dataset-level tables (data source, person, dataset, campaign), see [Dataset metadata] — that collection documents the schema and parameters behind step 3 above.
-
 [setup_db]: https://xspatula.github.io/xspatula_core_docs/setup_db/
 [prepare_data]: /lucas_2009/prepare_data/
 [insert_dataset_meta]: /lucas_2009/insert_dataset_meta/
 [insert_utility]: /lucas_2009/insert_utility/
 [load_lucas_2009]: /lucas_2009/load_lucas_2009/
+[dataset_meta_explained]: /lucas_2009/dataset_meta_explained/
+[utility_explained]: /lucas_2009/utility_explained/
+[utility_inherit_auto]: /lucas_2009/utility_inherit_auto_explained/
 [Samples explained]: /lucas_2009/samples_explained/
 [Observations explained]: /lucas_2009/observations_explained/
-[Dataset metadata]: /dataset_meta/
 [explore_select_data]: /lucas_2009/machine_learning/explore_select_data/
 [ml_preprocess]: /lucas_2009/machine_learning/ml_preprocess/
 [ml_model]: /lucas_2009/machine_learning/ml_model/

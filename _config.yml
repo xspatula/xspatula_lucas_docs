@@ -286,8 +286,6 @@ compress_html:
 
 # Collections
 collections:
-  dataset_meta:
-    output: true
   lucas_2009:
     output: true
   machine_learning:
@@ -295,18 +293,15 @@ collections:
 
 # collection navigation orders
 nav_order:
-  dataset_meta:
-    - synopsis
-    - manage_data_source
-    - manage_person
-    - manage_dataset
-    - manage_campaign
   lucas_2009:
     - synopsis
     - prepare_data
     - insert_utility
     - insert_dataset_meta
     - load_lucas_2009
+    - dataset_meta_explained
+    - utility_explained
+    - utility_inherit_auto_explained
     - samples_explained
     - observations_explained
   machine_learning:

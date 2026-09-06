@@ -42,9 +42,15 @@ This is a one-time bootstrap: once these catalogues exist in your database, you 
 re-run this notebook for later campaigns or additional LUCAS survey rounds — only when a new
 utility value (a new provision, a new unit etc.) needs registering.
 
+For exactly which tables each cell inserts, and which ones ship disabled, see
+[Utility explained][utility_explained]. For the `inherit`/`auto` special values a couple of this
+project's spreadsheets use, see [Utility → inherit and auto][utility_inherit_auto].
+
 ## Next step
 
 Proceed to [Insert dataset metadata][insert_dataset_meta].
 
 [insert_dataset_meta]: /lucas_2009/insert_dataset_meta/
 [load_lucas_2009]: /lucas_2009/load_lucas_2009/
+[utility_explained]: /lucas_2009/utility_explained/
+[utility_inherit_auto]: /lucas_2009/utility_inherit_auto_explained/

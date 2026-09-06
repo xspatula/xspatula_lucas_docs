@@ -108,15 +108,26 @@ named after AI4SH, unchanged:
 - `src/ai4sh/` — the Python package `load_LUCAS_2009.ipynb` and friends import (`from src.ai4sh
   import Run_process`)
 - `src/postgres/pg_ai4sh.py`
-- `anaconda/xspatula_ai4sh_py_3.12.yml` and the `xspatula_ai4sh_py_3.12` conda env/kernel name
-- `setup/zzz/scheme_ai4sh_local_setup.json`, `_delete.json`, `_use.json`, `_use_pswd.json`
+- `setup/anaconda/xspatula_ai4sh_py_3.12.yml` and the `xspatula_ai4sh_py_3.12` conda env/kernel
+  name
 - `setup/zzz/lucas/setup_db/json_ai4sh/` and `setup/zzz/lucas/setup_processes/json_ai4sh/`
   directory names
+
+(`setup/zzz/scheme_ai4sh_local_*.json` — already renamed by Thomas to
+`scheme_lucas_local_*.json`, no longer applies.)
 
 None of this is a docs problem — it's a real rename/refactor (Python imports, a conda env name,
 JSON file references throughout `setup/zzz/`) that touches working code, not just text. Flagged
 for a separate task if Thomas wants LUCAS fully de-branded; the current README calls out the
 scheme/anaconda naming inline so newcomers don't read it as a mistake.
+
+## New (2026-09-06): orphaned `lucas/import_data/utility/general/excel/foreign_key.xlsx`
+
+Not referenced by `general/insert_general_utility.txt` (only `territory.json` is) or by any other
+pilot file checked. A matching `observation/process/foreign_key.json` also exists but isn't wired
+into any of the four `insert_utility.ipynb` cells either. Same shape as the `sampling_log.xlsx`
+orphan above — looks like an abandoned or not-yet-finished addition. Documented as out of scope in
+`/lucas_2009/utility_explained/`.
 
 ## Notebook markdown cells reference the wrong docs URL
 

@@ -7,8 +7,8 @@ permalink: /lucas_2009/machine_learning/explore_select_data/
 author_profile: false
 ---
 
-First step of the machine learning pipeline: pull a working subset of the loaded LUCAS 2009
-campaign out of the database and onto local disk, then look at it before doing anything to it.
+The first step of the machine learning pipeline: pull a working subset of the loaded LUCAS 2009
+campaign out of the database and onto local disk, then explore it to determine if and what preprocessing steps to apply.
 
 ## Notebook
 
