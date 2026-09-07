@@ -52,14 +52,12 @@ reference them by foreign key:
 **Shipped disabled** (commented out in the pilot file): `classification_species`,
 `quantity_default_unit`, and `unit_translate` — `unit_translate.xlsx` and a matching
 `unit_translate.json` process file already exist under `observation/`, but the pilot entry is
-commented out, so it isn't run by default. Also several `# TG TODO` placeholders with no Excel
-file yet at all (coordinate system, monolith extraction, reference proprietor, soil horizon,
-sound setup/mic, spectroscopy method, taxa levels/status/function, analysis method translate).
+commented out, so it isn't run by default. Also several `# LEFT TODO` placeholders with no Excel file yet at all (coordinate system, monolith extraction, reference proprietor, soil horizon, sound setup/mic, spectroscopy method, taxa levels/status/function, analysis method translate).
 
 **Classification hierarchy note**: when you add a `classification_order` (e.g. `soil`), the same
 name is automatically copied down to family/genus/species so foreign keys further down the
 hierarchy always resolve even before you've defined anything more specific — you can always widen
-detail later without breaking existing links.
+detail later without breaking existing links. Adding records for `classification_family` and `classification_genus` follow the same pattern of copying downwards in the hierarchy. This has the effect that all classifications are found in the species table - with foreign key links up to the parent level they belong to.
 
 ## 3. Insert observation utilities with inherit
 
@@ -69,16 +67,8 @@ detail later without breaking existing links.
 | Table | Requires (from step 2) |
 |---|---|
 | `provision` | `apparatus`, `provider`, `method_tier` |
-| `provision_indicator` | `provision`, `indicator`, `method_tier`* |
+| `provision_indicator` | `provision`, `indicator`, `method_tier` |
 | `provision_serial_nr` | `provision` |
-
-\* the pilot file's comment says "method", the actual foreign key table is `method_tier` — checked
-against `provision_indicator.xlsx`'s columns.
-
-Despite the step's name, this has nothing to do with the `inherit`/`auto` *value* mechanism
-covered in [Utility → inherit and auto][utility_inherit_auto] — "inherit" here just means these
-three tables inherit foreign keys from step 2's tables, so they have to run after it. If you add
-a new provision later, edit `provision.xlsx` and re-run this step alone.
 
 ## 4. Insert landscape utility
 
@@ -89,15 +79,15 @@ a new provision later, edit `provision.xlsx` and re-run this step alone.
 `land_use_order`, `land_cover_order` → `land_use_family`, `land_use_genus`, `land_cover_family`,
 `land_cover_genus`
 
-**Shipped disabled**, prefixed `### REMOVE TO RUN###` in the pilot file — their Excel files exist
-in `landscape/excel/` already, they're just not activated:
+**Shipped disabled**, prefixed `### REMOVE TO RUN ###` in the pilot file — their Excel files exist
+in `landscape/excel/` already, they're just not activated as the LUCAS 2009 data assembled for this project do not include these:
 
 `crop_growth_stage`, `major_landform`, `slope_position`, `sky_conditions`, `ground_conditions`,
 `soil_preparation`, `reference_soil_groups`, `soil_texture_classification_USDA`,
 `soil_texture_classification_ISSS`
 
 To activate one, open `landscape/insert_landscape_utility.txt` and delete the
-`### REMOVE TO RUN###` prefix from its line, then re-run this cell.
+`### REMOVE TO RUN ###` prefix from its line, then re-run this cell.
 
 ## Next step
 

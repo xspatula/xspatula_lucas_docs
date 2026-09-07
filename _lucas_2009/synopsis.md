@@ -7,15 +7,14 @@ permalink: /lucas_2009/
 author_profile: false
 ---
 
-This is the full walkthrough for loading the LUCAS 2009 soil sampling campaign into an Xspatula
-database: registering and downloading the source data, generating the JSON import files, and running the notebooks that insert everything.
+This is the full walkthrough for first loading the LUCAS 2009 soil sampling campaign into an Xspatula database: registering and downloading the source data, generating the JSON import files, and running the notebooks that insert everything. Once that is completed, you can continue with the Machine Learning pipeline.
 
 ## Prerequisites
 
 - A running Xspatula database — see [Setup DB][setup_db] on the core docs site if you don't have one yet.
 - The `xspatula_lucas` Python package cloned locally, with its conda environment created — see
   the [repository README](https://github.com/xspatula/xspatula_lucas).
-- A scheme file pointing at your database, e.g. `xspatula_lucas/lucas/scheme_lucas.json`.
+- A [scheme file](https://xspatula.github.io/xspatula_core_docs/framework/scheme_file/) pointing at your database, e.g. `xspatula_lucas/lucas/scheme_lucas.json`.
 
 ## The pipeline, end to end
 
@@ -49,10 +48,9 @@ dependencies on earlier ones (utility catalogues first, since even the dataset m
 ```
 
 Unlike the data loading pipeline above, only the three macro-steps are fixed — data must be
-selected before it can be preprocessed, and preprocessed (or not — raw is a valid input too)
+selected before it can be preprocessed, and preprocessed (or not — `"raw"` is also a valid input)
 before it can be modeled. *Within* each notebook, the individual cells don't have to run in a
-fixed order or all run at all: which scaling, scatter correction, filtering, or band-selection
-steps you chain together, and in what sequence, is a modeling choice that depends on your data
+fixed order or run at all: which scaling, scatter correction, filtering, or band-selection etc. steps you chain together, and in what sequence, is a modeling choice that depends on your data
 and hypothesis, not a requirement of the framework.
 
 ## Pages in this section
@@ -69,7 +67,7 @@ and hypothesis, not a requirement of the framework.
 - [Dataset metadata explained][dataset_meta_explained] — data source, person, dataset, and
   campaign tables, job files, and parameters
 - [Utility explained][utility_explained] — exactly which catalogue tables each of the four
-  utility cells inserts, and which ship disabled
+  utility cells inserts
 - [Utility → inherit and auto][utility_inherit_auto] — the `inherit`/`auto` special values a
   couple of this project's spreadsheets use
 - [Samples explained] — geolocation and sample tables, job files, and parameters
@@ -81,7 +79,7 @@ and hypothesis, not a requirement of the framework.
 - [Explore & select data][explore_select_data] — browse and pull a working subset to local disk
 - [ML preprocessing][ml_preprocess] — clean, transform, and select bands; the full catalogue of
   available algorithms and how output is chained
-- [ML modeling][ml_model] — train and evaluate regressors, and the full list of available ones
+- [ML modeling][ml_model] — train and evaluate regressors, and the full list of available Machine Learning models
 
 [setup_db]: https://xspatula.github.io/xspatula_core_docs/setup_db/
 [prepare_data]: /lucas_2009/prepare_data/

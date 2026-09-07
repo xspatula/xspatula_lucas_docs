@@ -9,10 +9,9 @@ author_profile: false
 
 Populates the lookup catalogues — territories, units, methods, provisions, and more — that every
 other insert in this pipeline depends on via foreign keys. **Must** be loaded first, before
-[Insert dataset metadata][insert_dataset_meta] and [Load LUCAS 2009][load_lucas_2009]: even the dataset metadata step references utility values like `territory_id__territory_name`,
-`license_id__license_name`, and `spatial_reference_id__spatial_reference_name`, and the load step references more (for instance `provision_id__provision_name`, `wavelength_unit_id__wavelength_unit_name`).
+[Insert dataset metadata][insert_dataset_meta] and [Load LUCAS 2009][load_lucas_2009]: even the dataset metadata step references utility values like `territory_id__territory_name`, `license_id__license_name`, and `spatial_reference_id__spatial_reference_name`, and the load step references more (for instance `provision_id__provision_name`, `wavelength_unit_id__wavelength_unit_name`).
 
-The arguments (excel columns) with double underscore denote database foreign key linkages.
+The arguments (excel columns) with double underscore denote database foreign key linkages. These are translated and verified before the data is inserted.
 
 ## Notebook
 

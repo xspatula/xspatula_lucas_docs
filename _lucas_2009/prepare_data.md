@@ -7,7 +7,7 @@ permalink: /lucas_2009/prepare_data/
 author_profile: false
 ---
 
-Generates the JSON job, pilot, and process files needed to load the LUCAS 2009 campaign data and metadata.
+Generate the JSON job, pilot, and process files needed to load the LUCAS 2009 campaign data and metadata.
 
 ## 1. Download the source CSV
 
@@ -18,7 +18,7 @@ sampling point, with lab-measured soil properties and FOSS XDS RCA spectral scan
 
 ## 2. Configure and run the script
 
-The content of `LUCAS.SOIL_corr.csv` can not be loaded directly to the database. It must first be translated to a format that is understood by a defined process. It is possible to define a process for reading  `LUCAS.SOIL_corr.csv`, but it will be both complicated and not useful for anything else. The script `lucas_2009_to_xspatula.py` instead translates `LUCAS.SOIL_corr.csv` to generic processes that are already defined as part of the `xspatula_lucas` project.
+The content of `LUCAS.SOIL_corr.csv` can not be loaded directly to the database. It must first be translated to a format that is understood by a defined process in the Xspatula LUCAS framework. It is possible to define a process for reading  `LUCAS.SOIL_corr.csv`, but it will be both complicated and not useful for anything else. The script `lucas_2009_to_xspatula.py` instead translates `LUCAS.SOIL_corr.csv` to generic processes that are already defined as part of the `xspatula_lucas` project.
 
 **Path**: `xspatula_lucas/lucas/prepare_lucas_data/lucas_2009_to_xspatula.py`
 
@@ -29,7 +29,9 @@ Open it and check these constants before running:
 | `CSV_PATH` | Absolute path to the downloaded CSV | a machine-specific path — **must be changed** |
 | `OUTPUT_ROOT` | Where generated files land | `../import_data/LUCAS_2009` (resolved relative to the script's own directory) |
 | `RECORDS` | How many CSV rows to process | `25` for a test run — **set to `0` for the full campaign** |
-| `CAMPAIGN_NAME` | Campaign name written into every generated record | `lucas_eu_2009` |
+| `CONTACT_NAME` | Contact name for LUCAS data | `inherit` takes the data from a foreign key parent table |
+| `CONTACT_EMAIL` | Contact email for LUCAS data | `inherit` takes the data from a foreign key parent table |
+| `CAMPAIGN_NAME` | Campaign name | `lucas_eu_2009` |
 | `LAB_PROVISION` / `SPECTRA_PROVISION` | Provision names for the two observation logs | `lucas-wetlab-2009` / `foss xds rca` |
 | `SPECTROMETER_PROVISION_ID` / `SPECTROMETER_SERIAL` | Spectrometer FK values | `foss-xds-rca` / `lucas 2009` |
 
@@ -54,10 +56,6 @@ final `DONE` line. A `FileNotFoundError` at the start means `CSV_PATH` is wrong.
 | 5. Sample | `process_lab/sample/` | unique `POINT_ID` |
 | 6. Lab observation | `process_lab/observation/` | CSV row with at least one measured indicator |
 | 7. Spectral observation | `process_spectra/observation/` | CSV row |
-
-The campaign record itself is **not** generated here — it comes solely from `campaign.xlsx` via
-[Insert dataset metadata][insert_dataset_meta], run before this script's output gets loaded. See
-[Load LUCAS 2009][load_lucas_2009] for how the pieces generated here fit together with that.
 
 Steps 4–7 are limited to `RECORDS` rows if you haven't set it to `0`. Each directory gets both a
 `xspatula_add_<category>_pilot.txt` pilot file (a numbered list of the process files in it) and

@@ -8,9 +8,7 @@ excerpt: "Loading the published LUCAS soil sampling campaigns into a database wi
 
 # LUCAS soil data with Xspatula
 
-`xspatula_lucas` builds a PostgreSQL database seeded with the published [LUCAS](https://esdac.jrc.ec.europa.eu/projects/lucas) (Land Use/Cover Area frame Survey) soil sampling campaigns, using the [Xspatula](https://github.com/xspatula) framework.
-
-This site documents the full walkthrough for creating, downloading and seeding an Xspatula framework for the LUCAS 2009 soil sampling and analysis campaign.
+`xspatula_lucas` builds a PostgreSQL database seeded with the published [LUCAS](https://esdac.jrc.ec.europa.eu/projects/lucas) (Land Use/Cover Area frame Survey) soil sampling campaigns, using the [Xspatula](https://github.com/xspatula) framework. Once the database is completed you can apply Machine Learning for modeling soil properties from spectral data.
 
 The generic Xspatula framework — how to set up the database itself, define processes, add users, and audit changes — is documented once, for every Xspatula project, at **[xspatula_core_docs](https://xspatula.github.io/xspatula_core_docs/)**. Start there if you haven't set up an Xspatula database yet.
 
