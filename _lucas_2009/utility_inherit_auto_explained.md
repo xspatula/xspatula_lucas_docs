@@ -37,7 +37,7 @@ fields from the parent [dataset record][dataset_meta_explained] instead of repea
 contact details on every campaign row. Edit them on the dataset once; every campaign that inherits
 picks up the change automatically next time it's (re-)inserted.
 
-There are also other processes that use the `inherit` mechanism, but these are not explicitly obvious. All process arguments have a `default` value, and if a user entered value for this argument is not required and the `default` value states `inherit`, the mechanism is automatically called. To get a detailed grasp on this, see [setup_processes/process_options/#inherit][core_inherit].
+There are also other processes that use the `inherit` mechanism, but these are not explicitly obvious. All process arguments have a `default` value, and if a user entered value for this argument is not required and the `default` value states `inherit`, the mechanism is automatically called. To get a detailed grasp on this, see the core documentation on [inherit][core_inherit].
 
 ## Auto / auto_name
 

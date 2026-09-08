@@ -12,7 +12,7 @@ This is the full walkthrough for first loading the LUCAS 2009 soil sampling camp
 ## Prerequisites
 
 - A running Xspatula database — see [Setup DB][setup_db] on the core docs site if you don't have one yet.
-- The `xspatula_lucas` Python package cloned locally, with its conda environment created — see
+- The `xspatula_lucas` python integrated database cloned locally, with its conda environment created — see
   the [repository README](https://github.com/xspatula/xspatula_lucas).
 - A [scheme file](https://xspatula.github.io/xspatula_core_docs/framework/scheme_file/) pointing at your database, e.g. `xspatula_lucas/lucas/scheme_lucas.json`.
 

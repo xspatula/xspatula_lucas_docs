@@ -10,7 +10,7 @@ author_profile: false
 Reference page — not required reading to complete the [Load LUCAS 2009][load_lucas_2009]
 walkthrough, only if you want the detail behind the geolocation and sample steps it runs.
 
-A sample in the LUCAS database is a soil specimen collected at a known geolocation, with a standardised 0–20 cm depth profile. Each sample belongs to the campaign's sampling log (see [Dataset metadata explained]). Unlike dataset metadata — a handful of hand-authored Excel rows — geolocation
+A sample in the LUCAS database is a soil specimen collected at a known geolocation, with a LUCAS standardised 0–20 cm depth profile before 2022, and 0-30 cm for later campaigns. Each sample belongs to the campaign's sampling log (see [Dataset metadata explained]). Unlike dataset metadata — a handful of hand-authored Excel rows — geolocation
 and sample records are generated per-point from the source CSV by `lucas_2009_to_xspatula.py` (one record per LUCAS sampling point, thousands of them) — see [Prepare data].
 
 | Table | Populated from | Records |
