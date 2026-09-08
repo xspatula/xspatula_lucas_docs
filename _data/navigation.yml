@@ -16,9 +16,9 @@ main_navigation:
       - title: "Building"
         url: https://xspatula.github.io/xspatula_core_docs/building/
   - title: "LUCAS 2009"
-    url: /lucas_2009/
-  - title: "Machine learning"
     children:
+      - title: "Overview"
+        url: /lucas_2009/
       - title: "Explore & select data"
         url: /lucas_2009/machine_learning/explore_select_data/
       - title: "ML preprocessing"
@@ -47,6 +47,10 @@ lucas_2009:
         url: /lucas_2009/utility_explained/
       - title: "Utility: inherit and auto"
         url: /lucas_2009/utility_inherit_auto_explained/
+      - title: "Foreign Key explained"
+        url: /lucas_2009/foreign_key_explained/
+      - title: "Unit Translate explained"
+        url: /lucas_2009/foreign_key_explained/#unit-translate
       - title: "Samples explained"
         url: /lucas_2009/samples_explained/
       - title: "Observations explained"

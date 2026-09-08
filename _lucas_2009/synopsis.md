@@ -70,6 +70,8 @@ and hypothesis, not a requirement of the framework.
   utility cells inserts
 - [Utility → inherit and auto][utility_inherit_auto] — the `inherit`/`auto` special values a
   couple of this project's spreadsheets use
+- [Foreign key explained][foreign_key_explained] — the `xxx_id__yyy` foreign-key resolver's
+  fallback mechanism, and its one live use, `unit_translate`
 - [Samples explained] — geolocation and sample tables, job files, and parameters
 - [Observations explained] — spectrometer, observation log, and observation tables, job files,
   and parameters
@@ -89,6 +91,7 @@ and hypothesis, not a requirement of the framework.
 [dataset_meta_explained]: /lucas_2009/dataset_meta_explained/
 [utility_explained]: /lucas_2009/utility_explained/
 [utility_inherit_auto]: /lucas_2009/utility_inherit_auto_explained/
+[foreign_key_explained]: /lucas_2009/foreign_key_explained/
 [Samples explained]: /lucas_2009/samples_explained/
 [Observations explained]: /lucas_2009/observations_explained/
 [explore_select_data]: /lucas_2009/machine_learning/explore_select_data/

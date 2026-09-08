@@ -121,13 +121,18 @@ JSON file references throughout `setup/zzz/`) that touches working code, not jus
 for a separate task if Thomas wants LUCAS fully de-branded; the current README calls out the
 scheme/anaconda naming inline so newcomers don't read it as a mistake.
 
-## New (2026-09-06): orphaned `lucas/import_data/utility/general/excel/foreign_key.xlsx`
+## Resolved (2026-09-08): `foreign_key.xlsx` is no longer orphaned
 
-Not referenced by `general/insert_general_utility.txt` (only `territory.json` is) or by any other
-pilot file checked. A matching `observation/process/foreign_key.json` also exists but isn't wired
-into any of the four `insert_utility.ipynb` cells either. Same shape as the `sampling_log.xlsx`
-orphan above — looks like an abandoned or not-yet-finished addition. Documented as out of scope in
-`/lucas_2009/utility_explained/`.
+Previously flagged here as orphaned/unused. **Fixed by Thomas**: `foreign_key.json` is now wired
+into `general/insert_general_utility.txt` (cell 1 of `insert_utility.ipynb`, right after
+`territory.json`), and `unit_translate.json` is now active in `observation/insert_observation_utility.txt`
+(previously shipped commented out). Docs updated to match — see
+`/lucas_2009/utility_explained/` and the new `/lucas_2009/foreign_key_explained/`, which covers
+the `xxx_id__yyy` foreign-key-name resolver, the `utility.foreign_key` table, and the
+`unit_translate` worked example in full. (The old note's mention of
+`observation/process/foreign_key.json` as the wired-in file was itself slightly off — the actually
+wired file is `general/insert_process/foreign_key.json`; `observation/process/foreign_key.json` is
+an unrelated, still-unused duplicate.)
 
 ## Notebook markdown cells reference the wrong docs URL
 

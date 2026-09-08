@@ -26,9 +26,7 @@ needed for the LUCAS 2009 campaign; add them by uncommenting the line.
 | Table | Source | Notes |
 |---|---|---|
 | `territory` | `general/excel/territory.xlsx` | Territory/country codes — referenced by almost every other table via `territory_id__territory_name` |
-
-Only one table today. `general/excel/foreign_key.xlsx` also exists in this directory but has no
-corresponding pilot entry — orphaned, not currently wired up (see `notes/xspatula_lucas.md`).
+| `foreign_key` | `general/excel/foreign_key.xlsx` | Non-standard foreign-key lookups — feeds the `xxx_id__yyy` resolver other processes fall back to when there's no table literally named `xxx` (e.g. `unit_translate`, below). See [Foreign key explained][foreign_key_explained]. |
 
 ## 2. Insert observation utilities
 
@@ -47,12 +45,14 @@ reference them by foreign key:
 
 `classification_family` (needs `classification_order`), `classification_genus` (needs
 `classification_family`), `indicator` (needs `quantity`), `indicator_parity` (needs `indicator`),
-`juxtaposition` (needs `setting_system`), `profiling` (needs `unit`)
+`juxtaposition` (needs `setting_system`), `profiling` (needs `unit`), `unit_translate` (needs
+`unit` — and, since its foreign keys don't follow the plain `xxx_id__yyy` convention, the
+`foreign_key` table from step 1; see [Foreign key explained][foreign_key_explained])
 
-**Shipped disabled** (commented out in the pilot file): `classification_species`,
-`quantity_default_unit`, and `unit_translate` — `unit_translate.xlsx` and a matching
-`unit_translate.json` process file already exist under `observation/`, but the pilot entry is
-commented out, so it isn't run by default. Also several `# LEFT TODO` placeholders with no Excel file yet at all (coordinate system, monolith extraction, reference proprietor, soil horizon, sound setup/mic, spectroscopy method, taxa levels/status/function, analysis method translate).
+**Shipped disabled** (commented out in the pilot file): `classification_species` and
+`quantity_default_unit`. Also several `# TG TODO` placeholders with no Excel file yet at all
+(coordinate system, monolith extraction, reference proprietor, soil horizon, sound setup/mic,
+spectroscopy method, taxa levels/status/function, analysis method translate).
 
 **Classification hierarchy note**: when you add a `classification_order` (e.g. `soil`), the same
 name is automatically copied down to family/genus/species so foreign keys further down the
@@ -97,3 +97,4 @@ of its fields (territory, license, spatial reference) resolve against tables ins
 [insert_utility]: /lucas_2009/insert_utility/
 [insert_dataset_meta]: /lucas_2009/insert_dataset_meta/
 [utility_inherit_auto]: /lucas_2009/utility_inherit_auto_explained/
+[foreign_key_explained]: /lucas_2009/foreign_key_explained/

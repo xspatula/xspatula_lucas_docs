@@ -302,6 +302,7 @@ nav_order:
     - dataset_meta_explained
     - utility_explained
     - utility_inherit_auto_explained
+    - foreign_key_explained
     - samples_explained
     - observations_explained
   machine_learning:

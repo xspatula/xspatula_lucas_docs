@@ -47,9 +47,8 @@ Also documented generically at
 
 ### Where LUCAS uses it
 
-[LEFT TODO](#)
-
-No current Excel catalogue file uses `auto`/`auto_name` — checked the same way as above. It isn't
+No current Excel catalogue file uses `auto`/`auto_name` — checked the same way as above
+(including `foreign_key.xlsx` and `unit_translate.xlsx`, see [Foreign key explained][foreign_key_explained]). It isn't
 needed anywhere in this project *yet*, since the LUCAS 2009 pipeline builds its own composite
 names directly in Python instead (`lucas_2009_to_xspatula.py`), but the shape is exactly what
 `auto_name` exists for. Two examples already in this project that follow the same
@@ -69,3 +68,4 @@ it.
 [dataset_meta_explained]: /lucas_2009/dataset_meta_explained/
 [load_lucas_2009]: /lucas_2009/load_lucas_2009/
 [samples_explained]: /lucas_2009/samples_explained/
+[foreign_key_explained]: /lucas_2009/foreign_key_explained/
