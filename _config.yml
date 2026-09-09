@@ -309,6 +309,7 @@ nav_order:
     - explore_select_data
     - ml_preprocess
     - ml_model
+    - inspect_dataset
 
 # Defaults
 defaults:

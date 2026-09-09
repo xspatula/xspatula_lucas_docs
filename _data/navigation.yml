@@ -19,12 +19,10 @@ main_navigation:
     children:
       - title: "Overview"
         url: /lucas_2009/
-      - title: "Explore & select data"
+      - title: "Load data"
+        url: /lucas_2009/prepare_data/
+      - title: "Machine learning"
         url: /lucas_2009/machine_learning/explore_select_data/
-      - title: "ML preprocessing"
-        url: /lucas_2009/machine_learning/ml_preprocess/
-      - title: "ML modeling"
-        url: /lucas_2009/machine_learning/ml_model/
 
 lucas_2009:
   - title: Seed LUCAS data
@@ -63,6 +61,8 @@ lucas_2009:
         url: /lucas_2009/machine_learning/ml_preprocess/
       - title: "ML modeling"
         url: /lucas_2009/machine_learning/ml_model/
+      - title: "Inspect dataset"
+        url: /lucas_2009/machine_learning/inspect_dataset/
 
 main:
   - title: "Xspatula"

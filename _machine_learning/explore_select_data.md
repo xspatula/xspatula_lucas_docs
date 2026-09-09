@@ -95,6 +95,32 @@ every step in [ML preprocessing][ml_preprocess] chains from. The directory name
 (`lucas_400-2500_10`) and the file's base name follow `<provision>_<begin>-<end>_<bandwidth>` —
 see [ML preprocessing][ml_preprocess] for how later steps extend it.
 
+## Inspect the dataset
+
+Any `.parquet` file produced along this pipeline — not just the raw selection above, but any
+dataframe from [ML preprocessing][ml_preprocess] too — can be inspected with the
+`inspect_pandas_dataset` process: column names and units, a sample of the data, and the
+dataframe's full size. Point a process file at it with `project_root_fp` and `parquet_file` set to
+the file you want to look at, e.g.:
+
+```json
+{
+  "process": [
+    {
+      "process": "inspect_pandas_dataset",
+      "parameters": {
+        "project_root_fp": "./project_lucas_2009/data/lucas_400-2500_10",
+        "parquet_file": "data-foss xds rapid content analyzer_400-2500_10.parquet",
+        "column_array": "cec,clay,silt,sand,c-org,n-tot,ph-water",
+        "max_rows": 10
+      }
+    }
+  ]
+}
+```
+
+See [Inspect dataset][inspect_dataset] for the full parameter reference and an example run.
+
 ## Plot indicators
 
 Boxplot and histogram for the chosen indicators — a quick look at their distributions before
@@ -157,3 +183,4 @@ Proceed to [ML preprocessing][ml_preprocess] to clean and transform the selected
 
 [ml_preprocess]: /lucas_2009/machine_learning/ml_preprocess/
 [observations_explained]: /lucas_2009/observations_explained/
+[inspect_dataset]: /lucas_2009/machine_learning/inspect_dataset/
