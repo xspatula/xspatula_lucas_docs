@@ -20,16 +20,11 @@ named `xxx` for the value given. This works as long as a table named `xxx` actua
 
 ## When it can't — and how `utility.foreign_key` steps in
 
-Some parameters don't have a real table matching their `xxx` prefix. `unit_translate`'s two
-foreign keys are the case in point: its parameters are `src_unit_id__unit_name` and
-`dst_unit_id__unit_name`, but there's no table called `src_unit` or `dst_unit` — both should
-really resolve against `observation_utility.unit`, just via two differently-named columns on the
-same `unit_translate` row.
+Some parameters don't have a real table matching their `xxx` prefix. `unit_translate`'s two foreign keys are the case in point: its parameters include `src_unit_id__unit_name` and
+`dst_unit_id__unit_name`, but there's no table called `src_unit` or `dst_unit` — both should really resolve against `observation_utility.unit`, just via two differently-named columns on the same `unit_translate` row.
 
 When the resolver (`_Check_get_foreign_key()` in `src/postgres/pg_common.py`) can't find a table
-named after the `xxx` prefix, it falls back to querying `utility.foreign_key` for a row whose
-`foreign_key` column equals `xxx_id` — that row tells it which schema, table, and column to
-search instead.
+named after the `xxx` prefix, it falls back to querying `utility.foreign_key` for a row whose `foreign_key` column equals `xxx_id` — that row tells it which schema, table, and column to search instead.
 
 ## The `utility.foreign_key` table
 
@@ -75,8 +70,7 @@ its id — same for the destination unit.
 The conversion formula is `dst_value = (src_value * factor + addon) ** exponent`.
 
 Loaded as part of [Insert utility][insert_utility]'s cell 2, in the dependent tier — after `unit`
-and after `foreign_key` (cell 1) has already populated the two rows above. See
-[Utility explained][utility_explained] for the full cell sequence.
+and after `foreign_key` (cell 1) has already populated the two rows above. See [Utility explained][utility_explained] for the full cell sequence.
 
 ### Adding a new unit translation
 
@@ -86,7 +80,7 @@ and after `foreign_key` (cell 1) has already populated the two rows above. See
    the two rows above cover every `unit_translate` row, since they're keyed by parameter name,
    `src_unit_id`/`dst_unit_id`, not by which units are being converted), add it to
    `foreign_key.xlsx` first.
-3. Re-run `insert_utility.ipynb` in full, or just the `unit_translate` cell directly:
+3. Re-run `insert_utility.ipynb` in full, or add a new notebook cell that just inserts the new translation into `unit_translate`:
 
    ```python
    process_file = 'import_data/utility/observation/insert_process/unit_translate.json'
@@ -97,8 +91,9 @@ and after `foreign_key` (cell 1) has already populated the two rows above. See
        Run_process(structured_process_D, scheme_params_D)
    ```
 
-   If you added a new `foreign_key.xlsx` row in step 2, re-run cell 1 (`foreign_key`) first — it
-   must exist before `unit_translate` can resolve.
+   **WARNING** Do **not** set `"overwrite: true"` in the JSON process file as this will cause irreparable changes; you are inserting a new translation and it will be added with `"overwrite: false"` while all existing rows will remain unchanged.
+
+   If you added a new `foreign_key.xlsx` row in step 2, re-run cell 1 (`foreign_key`) first — it must exist before `unit_translate` can resolve.
 
 [insert_utility]: /lucas_2009/insert_utility/
 [utility_explained]: /lucas_2009/utility_explained/
