@@ -72,6 +72,10 @@ The conversion formula is `dst_value = (src_value * factor + addon) ** exponent`
 Loaded as part of [Insert utility][insert_utility]'s cell 2, in the dependent tier — after `unit`
 and after `foreign_key` (cell 1) has already populated the two rows above. See [Utility explained][utility_explained] for the full cell sequence.
 
+**Where it's actually used**: `select_spectra` (see [Indicator units][explore_select_data]) looks up
+`unit_translate` rows on the fly to translate each indicator into its configured target unit. If a
+needed row is missing, it raises an error naming exactly what to add — same fix as below.
+
 ### Adding a new unit translation
 
 1. Add a row to `unit_translate.xlsx` with the source unit, destination unit, and conversion
@@ -97,3 +101,4 @@ and after `foreign_key` (cell 1) has already populated the two rows above. See [
 
 [insert_utility]: /lucas_2009/insert_utility/
 [utility_explained]: /lucas_2009/utility_explained/
+[explore_select_data]: /lucas_2009/machine_learning/explore_select_data/

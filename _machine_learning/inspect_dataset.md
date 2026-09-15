@@ -57,26 +57,28 @@ time — they're different views of the same inspection, not steps to combine.
 [Explore & select data][explore_select_data]):
 
 ```
-column           clay           silt           sand   c-org          n-tot  \
-unit   weight percent weight percent weight percent g*kg^-1 weight percent
-0                 7.0           45.0           48.0    91.1            5.3
-1                13.0           27.0           60.0    21.4            2.1
+column            cec           clay           silt           sand   c-org  \
+unit      cmolc*kg^-1 weight percent weight percent weight percent g*kg^-1
+0                12.3            7.0           45.0           48.0    91.1
+1                 8.7           13.0           27.0           60.0    21.4
 ...
 
-column ph-water
-unit
-0          4.00
-1          6.53
+column         n-tot ph-water
+unit  weight percent       ph
+0                5.3     4.00
+1                2.1     6.53
 ...
 
-    display columns: 6  display rows: 10
+    display columns: 7  display rows: 10
     dataframe columns: 224  dataframe rows: 25
 ```
 
-The `unit` row comes straight from the dataframe's column metadata — the same units used
-throughout [Observations explained][observations_explained]. `display columns`/`display rows`
-report what was actually printed (narrowed by `column_array` and `max_rows`); `dataframe
-columns`/`dataframe rows` report the full underlying size regardless of what was printed.
+The `unit` row comes straight from the dataframe's column metadata — whatever [Indicator
+units][indicator_units] resolved for that column at selection time (here, every indicator was left
+at its `"native"` default, so these are the units `lucas-wetlab-2009` recorded them in — see
+[Observations explained][observations_explained]). `display columns`/`display rows` report what
+was actually printed (narrowed by `column_array` and `max_rows`); `dataframe columns`/`dataframe
+rows` report the full underlying size regardless of what was printed.
 
 If a name in `column_array` isn't a column on the dataframe, it's skipped with a warning and the
 full list of available columns is printed instead — useful for finding the exact indicator or
@@ -85,3 +87,4 @@ spectral band name to inspect next.
 [explore_select_data]: /lucas_2009/machine_learning/explore_select_data/
 [ml_preprocess]: /lucas_2009/machine_learning/ml_preprocess/
 [observations_explained]: /lucas_2009/observations_explained/
+[indicator_units]: /lucas_2009/machine_learning/explore_select_data/#indicator-units

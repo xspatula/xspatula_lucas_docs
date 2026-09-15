@@ -87,6 +87,7 @@ metadata file. Skips silently if the output already exists, unless `overwrite: t
 | `indicator_array` | Which lab indicators to pull alongside the spectra. Xspatula resolves each entry by either its indicator name or its alias — `ph-water` here and `ph-h2o` in the raw observation records (see [Observations explained][observations_explained]) are the same indicator |
 | `as_absorbance` | Convert stored diffuse reflectance to absorbance on the way out |
 | `output_root_fp` | Local directory the `.parquet`/`.json` pair is written under |
+| `targetfeaturesymbols` | Which `unit` to save each indicator in — see [Indicator units](#indicator-units) below. Optional, defaults to `"default"` |
 
 **Output**: `./data/lucas_400-2500_10/data-foss xds rapid content analyzer_400-2500_10.parquet`
 (the array data) and a matching `.json` (query parameters and a `preprocessing_chain` field — empty
@@ -94,6 +95,51 @@ at this point, since nothing has been done to the data yet). This becomes the st
 every step in [ML preprocessing][ml_preprocess] chains from. The directory name
 (`lucas_400-2500_10`) and the file's base name follow `<provision>_<begin>-<end>_<bandwidth>` —
 see [ML preprocessing][ml_preprocess] for how later steps extend it.
+
+## Indicator units
+
+Different provisions and campaigns can record the same indicator in different units — `select_spectra`
+harmonises them at extraction time, so every value in the saved `.parquet` ends up in one consistent
+unit per indicator.
+
+**Where the target unit comes from**: `lucas/default/plot/targetfeaturesymbols.json`, keyed by
+indicator name, e.g.:
+
+```json
+"c-org": {
+  "color": "dimgray",
+  "alpha": 0.2,
+  "label": "Organic carbon (C)",
+  "unit": "native"
+}
+```
+
+Point `targetfeaturesymbols` at a different file (a path, instead of `"default"`) to use your own
+per-indicator unit settings — the same file also drives the axis units on the [plot](#plot-indicators)
+below.
+
+**Two ways to set an indicator's `unit`:**
+
+- `"native"` — keep whatever unit the DB recorded for that indicator, no translation. Simplest
+  option; use it when you don't need to combine this extraction with data recorded in a different
+  unit. If the DB has mixed native units for one indicator across records, `select_spectra` prints a
+  warning and uses the first one it finds as the saved unit label — the values themselves are left
+  untouched, so check this isn't silently mixing units before trusting the result.
+- A specific unit name (e.g. `"percent"`) — every record gets translated into that unit via
+  `observation_utility.unit_translate`. That translation must already exist as a row in the table —
+  see [Adding a new unit translation][foreign_key_explained] if it doesn't. If it's missing,
+  `select_spectra` raises an error naming the exact `unit_translate.xlsx` row to add (source unit,
+  destination unit) and which notebook to re-run afterwards (`insert_utility.ipynb`).
+
+**Combining datasets later**: if you plan to merge two `select_spectra` extractions (e.g. two
+different provisions or campaigns) into one dataframe, set the *same* target unit for every
+indicator they share — g/Kg from one and percent from the other won't merge into anything usable.
+Point both extractions at `targetfeaturesymbols` files that agree on unit for the shared indicators
+(the same file works for both, or two files with matching `unit` values).
+
+**Where it ends up**: the unit actually applied to each column is written to the output `.json`'s
+`indicator_units` field, and embedded directly in the `.parquet` file as column metadata — see
+[Inspect dataset][inspect_dataset] for how to view it (`columns_units_data` / `columns_units_only`).
 
 ## Inspect the dataset
 
@@ -150,6 +196,8 @@ modeling.
 ```
 
 Saves to `<project_root_fp>/plot/boxplot_<indicator>.png` and `histogram_<indicator>.png`.
+`targetfeaturesymbols` is the same file used for [indicator units](#indicator-units) above — here it
+only controls plot color/label/axis-unit, no translation happens on the plotted values.
 
 ## Plot spectra and scatter correction options
 
@@ -184,3 +232,4 @@ Proceed to [ML preprocessing][ml_preprocess] to clean and transform the selected
 [ml_preprocess]: /lucas_2009/machine_learning/ml_preprocess/
 [observations_explained]: /lucas_2009/observations_explained/
 [inspect_dataset]: /lucas_2009/machine_learning/inspect_dataset/
+[foreign_key_explained]: /lucas_2009/foreign_key_explained/
