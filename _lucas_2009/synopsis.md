@@ -21,12 +21,13 @@ This is the full walkthrough for first loading the LUCAS 2009 soil sampling camp
 ### Data loading pipeline
 
 ```
-1. Download   LUCAS.SOIL_corr.csv from ESDAC (registration required)
+1. Download   LUCAS.SOIL_corr.csv (+ complements, LUCAS-Master-Grid.csv) from ESDAC
 2. Prepare    lucas_2009_to_xspatula.py  →  generates job/pilot/process files
 3. Insert     insert_utility.ipynb            →  general, observation, landscape utility catalogues
 4. Insert     insert_lucas_dataset_meta.ipynb  →  data source, person, dataset, campaign
 5. Load       load_LUCAS_2009.ipynb          →  sampling log, geolocation, sample,
-                                                  observation logs, observations
+                                                  observation logs, observations,
+                                                  land cover/use, BIOGEO16
 ```
 Step 1 is getting the required LUCAS source data and is not supported by the framework.
 
@@ -60,7 +61,9 @@ and hypothesis, not a requirement of the framework.
 1. [Prepare data][prepare_data] — download the CSV, run the generator script, inspect its output
 2. [Insert utility][insert_utility] — the lookup catalogues every other insert depends on
 3. [Insert dataset metadata][insert_dataset_meta] — data source, person, dataset, campaign
-4. [Load LUCAS 2009][load_lucas_2009] — the full LUCAS 2009 campaign: sampling log, samples, lab and spectral observations logs and observations
+4. [Load LUCAS 2009][load_lucas_2009] — the full LUCAS 2009 campaign: sampling log, samples, lab and spectral observations logs and observations, land cover/use and biogeographic region (BIOGEO16)
+
+LUCAS 2015 follows the same four steps — see [LUCAS 2015][lucas_2015] for what differs.
 
 **Reference — not required, only if you want the detail:**
 
@@ -97,3 +100,4 @@ and hypothesis, not a requirement of the framework.
 [explore_select_data]: /lucas_2009/machine_learning/explore_select_data/
 [ml_preprocess]: /lucas_2009/machine_learning/ml_preprocess/
 [ml_model]: /lucas_2009/machine_learning/ml_model/
+[lucas_2015]: /lucas_2015/

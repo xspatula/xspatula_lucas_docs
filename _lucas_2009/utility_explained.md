@@ -74,10 +74,13 @@ detail later without breaking existing links. Adding records for `classification
 
 **Job file**: `job_insert_landscape_utility.json` → pilot `landscape/insert_landscape_utility.txt`
 
-**Active by default** (6 tables, in dependency order):
+**Active by default** (7 tables, in dependency order):
 
-`land_use_order`, `land_cover_order` → `land_use_family`, `land_use_genus`, `land_cover_family`,
-`land_cover_genus`
+`land_use_order`, `land_cover_order`, `biogeo16` → `land_use_family`, `land_use_genus`,
+`land_cover_family`, `land_cover_genus`
+
+`biogeo16` holds the eight EEA biogeographic region names that the BIOGEO16 observations in
+[Load LUCAS 2009][load_lucas_2009] resolve against.
 
 **Shipped disabled**, prefixed `### REMOVE TO RUN ###` in the pilot file — their Excel files exist
 in `landscape/excel/` already, they're just not activated as the LUCAS 2009 data assembled for this project do not include these:
@@ -98,3 +101,4 @@ of its fields (territory, license, spatial reference) resolve against tables ins
 [insert_dataset_meta]: /lucas_2009/insert_dataset_meta/
 [utility_inherit_auto]: /lucas_2009/utility_inherit_auto_explained/
 [foreign_key_explained]: /lucas_2009/foreign_key_explained/
+[load_lucas_2009]: /lucas_2009/load_lucas_2009/

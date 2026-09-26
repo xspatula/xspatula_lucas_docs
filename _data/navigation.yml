@@ -23,6 +23,10 @@ main_navigation:
         url: /lucas_2009/prepare_data/
       - title: "Machine learning"
         url: /lucas_2009/machine_learning/explore_select_data/
+  - title: "LUCAS 2015"
+    children:
+      - title: "Load LUCAS 2015"
+        url: /lucas_2015/
 
 lucas_2009:
   - title: Seed LUCAS data
@@ -64,6 +68,24 @@ lucas_2009:
       - title: "Inspect dataset"
         url: /lucas_2009/machine_learning/inspect_dataset/
 
+lucas_2015:
+  - title: LUCAS 2015
+    children:
+      - title: "Load LUCAS 2015"
+        url: /lucas_2015/
+  - title: Shared with LUCAS 2009
+    children:
+      - title: "Insert utility"
+        url: /lucas_2009/insert_utility/
+      - title: "Insert dataset metadata"
+        url: /lucas_2009/insert_dataset_meta/
+      - title: "Samples explained"
+        url: /lucas_2009/samples_explained/
+      - title: "Observations explained"
+        url: /lucas_2009/observations_explained/
+      - title: "Machine learning"
+        url: /lucas_2009/machine_learning/explore_select_data/
+
 main:
   - title: "Xspatula"
     url: /
@@ -71,5 +93,8 @@ main:
   - title: "LUCAS 2009"
     url: /lucas_2009/
     description: "Download, prepare and load the LUCAS 2009 soil sampling campaign"
+  - title: "LUCAS 2015"
+    url: /lucas_2015/
+    description: "Load the LUCAS 2015 campaign — what differs from 2009"
   - title: "About"
     url: https://xspatula.github.io/about/

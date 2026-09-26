@@ -131,8 +131,20 @@ round, e.g. `lucas_eu_2009`:
 | `location_error` / `location_error_unit_id__unit_name` | `1000` / `m` |
 | `provision_id__provision_name_array` | `foss xds rca,lucas-wetlab-2009` — **both** provisions, one array |
 
+The same spreadsheet also holds the other campaigns this project loads:
+
+| `name` | `dataset_id__dataset_name` | `begun_at` / `ended_at` | `provision_id__provision_name_array` | Loaded in |
+|---|---|---|---|---|
+| `lucas_eu_2015` | `lucas` | `20150501` / `20151031` | `foss xds rca,lucas-wetlab-2015` | [LUCAS 2015][lucas_2015] |
+| `biogeo16` | `biogeo16` | `20160331` / `20261231` | `compilation` | BIOGEO16 cells in [Load LUCAS 2009][load_lucas_2009] and [LUCAS 2015][lucas_2015] |
+
+`biogeo16` is not a LUCAS survey round but the EEA biogeographical regions dataset. It has its own
+row in `dataset.xlsx` (alias `biogeo16`) and its own publisher in `data_source.xlsx` (`eu-eea`,
+the European Environment Agency), so all three levels of the hierarchy above get a second branch.
+
 [insert_dataset_meta]: /lucas_2009/insert_dataset_meta/
 [utility_explained]: /lucas_2009/utility_explained/
 [utility_inherit_auto]: /lucas_2009/utility_inherit_auto_explained/
 [prepare_data]: /lucas_2009/prepare_data/
 [load_lucas_2009]: /lucas_2009/load_lucas_2009/
+[lucas_2015]: /lucas_2015/

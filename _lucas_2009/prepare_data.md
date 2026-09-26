@@ -9,12 +9,23 @@ author_profile: false
 
 Generate the JSON job, pilot, and process files needed to load the LUCAS 2009 campaign data and metadata.
 
-## 1. Download the source CSV
+## 1. Download the source files
 
 Register at [esdac.jrc.ec.europa.eu/projects/lucas](https://esdac.jrc.ec.europa.eu/projects/lucas)
 and download `LUCAS.SOIL_corr.csv` — the corrected LUCAS 2009 topsoil dataset, one row per
 sampling point, with lab-measured soil properties and FOSS XDS RCA spectral scan columns
-(`spc.<wavelength>`) together in a single file.
+(`spc.<wavelength>`) together in a single file. Place it, and the optional complements below,
+directly in one directory (`CSV_PATH`):
+
+| File | Content | Needed for |
+|---|---|---|
+| `LUCAS.SOIL_corr.csv` | Main 2009 campaign, lab data + spectra | Everything |
+| `PTotal2009.dbf` | Total phosphorus, merged by `POINT_ID` into the lab observation | `@p-tot` |
+| `SoilAttr_ICELAND.dbf`, `SoilAttr_LUCAS_2009_CYP_MLT.dbf`, `SoilAttr_LUCAS_2012_BG_RO.dbf` | Lab data for Iceland, Cyprus/Malta and Bulgaria/Romania (no spectra, no dates) | Complement points |
+| `LUCAS-Master-Grid.csv` | The LUCAS master grid, with a `BIOGEO16` column per `POINT_ID` | BIOGEO16 observations |
+
+`LUCAS-Master-Grid.csv` is not year specific and can live elsewhere — its directory is set
+separately in `MASTER_GRID_ROOT`.
 
 ## 2. Configure and run the script
 
@@ -26,13 +37,16 @@ Open it and check these constants before running:
 
 | Constant | Purpose | Default |
 |---|---|---|
-| `CSV_PATH` | Absolute path to the downloaded CSV | a machine-specific path — **must be changed** |
+| `CSV_PATH` | Absolute path to the directory holding the downloaded files | a machine-specific path — **must be changed** |
 | `OUTPUT_ROOT` | Where generated files land | `../import_data/LUCAS_2009` (resolved relative to the script's own directory) |
-| `RECORDS` | How many CSV rows to process | `25` for a test run — **set to `0` for the full campaign** |
+| `MASTER_GRID_ROOT` | Directory holding `LUCAS-Master-Grid.csv` | a machine-specific path — **must be changed** |
+| `INCLUDE_PTOTAL` / `INCLUDE_ICELAND` / `INCLUDE_CYP_MLT` / `INCLUDE_BG_RO` | Read the complement files or not | `True` |
+| `RECORDS` | How many rows to process from *each* enabled file | a small number for a test run — **set to `0` for the full campaign** |
 | `CONTACT_NAME` | Contact name for LUCAS data | `inherit` takes the data from a foreign key parent table |
 | `CONTACT_EMAIL` | Contact email for LUCAS data | `inherit` takes the data from a foreign key parent table |
 | `CAMPAIGN_NAME` | Campaign name | `lucas_eu_2009` |
-| `LAB_PROVISION` / `SPECTRA_PROVISION` | Provision names for the two observation logs | `lucas-wetlab-2009` / `foss xds rca` |
+| `LAB_PROVISION` / `SPECTRA_PROVISION` / `LANDSCAPE_PROVISION` | Provision names for the campaign's observation logs | `lucas-wetlab-2009` / `foss xds rca` / `human interpretation` |
+| `BIOGEO_CAMPAIGN_NAME` / `BIOGEO_PROVISION` | Campaign and provision for BIOGEO16 | `biogeo16` / `compilation` |
 | `SPECTROMETER_PROVISION_ID` / `SPECTROMETER_SERIAL` | Spectrometer FK values | `foss-xds-rca` / `lucas 2009` |
 
 Run with Python 3 (no extra CLI arguments — everything is controlled by the constants above):
@@ -42,22 +56,27 @@ cd xspatula_lucas/lucas/prepare_lucas_data
 python3 lucas_2009_to_xspatula.py
 ```
 
-It prints `OK: <step>` for each of 7 steps, or `FAILED: <step> - <error>` if one fails, then a
-final `DONE` line. A `FileNotFoundError` at the start means `CSV_PATH` is wrong.
+It prints `OK: <step>` for each of 12 steps, or `FAILED: <step> - <error>` if one fails, then a
+final `DONE` line. A file-not-found error at the start means `CSV_PATH` or `MASTER_GRID_ROOT` is wrong.
 
 ## What it generates
 
 | Step | Output directory | One record per |
 |---|---|---|
 | 1. Sampling log | `process_lab/sampling_log/` | campaign (static, 1 record) |
-| 2. Observation log | `process_lab/observation_log/`, `process_spectra/observation_log/` | provision (static, 2 records) |
+| 1b. BIOGEO16 sampling log | `process_biogeo/sampling_log/` | campaign `biogeo16` (static, 1 record) |
+| 2. Observation logs | `process_lab/`, `process_spectra/`, `process_landscape/`, `process_biogeo/` `observation_log/` | provision (static, 4 records) |
 | 3. Spectrometer | `process_spectra/spectrometer/` | instrument (static, 1 record) |
 | 4. Geolocation | `process_lab/geolocation/` | unique `POINT_ID` |
 | 5. Sample | `process_lab/sample/` | unique `POINT_ID` |
-| 6. Lab observation | `process_lab/observation/` | CSV row with at least one measured indicator |
-| 7. Spectral observation | `process_spectra/observation/` | CSV row |
+| 6. Lab observation | `process_lab/observation/` | row with at least one measured indicator |
+| 7. Spectral observation | `process_spectra/observation/` | `LUCAS.SOIL_corr.csv` row |
+| 8. Land cover | `process_landscape/land_cover/` | `LUCAS.SOIL_corr.csv` row with `LC1` |
+| 9. Land use | `process_landscape/land_use/` | `LUCAS.SOIL_corr.csv` row with `LU1` |
+| 10. BIOGEO16 observation | `process_biogeo/observation/` | `LUCAS.SOIL_corr.csv` point with a BIOGEO16 match |
+| 11. Job files | `job_LUCAS_2009_*.json` in the output root | notebook cell (14 files) |
 
-Steps 4–7 are limited to `RECORDS` rows if you haven't set it to `0`. Each directory gets both a
+Steps 4–10 are limited to `RECORDS` rows per input file if you haven't set it to `0`. Each directory gets both a
 `xspatula_add_<category>_pilot.txt` pilot file (a numbered list of the process files in it) and
 the process files themselves under a `manage_process/` subfolder.
 
