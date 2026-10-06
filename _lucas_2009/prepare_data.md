@@ -49,6 +49,8 @@ Open it and check these constants before running:
 | `BIOGEO_CAMPAIGN_NAME` / `BIOGEO_PROVISION` | Campaign and provision for BIOGEO16 | `biogeo16` / `compilation` |
 | `SPECTROMETER_PROVISION_ID` / `SPECTROMETER_SERIAL` | Spectrometer FK values | `foss-xds-rca` / `lucas 2009` |
 
+**Compilation error** when trying to run the script? Make sure that the Python environment you are running includes the packages for `numpy` and `dbfread`. To create a virtual Python environment with these included under Anaconda, see the README file under `xspatula_lucas/setup/anaconda/prepare_lucas_py_3.12.yml`.
+
 Run with Python 3 (no extra CLI arguments — everything is controlled by the constants above):
 
 ```bash
