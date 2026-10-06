@@ -388,5 +388,5 @@ shown above corrected to `project_lucas_2009/...`.
 Once you have a dataframe you're happy with, proceed to [ML modeling][ml_model] to train and
 evaluate regressors against it.
 
-[explore_select_data]: /lucas_2009/machine_learning/explore_select_data/
-[ml_model]: /lucas_2009/machine_learning/ml_model/
+[explore_select_data]: {{ site.baseurl }}/lucas_2009/machine_learning/explore_select_data/
+[ml_model]: {{ site.baseurl }}/lucas_2009/machine_learning/ml_model/

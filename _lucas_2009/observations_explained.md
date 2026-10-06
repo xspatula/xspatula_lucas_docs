@@ -401,8 +401,8 @@ The sampling log and observation log are identical in the LUCAS 2009 and LUCAS 2
 it is one EU-wide dataset, so loading it from either campaign gives the same rows. Points with no
 match in the grid, or with `NA`/`Outside`, are skipped and counted in the script's output.
 
-[load_lucas_2009]: /lucas_2009/load_lucas_2009/
-[Prepare data]: /lucas_2009/prepare_data/
-[Samples explained]: /lucas_2009/samples_explained/
-[insert_utility]: /lucas_2009/insert_utility/
-[insert_dataset_meta]: /lucas_2009/insert_dataset_meta/
+[load_lucas_2009]: {{ site.baseurl }}/lucas_2009/load_lucas_2009/
+[Prepare data]: {{ site.baseurl }}/lucas_2009/prepare_data/
+[Samples explained]: {{ site.baseurl }}/lucas_2009/samples_explained/
+[insert_utility]: {{ site.baseurl }}/lucas_2009/insert_utility/
+[insert_dataset_meta]: {{ site.baseurl }}/lucas_2009/insert_dataset_meta/

@@ -84,7 +84,7 @@ If a name in `column_array` isn't a column on the dataframe, it's skipped with a
 full list of available columns is printed instead — useful for finding the exact indicator or
 spectral band name to inspect next.
 
-[explore_select_data]: /lucas_2009/machine_learning/explore_select_data/
-[ml_preprocess]: /lucas_2009/machine_learning/ml_preprocess/
-[observations_explained]: /lucas_2009/observations_explained/
-[indicator_units]: /lucas_2009/machine_learning/explore_select_data/#indicator-units
+[explore_select_data]: {{ site.baseurl }}/lucas_2009/machine_learning/explore_select_data/
+[ml_preprocess]: {{ site.baseurl }}/lucas_2009/machine_learning/ml_preprocess/
+[observations_explained]: {{ site.baseurl }}/lucas_2009/observations_explained/
+[indicator_units]: {{ site.baseurl }}/lucas_2009/machine_learning/explore_select_data/#indicator-units

@@ -229,7 +229,7 @@ Savitzky-Golay, lowess).
 
 Proceed to [ML preprocessing][ml_preprocess] to clean and transform the selected data.
 
-[ml_preprocess]: /lucas_2009/machine_learning/ml_preprocess/
-[observations_explained]: /lucas_2009/observations_explained/
-[inspect_dataset]: /lucas_2009/machine_learning/inspect_dataset/
-[foreign_key_explained]: /lucas_2009/foreign_key_explained/
+[ml_preprocess]: {{ site.baseurl }}/lucas_2009/machine_learning/ml_preprocess/
+[observations_explained]: {{ site.baseurl }}/lucas_2009/observations_explained/
+[inspect_dataset]: {{ site.baseurl }}/lucas_2009/machine_learning/inspect_dataset/
+[foreign_key_explained]: {{ site.baseurl }}/lucas_2009/foreign_key_explained/

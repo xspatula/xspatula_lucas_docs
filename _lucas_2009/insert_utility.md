@@ -49,7 +49,7 @@ project's spreadsheets use, see [Utility → inherit and auto][utility_inherit_a
 
 Proceed to [Insert dataset metadata][insert_dataset_meta].
 
-[insert_dataset_meta]: /lucas_2009/insert_dataset_meta/
-[load_lucas_2009]: /lucas_2009/load_lucas_2009/
-[utility_explained]: /lucas_2009/utility_explained/
-[utility_inherit_auto]: /lucas_2009/utility_inherit_auto_explained/
+[insert_dataset_meta]: {{ site.baseurl }}/lucas_2009/insert_dataset_meta/
+[load_lucas_2009]: {{ site.baseurl }}/lucas_2009/load_lucas_2009/
+[utility_explained]: {{ site.baseurl }}/lucas_2009/utility_explained/
+[utility_inherit_auto]: {{ site.baseurl }}/lucas_2009/utility_inherit_auto_explained/

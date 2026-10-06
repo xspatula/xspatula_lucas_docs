@@ -138,17 +138,17 @@ data, set `"campaign_name": "lucas_eu_2015"` in `select_spectra`. The spectromet
 same as for 2009. If you combine 2009 and 2015 extractions, set the same target unit for every
 shared indicator (see [Indicator units][indicator_units]).
 
-[synopsis]: /lucas_2009/
-[prepare_data]: /lucas_2009/prepare_data/
-[prepare_data_output]: /lucas_2009/prepare_data/#what-it-generates
-[insert_utility]: /lucas_2009/insert_utility/
-[insert_dataset_meta]: /lucas_2009/insert_dataset_meta/
-[dataset_meta_campaign]: /lucas_2009/dataset_meta_explained/#campaign
-[load_lucas_2009]: /lucas_2009/load_lucas_2009/
-[samples]: /lucas_2009/samples_explained/
-[obs_lab]: /lucas_2009/observations_explained/#laboratory-observations
-[obs_spectra]: /lucas_2009/observations_explained/#spectral-observations
-[obs_landscape]: /lucas_2009/observations_explained/#landscape-observations
-[obs_biogeo]: /lucas_2009/observations_explained/#biogeographic-region-biogeo16-observations
-[explore_select_data]: /lucas_2009/machine_learning/explore_select_data/
-[indicator_units]: /lucas_2009/machine_learning/explore_select_data/#indicator-units
+[synopsis]: {{ site.baseurl }}/lucas_2009/
+[prepare_data]: {{ site.baseurl }}/lucas_2009/prepare_data/
+[prepare_data_output]: {{ site.baseurl }}/lucas_2009/prepare_data/#what-it-generates
+[insert_utility]: {{ site.baseurl }}/lucas_2009/insert_utility/
+[insert_dataset_meta]: {{ site.baseurl }}/lucas_2009/insert_dataset_meta/
+[dataset_meta_campaign]: {{ site.baseurl }}/lucas_2009/dataset_meta_explained/#campaign
+[load_lucas_2009]: {{ site.baseurl }}/lucas_2009/load_lucas_2009/
+[samples]: {{ site.baseurl }}/lucas_2009/samples_explained/
+[obs_lab]: {{ site.baseurl }}/lucas_2009/observations_explained/#laboratory-observations
+[obs_spectra]: {{ site.baseurl }}/lucas_2009/observations_explained/#spectral-observations
+[obs_landscape]: {{ site.baseurl }}/lucas_2009/observations_explained/#landscape-observations
+[obs_biogeo]: {{ site.baseurl }}/lucas_2009/observations_explained/#biogeographic-region-biogeo16-observations
+[explore_select_data]: {{ site.baseurl }}/lucas_2009/machine_learning/explore_select_data/
+[indicator_units]: {{ site.baseurl }}/lucas_2009/machine_learning/explore_select_data/#indicator-units

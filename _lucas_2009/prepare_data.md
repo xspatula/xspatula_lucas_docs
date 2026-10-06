@@ -86,6 +86,6 @@ the process files themselves under a `manage_process/` subfolder.
 
 Proceed to [Insert utility][insert_utility].
 
-[insert_utility]: /lucas_2009/insert_utility/
-[insert_dataset_meta]: /lucas_2009/insert_dataset_meta/
-[load_lucas_2009]: /lucas_2009/load_lucas_2009/
+[insert_utility]: {{ site.baseurl }}/lucas_2009/insert_utility/
+[insert_dataset_meta]: {{ site.baseurl }}/lucas_2009/insert_dataset_meta/
+[load_lucas_2009]: {{ site.baseurl }}/lucas_2009/load_lucas_2009/

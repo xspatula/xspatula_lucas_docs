@@ -40,7 +40,7 @@ Each step's process file, source Excel columns, and parameter table is documente
 
 Proceed to [Load LUCAS 2009][load_lucas_2009].
 
-[dataset_meta_explained]: /lucas_2009/dataset_meta_explained/
-[utility_inherit_auto]: /lucas_2009/utility_inherit_auto_explained/
-[insert_utility]: /lucas_2009/insert_utility/
-[load_lucas_2009]: /lucas_2009/load_lucas_2009/
+[dataset_meta_explained]: {{ site.baseurl }}/lucas_2009/dataset_meta_explained/
+[utility_inherit_auto]: {{ site.baseurl }}/lucas_2009/utility_inherit_auto_explained/
+[insert_utility]: {{ site.baseurl }}/lucas_2009/insert_utility/
+[load_lucas_2009]: {{ site.baseurl }}/lucas_2009/load_lucas_2009/

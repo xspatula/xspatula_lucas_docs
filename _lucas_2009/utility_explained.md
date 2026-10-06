@@ -97,8 +97,8 @@ To activate one, open `landscape/insert_landscape_utility.txt` and delete the
 Once all four cells have run, proceed to [Insert dataset metadata][insert_dataset_meta] — several
 of its fields (territory, license, spatial reference) resolve against tables inserted here.
 
-[insert_utility]: /lucas_2009/insert_utility/
-[insert_dataset_meta]: /lucas_2009/insert_dataset_meta/
-[utility_inherit_auto]: /lucas_2009/utility_inherit_auto_explained/
-[foreign_key_explained]: /lucas_2009/foreign_key_explained/
-[load_lucas_2009]: /lucas_2009/load_lucas_2009/
+[insert_utility]: {{ site.baseurl }}/lucas_2009/insert_utility/
+[insert_dataset_meta]: {{ site.baseurl }}/lucas_2009/insert_dataset_meta/
+[utility_inherit_auto]: {{ site.baseurl }}/lucas_2009/utility_inherit_auto_explained/
+[foreign_key_explained]: {{ site.baseurl }}/lucas_2009/foreign_key_explained/
+[load_lucas_2009]: {{ site.baseurl }}/lucas_2009/load_lucas_2009/

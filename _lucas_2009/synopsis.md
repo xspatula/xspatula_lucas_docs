@@ -87,17 +87,17 @@ LUCAS 2015 follows the same four steps — see [LUCAS 2015][lucas_2015] for what
 - [ML modeling][ml_model] — train and evaluate regressors, and the full list of available Machine Learning models
 
 [setup_db]: https://xspatula.github.io/xspatula_core_docs/setup_db/
-[prepare_data]: /lucas_2009/prepare_data/
-[insert_dataset_meta]: /lucas_2009/insert_dataset_meta/
-[insert_utility]: /lucas_2009/insert_utility/
-[load_lucas_2009]: /lucas_2009/load_lucas_2009/
-[dataset_meta_explained]: /lucas_2009/dataset_meta_explained/
-[utility_explained]: /lucas_2009/utility_explained/
-[utility_inherit_auto]: /lucas_2009/utility_inherit_auto_explained/
-[foreign_key_explained]: /lucas_2009/foreign_key_explained/
-[Samples explained]: /lucas_2009/samples_explained/
-[Observations explained]: /lucas_2009/observations_explained/
-[explore_select_data]: /lucas_2009/machine_learning/explore_select_data/
-[ml_preprocess]: /lucas_2009/machine_learning/ml_preprocess/
-[ml_model]: /lucas_2009/machine_learning/ml_model/
-[lucas_2015]: /lucas_2015/
+[prepare_data]: {{ site.baseurl }}/lucas_2009/prepare_data/
+[insert_dataset_meta]: {{ site.baseurl }}/lucas_2009/insert_dataset_meta/
+[insert_utility]: {{ site.baseurl }}/lucas_2009/insert_utility/
+[load_lucas_2009]: {{ site.baseurl }}/lucas_2009/load_lucas_2009/
+[dataset_meta_explained]: {{ site.baseurl }}/lucas_2009/dataset_meta_explained/
+[utility_explained]: {{ site.baseurl }}/lucas_2009/utility_explained/
+[utility_inherit_auto]: {{ site.baseurl }}/lucas_2009/utility_inherit_auto_explained/
+[foreign_key_explained]: {{ site.baseurl }}/lucas_2009/foreign_key_explained/
+[Samples explained]: {{ site.baseurl }}/lucas_2009/samples_explained/
+[Observations explained]: {{ site.baseurl }}/lucas_2009/observations_explained/
+[explore_select_data]: {{ site.baseurl }}/lucas_2009/machine_learning/explore_select_data/
+[ml_preprocess]: {{ site.baseurl }}/lucas_2009/machine_learning/ml_preprocess/
+[ml_model]: {{ site.baseurl }}/lucas_2009/machine_learning/ml_model/
+[lucas_2015]: {{ site.baseurl }}/lucas_2015/

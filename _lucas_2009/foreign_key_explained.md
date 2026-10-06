@@ -99,6 +99,6 @@ needed row is missing, it raises an error naming exactly what to add — same fi
 
    If you added a new `foreign_key.xlsx` row in step 2, re-run cell 1 (`foreign_key`) first — it must exist before `unit_translate` can resolve.
 
-[insert_utility]: /lucas_2009/insert_utility/
-[utility_explained]: /lucas_2009/utility_explained/
-[explore_select_data]: /lucas_2009/machine_learning/explore_select_data/
+[insert_utility]: {{ site.baseurl }}/lucas_2009/insert_utility/
+[utility_explained]: {{ site.baseurl }}/lucas_2009/utility_explained/
+[explore_select_data]: {{ site.baseurl }}/lucas_2009/machine_learning/explore_select_data/

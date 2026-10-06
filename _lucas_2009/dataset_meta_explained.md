@@ -142,9 +142,9 @@ The same spreadsheet also holds the other campaigns this project loads:
 row in `dataset.xlsx` (alias `biogeo16`) and its own publisher in `data_source.xlsx` (`eu-eea`,
 the European Environment Agency), so all three levels of the hierarchy above get a second branch.
 
-[insert_dataset_meta]: /lucas_2009/insert_dataset_meta/
-[utility_explained]: /lucas_2009/utility_explained/
-[utility_inherit_auto]: /lucas_2009/utility_inherit_auto_explained/
-[prepare_data]: /lucas_2009/prepare_data/
-[load_lucas_2009]: /lucas_2009/load_lucas_2009/
-[lucas_2015]: /lucas_2015/
+[insert_dataset_meta]: {{ site.baseurl }}/lucas_2009/insert_dataset_meta/
+[utility_explained]: {{ site.baseurl }}/lucas_2009/utility_explained/
+[utility_inherit_auto]: {{ site.baseurl }}/lucas_2009/utility_inherit_auto_explained/
+[prepare_data]: {{ site.baseurl }}/lucas_2009/prepare_data/
+[load_lucas_2009]: {{ site.baseurl }}/lucas_2009/load_lucas_2009/
+[lucas_2015]: {{ site.baseurl }}/lucas_2015/

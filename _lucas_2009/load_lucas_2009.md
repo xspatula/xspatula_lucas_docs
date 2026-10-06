@@ -66,13 +66,13 @@ explained], and [Observations explained] for what the resulting tables look like
 You can also continue directly with the [Machine Learning - Explore & Select Data][machine_learning]
 section, or load the next campaign, [LUCAS 2015][lucas_2015].
 
-[insert_dataset_meta]: /lucas_2009/insert_dataset_meta/
-[Samples explained]: /lucas_2009/samples_explained/
-[Observations explained]: /lucas_2009/observations_explained/
-[Observations explained (lab)]: /lucas_2009/observations_explained/#laboratory-observations
-[Observations explained (spectra)]: /lucas_2009/observations_explained/#spectral-observations
-[Observations explained (landscape)]: /lucas_2009/observations_explained/#landscape-observations
-[Observations explained (BIOGEO16)]: /lucas_2009/observations_explained/#biogeographic-region-biogeo16-observations
-[Dataset metadata explained]: /lucas_2009/dataset_meta_explained/
-[lucas_2015]: /lucas_2015/
-[machine_learning]: /lucas_2009/machine_learning/explore_select_data/
+[insert_dataset_meta]: {{ site.baseurl }}/lucas_2009/insert_dataset_meta/
+[Samples explained]: {{ site.baseurl }}/lucas_2009/samples_explained/
+[Observations explained]: {{ site.baseurl }}/lucas_2009/observations_explained/
+[Observations explained (lab)]: {{ site.baseurl }}/lucas_2009/observations_explained/#laboratory-observations
+[Observations explained (spectra)]: {{ site.baseurl }}/lucas_2009/observations_explained/#spectral-observations
+[Observations explained (landscape)]: {{ site.baseurl }}/lucas_2009/observations_explained/#landscape-observations
+[Observations explained (BIOGEO16)]: {{ site.baseurl }}/lucas_2009/observations_explained/#biogeographic-region-biogeo16-observations
+[Dataset metadata explained]: {{ site.baseurl }}/lucas_2009/dataset_meta_explained/
+[lucas_2015]: {{ site.baseurl }}/lucas_2015/
+[machine_learning]: {{ site.baseurl }}/lucas_2009/machine_learning/explore_select_data/

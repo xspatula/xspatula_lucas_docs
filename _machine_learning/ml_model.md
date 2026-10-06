@@ -112,5 +112,5 @@ with only 25 test records in this example (`n_train: 17`, `n_test: 8`), that's e
 a signal to read into. Re-run against the full campaign (`RECORDS = 0` in
 [Prepare data][prepare_data]) before drawing conclusions from any single regressor's metrics.
 
-[ml_preprocess]: /lucas_2009/machine_learning/ml_preprocess/
-[prepare_data]: /lucas_2009/prepare_data/
+[ml_preprocess]: {{ site.baseurl }}/lucas_2009/machine_learning/ml_preprocess/
+[prepare_data]: {{ site.baseurl }}/lucas_2009/prepare_data/

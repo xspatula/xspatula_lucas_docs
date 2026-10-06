@@ -65,7 +65,7 @@ it.
 
 [core_inherit]: https://xspatula.github.io/xspatula_core_docs/setup_processes/process_options/#inherit
 [core_auto_name]: https://xspatula.github.io/xspatula_core_docs/setup_processes/process_options/#automatic-naming
-[dataset_meta_explained]: /lucas_2009/dataset_meta_explained/
-[load_lucas_2009]: /lucas_2009/load_lucas_2009/
-[samples_explained]: /lucas_2009/samples_explained/
-[foreign_key_explained]: /lucas_2009/foreign_key_explained/
+[dataset_meta_explained]: {{ site.baseurl }}/lucas_2009/dataset_meta_explained/
+[load_lucas_2009]: {{ site.baseurl }}/lucas_2009/load_lucas_2009/
+[samples_explained]: {{ site.baseurl }}/lucas_2009/samples_explained/
+[foreign_key_explained]: {{ site.baseurl }}/lucas_2009/foreign_key_explained/
