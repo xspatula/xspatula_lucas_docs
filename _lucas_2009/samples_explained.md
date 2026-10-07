@@ -94,7 +94,6 @@ its geolocation and to the campaign's sampling log.
         "geolocation_id__geolocation_name": "<iso_country>_lucas@<POINT_ID>",
         "profile_min": 0,
         "profile_max": 20,
-        "juxtaposition_id__juxtaposition_name": "uniform",
         "proximity_id__proximity_name": "general",
         "composition_id__composition_name": "composite"
       }
@@ -111,7 +110,6 @@ its geolocation and to the campaign's sampling log.
 | `sampled_at` | `SURV_DATE` | Converted from LUCAS's `DDMONYYYY` format to `YYYYMMDD` |
 | `geolocation_id__geolocation_name` | derived | FK to the geolocation record for the same point |
 | `profile_min` / `profile_max` | fixed | `0` / `20` — LUCAS 2009 topsoil samples are all 0–20 cm |
-| `juxtaposition_id__juxtaposition_name` | fixed | `uniform` |
 | `proximity_id__proximity_name` | fixed | `general` |
 | `composition_id__composition_name` | fixed | `composite` |
 

@@ -38,21 +38,22 @@ reference them by foreign key:
 **Without foreign-key dependencies** (but referenced by other tables):
 
 `analysis_method`, `apparatus`, `classification_order`, `license`, `location_method`,
-`method_tier`, `preparation`, `preservation`, `provider`, `quantity`, `setting_system`,
-`spatial_reference`, `storage`, `transportation`, `unit`
+`method_tier`, `preparation`, `preservation`, `provider`, `quantity`, `spatial_reference`,
+`storage`, `transportation`, `unit`
 
 **Dependent on the tier above:**
 
 `classification_family` (needs `classification_order`), `classification_genus` (needs
 `classification_family`), `indicator` (needs `quantity`), `indicator_parity` (needs `indicator`),
-`juxtaposition` (needs `setting_system`), `profiling` (needs `unit`), `unit_translate` (needs
-`unit` — and, since its foreign keys don't follow the plain `xxx_id__yyy` convention, the
-`foreign_key` table from step 1; see [Foreign key explained][foreign_key_explained])
+`profiling` (needs `unit`), `unit_translate` (needs `unit` — and, since its foreign keys don't
+follow the plain `xxx_id__yyy` convention, the `foreign_key` table from step 1; see
+[Foreign key explained][foreign_key_explained]), `nominal_classes` (needs `indicator`,
+`analysis_method` and `method_tier`)
 
-**Shipped disabled** (commented out in the pilot file): `classification_species` and
-`quantity_default_unit`. Also several `# TG TODO` placeholders with no Excel file yet at all
-(coordinate system, monolith extraction, reference proprietor, soil horizon, sound setup/mic,
-spectroscopy method, taxa levels/status/function, analysis method translate).
+**Shipped disabled** (commented out in the pilot file): `quantity_default_unit`. No
+`classification_species` records are defined yet — the predefined `unknown` species and the
+names copied down from genus (see below) are all there is. A few `# LEFT TODO` placeholders mark
+catalogues with no Excel file yet (image, spectroscopy method, analysis method translate).
 
 **Classification hierarchy note**: when you add a `classification_order` (e.g. `soil`), the same
 name is automatically copied down to family/genus/species so foreign keys further down the
