@@ -49,6 +49,8 @@ lucas_2009:
         url: /lucas_2009/utility_explained/
       - title: "Utility: inherit and auto"
         url: /lucas_2009/utility_inherit_auto_explained/
+      - title: "Auto naming and tags"
+        url: /lucas_2009/auto_naming_explained/
       - title: "Foreign Key explained"
         url: /lucas_2009/foreign_key_explained/
       - title: "Unit Translate explained"
@@ -79,6 +81,8 @@ lucas_2015:
         url: /lucas_2009/insert_utility/
       - title: "Insert dataset metadata"
         url: /lucas_2009/insert_dataset_meta/
+      - title: "Auto naming and tags"
+        url: /lucas_2009/auto_naming_explained/
       - title: "Samples explained"
         url: /lucas_2009/samples_explained/
       - title: "Observations explained"

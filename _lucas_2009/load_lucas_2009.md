@@ -45,9 +45,9 @@ pages you don't need to read to complete the walkthrough.
 Cells 12–14 attach one of the eight EEA biogeographic regions (e.g. `continental`,
 `mediterranean`, `boreal`) to each LUCAS point, taken from the `BIOGEO16` column of
 `LUCAS-Master-Grid.csv` and joined by `POINT_ID`. BIOGEO16 is not part of the LUCAS 2009 campaign
-— it is an EEA compilation registered as its own dataset and campaign (`biogeo16`, provision
+— it is an EEA compilation registered as its own dataset and campaign (`biogeo16 2016`, provision
 `compilation`, fixed date 2016-03-31) in [Insert dataset metadata][insert_dataset_meta]. That is
-why it gets its own sampling log (cell 12) instead of reusing `lucas_eu_2009`.
+why it gets its own sampling log, `biogeo16 2016 eu` (cell 12), instead of reusing `lucas 2009 eu`.
 
 The biogeo16 sampling and observation logs are identical for LUCAS 2009 and
 [LUCAS 2015][lucas_2015] — whichever campaign you load second simply finds them already in place.

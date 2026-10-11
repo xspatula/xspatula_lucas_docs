@@ -47,21 +47,24 @@ Also documented generically at
 
 ### Where LUCAS uses it
 
-No current Excel catalogue file uses `auto`/`auto_name` — checked the same way as above
-(including `foreign_key.xlsx` and `unit_translate.xlsx`, see [Foreign key explained][foreign_key_explained]). It isn't
-needed anywhere in this project *yet*, since the LUCAS 2009 pipeline builds its own composite
-names directly in Python instead (`lucas_2009_to_xspatula.py`), but the shape is exactly what
-`auto_name` exists for. Two examples already in this project that follow the same
-`<a>@<b>` pattern `auto_name` would produce automatically, given a format string like `"%s@%s"`:
+The campaign, sampling log and observation log records are auto named. None of them gives a
+`name` or `tag`; the framework composes both from the parent records:
 
-- Observation log names — `lucas_eu_2009@lucas-wetlab-2009` (sampling log name `@` provision
-  name), see [Load LUCAS 2009][load_lucas_2009]
-- Sample names — `<POINT_ID>@0-20` (point ID `@` depth profile), see
-  [Samples explained][samples_explained]
+- Campaign — `lucas 2009` / `lucas_2009` (dataset alias or tag + `datetime_tag` from
+  `campaign.xlsx`)
+- Sampling log — `lucas 2009 eu` / `lucas_2009_eu` (campaign name or tag + territory code)
+- Observation log — `lucas 2009 eu@lucas wetlab 2009` / `lucas_2009_eu@lucas-lab-2009`
+  (sampling log name or tag `@` provision name or tag), see [Load LUCAS 2009][load_lucas_2009]
 
-If a future utility catalogue needs a composite name like these, `auto_name` is the built-in way
-to do it directly from a spreadsheet, instead of pre-computing the concatenation before entering
-it.
+Samples were already built by an `auto_name` rule: `<POINT_ID>@0-20` (`'%s@%s-%s'
+%(tag,profile_min,profile_max)`, point ID `@` depth profile), see
+[Samples explained][samples_explained].
+
+The utility catalogues (including `foreign_key.xlsx` and `unit_translate.xlsx`, see
+[Foreign key explained][foreign_key_explained]) don't use `auto`.
+
+The full LUCAS chain, the Excel `tag`/`datetime_tag` columns and the rules for `_` and `@` are on
+[Auto naming and tags explained][auto_naming_explained].
 
 [core_inherit]: https://xspatula.github.io/xspatula_core_docs/setup_processes/process_options/#inherit
 [core_auto_name]: https://xspatula.github.io/xspatula_core_docs/setup_processes/process_options/#automatic-naming
@@ -69,3 +72,4 @@ it.
 [load_lucas_2009]: {{ site.baseurl }}/lucas_2009/load_lucas_2009/
 [samples_explained]: {{ site.baseurl }}/lucas_2009/samples_explained/
 [foreign_key_explained]: {{ site.baseurl }}/lucas_2009/foreign_key_explained/
+[auto_naming_explained]: {{ site.baseurl }}/lucas_2009/auto_naming_explained/

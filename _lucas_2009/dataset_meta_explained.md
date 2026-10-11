@@ -22,7 +22,7 @@ of them by foreign key (territory, license, spatial reference).
 ```
 data_source              (ESDAC-JRC, the publisher)
     └── dataset          (LUCAS topsoil data — one row per LUCAS survey round)
-          └── campaign   (one bounded round, e.g. lucas_eu_2009)
+          └── campaign   (one bounded round, e.g. lucas 2009)
 ```
 
 Persons are registered independently, linked to a data source, and referenced from other tables
@@ -98,6 +98,7 @@ records underneath it.
 |---|---|
 | `name` | `land use and coverage area frame survey (lucas) topsoil data` |
 | `alias` | `lucas` |
+| `tag` | `lucas` — short machine key, used to compose the campaign tag (`lucas_2009`) |
 | `data_source_id__data_source_name` | `esdac-jrc` (FK to data source, above) |
 | `begun_at` / `ended_at` | `20090101` / `20221231` — spans every survey round shipped so far |
 | `species_id__species_name` | `soil` |
@@ -105,11 +106,14 @@ records underneath it.
 | `territory_id__territory_name` | `EU` |
 | `spatial_reference_id__spatial_reference_name` | `geographic` |
 
-`alias` (`lucas`) is the value referenced by `dataset_id__dataset_name` in `campaign.xlsx`.
+`alias` (`lucas`) is the value referenced by `dataset_id__dataset_name` in `campaign.xlsx`. The
+alias also forms the campaign name (`lucas 2009`) and the `tag` forms the campaign tag
+(`lucas_2009`). Neither `alias` nor `tag` may contain `_` or `@`; see
+[Auto naming and tags explained][auto_naming_explained].
 
 ## Campaign
 
-A campaign is one bounded LUCAS survey round — `lucas_eu_2009`, `lucas_eu_2015`, and so on. Each
+A campaign is one bounded LUCAS survey round — `lucas 2009`, `lucas 2015`, and so on. Each
 row can carry more than one provision (lab and spectrometer) in a single array field. This is the
 campaign's single source of truth — `lucas_2009_to_xspatula.py` (used in
 [Prepare data][prepare_data]) only generates the sampling log, geolocation, sample, and
@@ -117,26 +121,27 @@ observation records for a campaign that must already exist by the time
 [Load LUCAS 2009][load_lucas_2009] runs.
 
 **Path**: `xspatula_lucas/lucas/import_data/dataset_meta/excel/campaign.xlsx` — one row per survey
-round, e.g. `lucas_eu_2009`:
+round, e.g. `lucas 2009`. There is no `name` or `tag` column: both are auto named from the
+dataset and `datetime_tag` (see [Auto naming and tags explained][auto_naming_explained]):
 
 | Column | Value |
 |---|---|
 | `dataset_id__dataset_name` | `lucas` (FK to dataset, above) |
-| `name` | `lucas_eu_2009` |
+| `datetime_tag` | `2009` — composes name `lucas 2009` (dataset alias + `datetime_tag`) and tag `lucas_2009` (dataset tag + `_` + `datetime_tag`) |
 | `display_name` | `LUCAS 2009` |
 | `contact_name` / `contact_email` | `inherit` — pulled from the parent dataset record, see [Utility → inherit and auto][utility_inherit_auto] |
 | `begun_at` / `ended_at` | `20090501` / `20091031` |
 | `territory_id__territory_name` / `site` | `EU` / `Europe` |
 | `location_method_id__location_method_name` | `gps` |
 | `location_error` / `location_error_unit_id__unit_name` | `1000` / `m` |
-| `provision_id__provision_name_array` | `foss xds rca,lucas-wetlab-2009` — **both** provisions, one array |
+| `provision_id__provision_name_array` | `foss xds rca,lucas wetlab 2009` — **both** provisions, one array |
 
 The same spreadsheet also holds the other campaigns this project loads:
 
-| `name` | `dataset_id__dataset_name` | `begun_at` / `ended_at` | `provision_id__provision_name_array` | Loaded in |
-|---|---|---|---|---|
-| `lucas_eu_2015` | `lucas` | `20150501` / `20151031` | `foss xds rca,lucas-wetlab-2015` | [LUCAS 2015][lucas_2015] |
-| `biogeo16` | `biogeo16` | `20160331` / `20261231` | `compilation` | BIOGEO16 cells in [Load LUCAS 2009][load_lucas_2009] and [LUCAS 2015][lucas_2015] |
+| Auto name / tag | `dataset_id__dataset_name` | `datetime_tag` | `begun_at` / `ended_at` | `provision_id__provision_name_array` | Loaded in |
+|---|---|---|---|---|---|
+| `lucas 2015` / `lucas_2015` | `lucas` | `2015` | `20150501` / `20151031` | `foss xds rca,lucas wetlab 2015` | [LUCAS 2015][lucas_2015] |
+| `biogeo16 2016` / `biogeo16_2016` | `biogeo16` | `2016` | `20160331` / `20261231` | `compilation` | BIOGEO16 cells in [Load LUCAS 2009][load_lucas_2009] and [LUCAS 2015][lucas_2015] |
 
 `biogeo16` is not a LUCAS survey round but the EEA biogeographical regions dataset. It has its own
 row in `dataset.xlsx` (alias `biogeo16`) and its own publisher in `data_source.xlsx` (`eu-eea`,
@@ -148,3 +153,4 @@ the European Environment Agency), so all three levels of the hierarchy above get
 [prepare_data]: {{ site.baseurl }}/lucas_2009/prepare_data/
 [load_lucas_2009]: {{ site.baseurl }}/lucas_2009/load_lucas_2009/
 [lucas_2015]: {{ site.baseurl }}/lucas_2015/
+[auto_naming_explained]: {{ site.baseurl }}/lucas_2009/auto_naming_explained/

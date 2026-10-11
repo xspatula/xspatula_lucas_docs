@@ -44,10 +44,18 @@ Open it and check these constants before running:
 | `RECORDS` | How many rows to process from *each* enabled file | a small number for a test run — **set to `0` for the full campaign** |
 | `CONTACT_NAME` | Contact name for LUCAS data | `inherit` takes the data from a foreign key parent table |
 | `CONTACT_EMAIL` | Contact email for LUCAS data | `inherit` takes the data from a foreign key parent table |
-| `CAMPAIGN_NAME` | Campaign name | `lucas_eu_2009` |
-| `LAB_PROVISION` / `SPECTRA_PROVISION` / `LANDSCAPE_PROVISION` | Provision names for the campaign's observation logs | `lucas-wetlab-2009` / `foss xds rca` / `human interpretation` |
-| `BIOGEO_CAMPAIGN_NAME` / `BIOGEO_PROVISION` | Campaign and provision for BIOGEO16 | `biogeo16` / `compilation` |
+| `CAMPAIGN_NAME` | Campaign the sampling log belongs to | `lucas 2009` |
+| `SAMPLING_LOG_NAME` | Sampling log referenced by samples and observation logs | `lucas 2009 eu` |
+| `LAB_PROVISION` / `SPECTRA_PROVISION` / `LANDSCAPE_PROVISION` | Provision names for the campaign's observation logs | `lucas wetlab 2009` / `foss xds rapid content analyzer` / `human interpretation` |
+| `*_OBSERVATION_LOG_NAME` | Observation log names, `<SAMPLING_LOG_NAME>@<provision>` | e.g. `lucas 2009 eu@lucas wetlab 2009` |
+| `BIOGEO_CAMPAIGN_NAME` / `BIOGEO_SAMPLING_LOG_NAME` / `BIOGEO_PROVISION` | Campaign, sampling log and provision for BIOGEO16 | `biogeo16 2016` / `biogeo16 2016 eu` / `compilation` |
 | `SPECTROMETER_PROVISION_ID` / `SPECTROMETER_SERIAL` | Spectrometer FK values | `foss-xds-rca` / `lucas 2009` |
+
+The naming constants must match what the framework composes. The script no longer writes a `name`
+for the sampling log and observation logs: the framework auto names them from the campaign,
+territory and provision. The constants are still needed because samples and observations refer
+to these names. If you change `datetime_tag` in `campaign.xlsx` or a provision name, update the
+constants to match. See [Auto naming and tags explained]({{ site.baseurl }}/lucas_2009/auto_naming_explained/).
 
 **Compilation error** when trying to run the script? Make sure that the Python environment you are running includes the packages for `numpy` and `dbfread`. To create a virtual Python environment with these included under Anaconda, see the README file under `xspatula_lucas/setup/anaconda/prepare_lucas_py_3.12.yml`.
 
@@ -66,7 +74,7 @@ final `DONE` line. A file-not-found error at the start means `CSV_PATH` or `MAST
 | Step | Output directory | One record per |
 |---|---|---|
 | 1. Sampling log | `process_lab/sampling_log/` | campaign (static, 1 record) |
-| 1b. BIOGEO16 sampling log | `process_biogeo/sampling_log/` | campaign `biogeo16` (static, 1 record) |
+| 1b. BIOGEO16 sampling log | `process_biogeo/sampling_log/` | campaign `biogeo16 2016` (static, 1 record) |
 | 2. Observation logs | `process_lab/`, `process_spectra/`, `process_landscape/`, `process_biogeo/` `observation_log/` | provision (static, 4 records) |
 | 3. Spectrometer | `process_spectra/spectrometer/` | instrument (static, 1 record) |
 | 4. Geolocation | `process_lab/geolocation/` | unique `POINT_ID` |

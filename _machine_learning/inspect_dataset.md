@@ -75,7 +75,7 @@ unit  weight percent       ph
 
 The `unit` row comes straight from the dataframe's column metadata — whatever [Indicator
 units][indicator_units] resolved for that column at selection time (here, every indicator was left
-at its `"native"` default, so these are the units `lucas-wetlab-2009` recorded them in — see
+at its `"native"` default, so these are the units `lucas wetlab 2009` recorded them in — see
 [Observations explained][observations_explained]). `display columns`/`display rows` report what
 was actually printed (narrowed by `column_array` and `max_rows`); `dataframe columns`/`dataframe
 rows` report the full underlying size regardless of what was printed.

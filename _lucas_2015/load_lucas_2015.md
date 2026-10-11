@@ -17,9 +17,9 @@ cells. For the detail behind each step, follow the links back to the LUCAS 2009 
 - A running Xspatula database and the `xspatula_lucas` repository, as for
   [LUCAS 2009][synopsis].
 - [Insert utility][insert_utility] and [Insert dataset metadata][insert_dataset_meta] completed.
-  `campaign.xlsx` already registers `lucas_eu_2015` and `biogeo16` (see
+  `campaign.xlsx` already registers `lucas 2015` and `biogeo16 2016` (see
   [Dataset metadata explained][dataset_meta_campaign]), and the utility spreadsheets already hold
-  the `lucas-wetlab-2015` provision and the `@ec` indicator. If you ran those two notebooks before
+  the `lucas wetlab 2015` provision and the `@ec` indicator. If you ran those two notebooks before
   these rows existed, run them again.
 - LUCAS 2009 does **not** have to be loaded first. But you need `LUCAS.SOIL_corr.csv` on disk
   for the texture backfill (below).
@@ -50,8 +50,8 @@ It is configured the same way as the [2009 script][prepare_data]. The constants 
 | `OUTPUT_ROOT` | Where generated files land | `../import_data/LUCAS_2015` |
 | `RECORDS` | Max rows from the main csv **and** max spectra scans in total | a small number for a test run — **set to `0` for the full campaign** |
 | `LUCAS_2009_ROOT` | Directory holding `LUCAS.SOIL_corr.csv`, used for the texture backfill | a machine-specific path — **must be changed** |
-| `CAMPAIGN_NAME` | Campaign name | `lucas_eu_2015` |
-| `LAB_PROVISION` / `SPECTRA_PROVISION` / `LANDSCAPE_PROVISION` | Provisions for the three campaign observation logs | `lucas-wetlab-2015` / `foss xds rca` / `human interpretation` |
+| `CAMPAIGN_NAME` / `SAMPLING_LOG_NAME` | Campaign and sampling log (auto named by the framework, see [Auto naming and tags explained]({{ site.baseurl }}/lucas_2009/auto_naming_explained/)) | `lucas 2015` / `lucas 2015 eu` |
+| `LAB_PROVISION` / `SPECTRA_PROVISION` / `LANDSCAPE_PROVISION` | Provisions for the three campaign observation logs | `lucas wetlab 2015` / `foss xds rapid content analyzer` / `human interpretation` |
 | `SPECTROMETER_SERIAL` | Same instrument as 2009, different serial | `lucas 2015` |
 | `MISSING_DATE_TOKEN` | Representative survey date, see below | `20150801` |
 
@@ -89,7 +89,7 @@ files.
   backfilled across about 15,500 points. Note that these values are 2009 measurements stored under
   the 2015 lab observation.
 - **BIOGEO16** is joined from `LUCAS-Master-Grid.csv` exactly as for 2009. Its sampling log and
-  observation log (`biogeo16`, `biogeo16@compilation`) are identical in both scripts. See
+  observation log (`biogeo16 2016 eu`, `biogeo16 2016 eu@compilation`) are identical in both scripts. See
   [BIOGEO16 explained][obs_biogeo].
 
 ## 3. Insert utility and dataset metadata
@@ -134,7 +134,7 @@ not exist`. Increase `RECORDS` (or set it to `0`) and re-run the script.
 
 The LUCAS 2015 campaign is loaded next to LUCAS 2009 and shares geolocations for revisited points.
 The [Machine learning][explore_select_data] pipeline works the same way. To extract only the 2015
-data, set `"campaign_name": "lucas_eu_2015"` in `select_spectra`. The spectrometer provision is the
+data, set `"campaign_name": "lucas 2015"` in `select_spectra`. The spectrometer provision is the
 same as for 2009. If you combine 2009 and 2015 extractions, set the same target unit for every
 shared indicator (see [Indicator units][indicator_units]).
 

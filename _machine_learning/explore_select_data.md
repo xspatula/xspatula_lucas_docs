@@ -41,7 +41,7 @@ step, nothing is saved to disk.
 ```
 
 Leave `campaign_name` empty to see everything registered under the `lucas` dataset across all
-campaigns, or set it to scope to one campaign (e.g. `lucas_eu_2009`).
+campaigns, or set it to scope to one campaign (e.g. `lucas 2009`).
 
 ## Select spectra and analysis data
 
