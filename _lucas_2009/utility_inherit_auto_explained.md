@@ -50,10 +50,11 @@ Also documented generically at
 The campaign, sampling log and observation log records are auto named. None of them gives a
 `name` or `tag`; the framework composes both from the parent records:
 
-- Campaign — `lucas 2009` / `lucas_2009` (dataset alias or tag + `datetime_tag` from
-  `campaign.xlsx`)
-- Sampling log — `lucas 2009 eu` / `lucas_2009_eu` (campaign name or tag + territory code)
-- Observation log — `lucas 2009 eu@lucas wetlab 2009` / `lucas_2009_eu@lucas-lab-2009`
+- Campaign (the place) — `lucas european union` / `lucas_eu` (dataset alias or tag + territory
+  name or code)
+- Sampling log (the time) — `lucas european union 2009` / `lucas_eu_2009` (campaign name or tag +
+  `datetime_tag`, written by the prepare script)
+- Observation log — `lucas european union 2009@lucas wetlab 2009` / `lucas_eu_2009@lucas-lab-2009`
   (sampling log name or tag `@` provision name or tag), see [Load LUCAS 2009][load_lucas_2009]
 
 Samples were already built by an `auto_name` rule: `<POINT_ID>@0-20` (`'%s@%s-%s'
@@ -63,7 +64,7 @@ Samples were already built by an `auto_name` rule: `<POINT_ID>@0-20` (`'%s@%s-%s
 The utility catalogues (including `foreign_key.xlsx` and `unit_translate.xlsx`, see
 [Foreign key explained][foreign_key_explained]) don't use `auto`.
 
-The full LUCAS chain, the Excel `tag`/`datetime_tag` columns and the rules for `_` and `@` are on
+The full LUCAS chain, the Excel `tag` columns and the rules for `_` and `@` are on
 [Auto naming and tags explained][auto_naming_explained].
 
 [core_inherit]: https://xspatula.github.io/xspatula_core_docs/setup_processes/process_options/#inherit

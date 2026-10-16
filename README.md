@@ -24,13 +24,14 @@ into `lucas_2009`.
 Each later LUCAS campaign gets its own small collection that documents only what differs from
 2009 and links back to the 2009 pages for the shared steps. So far that is `lucas_2015`: a single
 page covering the different source files, `lucas_2015_to_xspatula.py` (including the texture
-backfill from 2009 for revisited points) and the `load_LUCAS_2015.ipynb` cells. Campaigns are kept
+backfill from 2009 for revisited points) and the cells of block 4 of the single import notebook
+`insert_lucas_data.ipynb`. Campaigns are kept
 separate rather than merged into one "LUCAS 2009/2015" collection because they diverge: LUCAS 2018
 has eDNA instead of spectra. eDNA is not documented yet.
 
 BIOGEO16 (EEA biogeographic regions, joined from `LUCAS-Master-Grid.csv`) is a separate dataset and
-campaign (`biogeo16`), but it is loaded by the last three cells of both the 2009 and 2015 load
-notebooks. It is documented in the `lucas_2009` pages (Load LUCAS 2009, Observations explained).
+campaign (`biogeo16`), but it is loaded by the last three cells of both the 2009 and 2015 blocks (3.7.x and 4.7.x) of
+`insert_lucas_data.ipynb`. It is documented in the `lucas_2009` pages (Load LUCAS 2009, Observations explained).
 
 ## Content sections
 
@@ -43,7 +44,7 @@ Most content lives under `/lucas_2009/`, split into three groups in its own side
 | Machine learning | explore & select data, ML preprocessing, ML modeling, inspect dataset | `/lucas_2009/machine_learning/...` — a separate Jekyll collection, nested under the same URL prefix |
 
 LUCAS 2015 is a single page at `/lucas_2015/` (collection `_lucas_2015/`, sidebar `lucas_2015`).
-It covers the differences from 2009 plus the load notebook's cells, and its sidebar links back
+It covers the differences from 2009 plus the cells of notebook block 4, and its sidebar links back
 to the shared 2009 pages.
 
 ## Site architecture

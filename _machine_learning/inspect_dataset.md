@@ -28,8 +28,8 @@ inspect cell.
     {
       "process": "inspect_pandas_dataset",
       "parameters": {
-        "project_root_fp": "./project_lucas_2009/data/lucas_400-2500_10",
-        "parquet_file": "data-foss xds rapid content analyzer_400-2500_10.parquet",
+        "project_root_fp": "./project_lucas_2009/data/compiled/lucas_2009_10nm",
+        "parquet_file": "lucas_2009_10nm.parquet",
         "column_array": "cec,clay,silt,sand,c-org,n-tot,ph-water",
         "max_rows": 10
       }
@@ -53,8 +53,9 @@ inspect cell.
 Only set one of `columns_units_data` / `columns_data` / `columns_only` / `columns_units_only` at a
 time — they're different views of the same inspection, not steps to combine.
 
-**Example output** (`column_array` above, `max_rows: 10`, against the raw selection from
-[Explore & select data][explore_select_data]):
+**Example output** (`column_array` above, `max_rows: 10`, against the compiled dataset from
+[Explore & select data][explore_select_data]; the shipped process file leaves `column_array`
+empty, which shows every column):
 
 ```
 column            cec           clay           silt           sand   c-org  \
@@ -63,8 +64,8 @@ unit      cmolc*kg^-1 weight percent weight percent weight percent g*kg^-1
 1                 8.7           13.0           27.0           60.0    21.4
 ...
 
-column         n-tot ph-water
-unit  weight percent       ph
+column    n-tot ph-water
+unit    g*kg^-1       ph
 0                5.3     4.00
 1                2.1     6.53
 ...

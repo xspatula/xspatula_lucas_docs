@@ -32,8 +32,10 @@ appends an abbreviation to the previous file's base name:
 | `_wc` | Agglomeration | Ward-clustered bands |
 | `_vt` | Selection | Variance-threshold selected |
 
-So starting from `data-foss xds rapid content analyzer_400-2500_10.parquet` (the raw selection
-from [Explore & select data][explore_select_data]), meancentring produces `..._mc.parquet`, a
+Derived files keep the stem of the dataset plus the step suffixes (`DERIVED_STEM_RE` in
+`src/ai4sh/parquet_units.py` recognises them, so a derived file is never mistaken for the
+selection itself). So starting from `lucas_2009_10nm.parquet` (the compiled dataset from
+[Explore & select data][explore_select_data], in `data/compiled/lucas_2009_10nm/`), meancentring produces `..._mc.parquet`, a
 first derivative on that produces `..._mc_d1.parquet`, and a 5-component PCA on that produces
 `..._mc_d1_pca5.parquet` — each a real file on disk, all three keepable side by side.
 
@@ -41,7 +43,7 @@ first derivative on that produces `..._mc_d1.parquet`, and a 5-component PCA on 
 
 Rather than typing out the exact chained filename in every process file, set
 `"dataframe": "previous"` and the framework resolves it from `.previous_dataframe` — a small JSON
-file at the project's data root (`data/lucas_400-2500_10/.previous_dataframe`) that every step
+file at the project's data root (`data/compiled/lucas_2009_10nm/.previous_dataframe`) that every step
 updates after it runs:
 
 ```json
@@ -50,7 +52,7 @@ updates after it runs:
   "created_at": "2026-09-05T14:07:10",
   "entries": [
     {
-      "dataframe": "data-foss xds rapid content analyzer_400-2500_10_mc_d1_pca5.parquet",
+      "dataframe": "lucas_2009_10nm_mc_d1_pca5.parquet",
       "indicator": null,
       "regressor": null,
       "selector": null
@@ -95,7 +97,7 @@ Flags and removes outlier rows for the chosen indicators.
     {
       "process": "detect_outliers",
       "parameters": {
-        "project_root_fp": "./project_lucas_2009/data/lucas_400-2500_10",
+        "project_root_fp": "./project_lucas_2009/data/compiled/lucas_2009_10nm",
         "indicator_array": ["sand", "c-org"],
         "detector": "iforest",
         "threshold": 0.1
@@ -117,12 +119,12 @@ then scatter correction reading `"dataframe": "previous"` (the just-written mean
   "process": [
     {
       "process": "spectra_scaling",
-      "parameters": { "project_root_fp": "./project_lucas_2009/data/lucas_400-2500_10" }
+      "parameters": { "project_root_fp": "./project_lucas_2009/data/compiled/lucas_2009_10nm" }
     },
     {
       "process": "spectra_scatter_correction",
       "parameters": {
-        "project_root_fp": "./project_lucas_2009/data/lucas_400-2500_10",
+        "project_root_fp": "./project_lucas_2009/data/compiled/lucas_2009_10nm",
         "dataframe": "previous",
         "scaler": ["snv"]
       }
@@ -143,8 +145,8 @@ Drops low-variance bands to reduce overfitting risk, saving a new dataframe.
     {
       "process": "select_variance_threshold",
       "parameters": {
-        "project_root_fp": "./project_lucas_2009/data/lucas_400-2500_10",
-        "dataframe": "data-foss xds rapid content analyzer_400-2500_10_ol",
+        "project_root_fp": "./project_lucas_2009/data/compiled/lucas_2009_10nm",
+        "dataframe": "lucas_2009_10nm_ol",
         "scaler": "minmax",
         "threshold": 0.035
       }
@@ -152,10 +154,6 @@ Drops low-variance bands to reduce overfitting risk, saving a new dataframe.
   ]
 }
 ```
-
-**Fix needed**: the file as it ships names `dataframe` as `"data-neospectra_1350-2550_5_ol"` — a
-leftover from an AI4SH template that doesn't match this pipeline's actual output. Shown above
-with the corrected name. See `notes/xspatula_lucas.md`.
 
 ## Chemometric scatter correction
 
@@ -167,7 +165,7 @@ with the corrected name. See `notes/xspatula_lucas.md`.
     {
       "process": "spectra_scatter_correction",
       "parameters": {
-        "project_root_fp": "./project_lucas_2009/data/lucas_400-2500_10",
+        "project_root_fp": "./project_lucas_2009/data/compiled/lucas_2009_10nm",
         "dataframe": "raw",
         "scaler": ["snv", "snv"]
       }
@@ -191,8 +189,8 @@ in this repo. Shown above pointing at the matching file that does exist,
     {
       "process": "spectra_derivative",
       "parameters": {
-        "project_root_fp": "./project_lucas_2009/data/lucas_400-2500_10",
-        "dataframe": "data-foss xds rapid content analyzer_400-2500_10_mc",
+        "project_root_fp": "./project_lucas_2009/data/compiled/lucas_2009_10nm",
+        "dataframe": "lucas_2009_10nm_mc",
         "derivative": 1
       }
     }
@@ -210,8 +208,8 @@ in this repo. Shown above pointing at the matching file that does exist,
     {
       "process": "spectra_decomposition",
       "parameters": {
-        "project_root_fp": "./project_lucas_2009/data/lucas_400-2500_10",
-        "dataframe": "data-foss xds rapid content analyzer_400-2500_10_mc_d1",
+        "project_root_fp": "./project_lucas_2009/data/compiled/lucas_2009_10nm",
+        "dataframe": "lucas_2009_10nm_mc_d1",
         "method": "pca",
         "n_components": 5
       }
@@ -234,7 +232,7 @@ time.
     {
       "process": "chemometric_default",
       "parameters": {
-        "project_root_fp": "./project_lucas_2009/data/lucas_400-2500_10",
+        "project_root_fp": "./project_lucas_2009/data/compiled/lucas_2009_10nm",
         "dataframe": "raw",
         "chemometrics": "default",
         "chemometrics_array": ["meancentring", "scatter_correction", "decomposition"]
@@ -260,7 +258,7 @@ Smooths the raw spectra with a configurable filter before further processing.
     {
       "process": "filter_spectra",
       "parameters": {
-        "project_root_fp": "./project_lucas_2009/data/lucas_400-2500_10",
+        "project_root_fp": "./project_lucas_2009/data/compiled/lucas_2009_10nm",
         "dataframe": "raw",
         "filter_fp": "./project_lucas_2009/filter/savitzky-golay_neospectra.json"
       }
@@ -287,8 +285,8 @@ Groups adjacent spectral bands into fewer, wider bands.
     {
       "process": "ward_clustering",
       "parameters": {
-        "project_root_fp": "./project_lucas_2009/data/lucas_400-2500_10",
-        "dataframe": "data-foss xds rapid content analyzer_400-2500_10_sg",
+        "project_root_fp": "./project_lucas_2009/data/compiled/lucas_2009_10nm",
+        "dataframe": "lucas_2009_10nm_sg",
         "ward_clustering_fp": "./project_lucas_2009/agglomeration/ward_clustering_neospectra.json"
       }
     }
@@ -296,11 +294,9 @@ Groups adjacent spectral bands into fewer, wider bands.
 }
 ```
 
-**Fix needed** (two things): the notebook cell points at
+**Fix needed**: the notebook cell points at
 `project_neospectra/process/agglomerate_spectra.json` (shown above corrected to
-`project_lucas_2009/...`), and the file's `dataframe` value ships as
-`"data-neospectra_1350-2550_5_sg"` (shown above corrected to match this pipeline's actual
-Savitzky-Golay-filtered output name). `ward_clustering_fp` itself is fine as shipped — same as the
+`project_lucas_2009/...`). `ward_clustering_fp` itself is fine as shipped — same as the
 filter config above, just an oddly-named file that does exist.
 
 ## Autoscale the Ward-clustered output
@@ -313,8 +309,8 @@ filter config above, just an oddly-named file that does exist.
     {
       "process": "spectra_scaling",
       "parameters": {
-        "project_root_fp": "./project_lucas_2009/data/lucas_400-2500_10",
-        "dataframe": "data-foss xds rapid content analyzer_400-2500_10_sg_wc",
+        "project_root_fp": "./project_lucas_2009/data/compiled/lucas_2009_10nm",
+        "dataframe": "lucas_2009_10nm_sg_wc",
         "method": "meancentring"
       }
     }
@@ -322,9 +318,8 @@ filter config above, just an oddly-named file that does exist.
 }
 ```
 
-**Fix needed**: same two-part fix as the agglomeration step — notebook path corrected from
-`project_neospectra/` to `project_lucas_2009/`, and `dataframe` corrected from
-`"data-neospectra_1350-2550_5_sg_wc"` to match the actual chain.
+**Fix needed**: same as the agglomeration step — the notebook cell points at
+`project_neospectra/`; shown above corrected to `project_lucas_2009/`.
 
 ## Select best bands using univariate selection
 
@@ -338,7 +333,7 @@ Ranks bands per indicator using `SelectKBest`/`f_regression`.
     {
       "process": "spectra_indicator_univariate_selection",
       "parameters": {
-        "project_root_fp": "./project_lucas_2009/data/lucas_400-2500_10",
+        "project_root_fp": "./project_lucas_2009/data/compiled/lucas_2009_10nm",
         "indicator_array": ["c-org", "sand"],
         "separate_selections": true,
         "dataframe": "raw",
@@ -366,7 +361,7 @@ Ranks bands using a chosen regressor as the underlying estimator — one or more
     {
       "process": "spectra_indicator_permutation_selection",
       "parameters": {
-        "project_root_fp": "./project_lucas_2009/data/lucas_400-2500_10",
+        "project_root_fp": "./project_lucas_2009/data/compiled/lucas_2009_10nm",
         "dataframe": "raw",
         "indicator_array": ["c-org", "sand"],
         "selector_array": ["permutation", "rfe"],

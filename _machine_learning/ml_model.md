@@ -29,7 +29,7 @@ default), then run the modeling cell.
       "process": "regression_modeling",
       "overwrite": true,
       "parameters": {
-        "project_root_fp": "./project_lucas_2009/data/lucas_400-2500_10",
+        "project_root_fp": "./project_lucas_2009/data/compiled/lucas_2009_10nm",
         "dataframe": "raw",
         "indicator_array": ["c-org", "sand"],
         "regressor_array": ["ols", "huber"],
@@ -78,7 +78,7 @@ hyperparameters for any of them.
 
 Three things get written under `project_root_fp`, all keyed by the source dataframe's name:
 
-- **`data-<name>_regression.json`** — one entry per indicator, each with one entry per regressor
+- **`<name>_regression.json`** (e.g. `lucas_2009_10nm_regression.json`) — one entry per indicator, each with one entry per regressor
   fit, holding the evaluation metrics: `r2`, `rmse`, `mae`, `mape`, `medae`, `bias`, `rpiq`, `ccc`,
   plus `n_train`/`n_test` and a `model_fp` pointing at the saved model.
 - **`models/<name>_tt/`** — the fitted models themselves, one `.joblib` file per
@@ -89,7 +89,7 @@ Example, from a real run against `c-org` and `sand` with `ols` and `huber`:
 
 ```json
 {
-  "source_parquet": "data-foss xds rapid content analyzer_400-2500_10.parquet",
+  "source_parquet": "lucas_2009_10nm.parquet",
   "results": {
     "c-org": {
       "traintest": {

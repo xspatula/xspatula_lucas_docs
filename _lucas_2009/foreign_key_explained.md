@@ -9,8 +9,9 @@ author_profile: false
 
 Reference page — not required reading to complete any of the LUCAS 2009 steps. Explains
 `utility.foreign_key`, a catch-all table Xspatula falls back to for resolving a foreign key by
-name when the normal `xxx_id__yyy` column convention can't work directly — and the one place this
-project actually needs it: `unit_translate`.
+name when the normal `xxx_id__yyy` column convention can't work directly — and the two places this
+project needs it: `unit_translate` and the parent class of the ranked land cover and land use
+tables. The general description is on the core page [Foreign key][core_foreign_key].
 
 ## How foreign keys normally resolve
 
@@ -28,7 +29,7 @@ named after the `xxx` prefix, it falls back to querying `utility.foreign_key` fo
 
 ## The `utility.foreign_key` table
 
-**Source**: `lucas/import_data/utility/general/excel/foreign_key.xlsx`, inserted by cell 1 of
+**Source**: `lucas/import_data/utility/general/excel/foreign_key.xlsx`, inserted by cell 1.1 of
 [Insert utility][insert_utility] (`general/insert_process/foreign_key.json`, via the
 `manage_foreign_key` process) — see [Utility explained][utility_explained].
 
@@ -40,12 +41,15 @@ named after the `xxx` prefix, it falls back to querying `utility.foreign_key` fo
 | `dst_search_column` | Primary column to match the given value against |
 | `dst_alt_search_column` | Fallback/alias column to match against if the primary column misses |
 
-Current content — two rows, both needed for `unit_translate` (see below):
+Current content — four rows, two for `unit_translate` and two for the land cover and land use
+parents (see below):
 
 | `foreign_key` | `dst_schema` | `dst_table` | `dst_search_column` | `dst_alt_search_column` |
 |---|---|---|---|---|
 | `dst_unit_id` | `observation_utility` | `unit` | `name` | `alias` |
 | `src_unit_id` | `observation_utility` | `unit` | `name` | `alias` |
+| `parent_landcover_id` | `landscape_utility` | `landcover` | `alias` | `tag` |
+| `parent_landuse_id` | `landscape_utility` | `landuse` | `alias` | `tag` |
 
 ## Unit translate
 
@@ -69,10 +73,10 @@ its id — same for the destination unit.
 
 The conversion formula is `dst_value = (src_value * factor + addon) ** exponent`.
 
-Loaded as part of [Insert utility][insert_utility]'s cell 2, in the dependent tier — after `unit`
-and after `foreign_key` (cell 1) has already populated the two rows above. See [Utility explained][utility_explained] for the full cell sequence.
+Loaded as part of [Insert utility][insert_utility]'s cell 1.2, in the dependent tier — after `unit`
+and after `foreign_key` (cell 1.1) has already populated the two rows above. See [Utility explained][utility_explained] for the full cell sequence.
 
-**Where it's actually used**: `select_spectra` (see [Indicator units][explore_select_data]) looks up
+**Where it's actually used**: the select processes (see [Indicator units][explore_select_data]) look up
 `unit_translate` rows on the fly to translate each indicator into its configured target unit. If a
 needed row is missing, it raises an error naming exactly what to add — same fix as below.
 
@@ -84,7 +88,7 @@ needed row is missing, it raises an error naming exactly what to add — same fi
    the two rows above cover every `unit_translate` row, since they're keyed by parameter name,
    `src_unit_id`/`dst_unit_id`, not by which units are being converted), add it to
    `foreign_key.xlsx` first.
-3. Re-run `insert_utility.ipynb` in full, or add a new notebook cell that just inserts the new translation into `unit_translate`:
+3. Re-run block 1 of `insert_lucas_data.ipynb` (cells 1.1–1.4), or add a new notebook cell that just inserts the new translation into `unit_translate`:
 
    ```python
    process_file = 'import_data/utility/observation/insert_process/unit_translate.json'
@@ -97,8 +101,27 @@ needed row is missing, it raises an error naming exactly what to add — same fi
 
    **WARNING** Do **not** set `"overwrite: true"` in the JSON process file as this will cause irreparable changes; you are inserting a new translation and it will be added with `"overwrite: false"` while all existing rows will remain unchanged.
 
-   If you added a new `foreign_key.xlsx` row in step 2, re-run cell 1 (`foreign_key`) first — it must exist before `unit_translate` can resolve.
+   If you added a new `foreign_key.xlsx` row in step 2, re-run cell 1.1 (`foreign_key`) first — it must exist before `unit_translate` can resolve.
 
+## Land cover and land use parents
+
+`landscape_utility.landcover` and `landscape_utility.landuse` hold all ranks (order, family,
+genus) of a scheme in one table; each class points to its parent in the same table (see
+[Utility explained][utility_explained]). That is a self reference: the column
+`parent_landcover_id__landcover_alias` can't resolve by the table-name convention, because no
+table named `parent_landcover` exists. The two `utility.foreign_key` rows send it to
+`landscape_utility.landcover` (or `landuse`), searching `alias` first, then `tag`. So the cell
+`b10` in `landcover.xlsx` finds the family `cultivated cropland` and stores its id as the parent of
+`common wheat`.
+
+Two import rules apply:
+
+- An **empty** `parent_*` key is inserted as NULL. An order has no parent.
+- A value that is **not found** stops that record with
+  `❌ ERROR Can not find foreign key value <u999> for parent_landuse_id__landuse_alias`. Check the
+  alias, and that the parent row comes before its children in the Excel file.
+
+[core_foreign_key]: https://xspatula.github.io/xspatula_core_docs/setup_db/foreign_key/
 [insert_utility]: {{ site.baseurl }}/lucas_2009/insert_utility/
 [utility_explained]: {{ site.baseurl }}/lucas_2009/utility_explained/
 [explore_select_data]: {{ site.baseurl }}/lucas_2009/machine_learning/explore_select_data/

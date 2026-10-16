@@ -17,24 +17,26 @@ page shows what that looks like for LUCAS. The full rules are on the core page
 Every record in the dataset → campaign → sampling log → observation log chain carries both a
 `name` and a `tag`:
 
-- `name` is free text for people, e.g. `lucas 2009 eu`.
-- `tag` is a short key for machines, e.g. `lucas_2009_eu`. Tags are used in composed names and
+- `name` is free text for people, e.g. `lucas european union 2009`.
+- `tag` is a short key for machines, e.g. `lucas_eu_2009`. Tags are used in composed names and
   later in ML file names.
 
 Full description: [Name and tag][core_name_and_tag].
 
 ## Excel columns
 
-Three Excel files gained a column for this ([Tag columns][core_tag_columns]):
+Two Excel files carry a `tag` column ([Tag columns][core_tag_columns]):
 
-| File | New column | LUCAS values |
+| File | Column | LUCAS values |
 |---|---|---|
 | `lucas/import_data/dataset_meta/excel/dataset.xlsx` | `tag` | `lucas`, `biogeo16` |
-| `lucas/import_data/dataset_meta/excel/campaign.xlsx` | `datetime_tag` | `2009`, `2015`, `2016` (biogeo16) |
 | `lucas/import_data/utility/observation/excel/provision.xlsx` | `tag` | see table below |
 
-`campaign.xlsx` has no `name` or `tag` columns: both are auto named from the dataset alias/tag
-and `datetime_tag`. The provision tags:
+`campaign.xlsx` has no `name`, `tag` or `datetime_tag` columns. A campaign is a **place**: its
+name and tag are composed from the dataset alias/tag and the territory (plus an optional `site`).
+The **time** part sits on the sampling log: `lucas_2009_to_xspatula.py` writes `datetime_tag`
+(`2009`, `2016` for biogeo16) into each sampling log record, and the 2015 script writes `2015`.
+The provision tags:
 
 | Provision name | Tag |
 |---|---|
@@ -51,24 +53,24 @@ LUCAS 2009:
 | Level | name | tag |
 |---|---|---|
 | dataset | `land use and coverage area frame survey (lucas) topsoil data` (alias `lucas`) | `lucas` |
-| campaign | `lucas 2009` | `lucas_2009` |
-| sampling_log | `lucas 2009 eu` | `lucas_2009_eu` |
-| observation_log (lab) | `lucas 2009 eu@lucas wetlab 2009` | `lucas_2009_eu@lucas-lab-2009` |
-| observation_log (spectra) | `lucas 2009 eu@foss xds rapid content analyzer` | `lucas_2009_eu@foss-xds-rca` |
-| observation_log (landscape) | `lucas 2009 eu@human interpretation` | `lucas_2009_eu@hum-sens` |
+| campaign | `lucas european union` | `lucas_eu` |
+| sampling_log | `lucas european union 2009` | `lucas_eu_2009` |
+| observation_log (lab) | `lucas european union 2009@lucas wetlab 2009` | `lucas_eu_2009@lucas-lab-2009` |
+| observation_log (spectra) | `lucas european union 2009@foss xds rapid content analyzer` | `lucas_eu_2009@foss-xds-rca` |
+| observation_log (landscape) | `lucas european union 2009@human interpretation` | `lucas_eu_2009@hum-sens` |
 
-LUCAS 2015 follows the same pattern with `2015` (`lucas 2015`, `lucas 2015 eu`,
-`lucas 2015 eu@lucas wetlab 2015`, …; tags `lucas_2015`, `lucas_2015_eu`,
-`lucas_2015_eu@lucas-lab-2015`, …).
+LUCAS 2015 is the same place sampled again: it reuses campaign `lucas european union` /
+`lucas_eu` and adds sampling log `lucas european union 2015` / `lucas_eu_2015`, with observation
+logs `lucas european union 2015@lucas wetlab 2015` / `lucas_eu_2015@lucas-lab-2015`, and so on.
 
 The BIOGEO16 regions have their own dataset and campaign:
 
 | Level | name | tag |
 |---|---|---|
 | dataset | `eu-eea biogeographical regions 2016` (alias `biogeo16`) | `biogeo16` |
-| campaign | `biogeo16 2016` | `biogeo16_2016` |
-| sampling_log | `biogeo16 2016 eu` | `biogeo16_2016_eu` |
-| observation_log | `biogeo16 2016 eu@compilation` | `biogeo16_2016_eu@compilat` |
+| campaign | `biogeo16 european union` | `biogeo16_eu` |
+| sampling_log | `biogeo16 european union 2016` | `biogeo16_eu_2016` |
+| observation_log | `biogeo16 european union 2016@compilation` | `biogeo16_eu_2016@compilat` |
 
 Names join parts with a blank, tags with `_`. Both use `@` between sampling log and provision.
 
@@ -79,13 +81,15 @@ Each auto-named parameter has a `concat` rule in the process definition
 
 | Level | `name` | `tag` |
 |---|---|---|
-| campaign | `'%s %s' %(dataset_id__dataset_alias, datetime_tag)` | `'%s_%s' %(dataset_id__dataset_tag, datetime_tag)` |
-| sampling_log | `'%s %s' %(campaign_id__campaign_name, campaign_territory_id)` | `'%s_%s' %(campaign_id__campaign_tag, campaign_territory_id)` |
+| campaign | `'%s %s %s' %(dataset_id__dataset_alias, territory_id__territory_name, site?)` | `'%s_%s_%s' %(dataset_id__dataset_tag, territory_id__territory_iso_code_a2_ext, site?)` |
+| sampling_log | `'%s %s' %(campaign_id__campaign_name, datetime_tag)` | `'%s_%s' %(campaign_id__campaign_tag, datetime_tag)` |
 | observation_log | `'%s@%s' %(sampling_log_id__sampling_log_name, provision_id__provision_name)` | `'%s@%s' %(sampling_log_id__sampling_log_tag, provision_id__provision_tag)` |
 
-`campaign_territory_id` is the campaign's territory code (`eu`), read from
-`observation.campaign_location`. Arguments like `dataset_id__dataset_alias` read a column from the
-parent record; plain arguments like `datetime_tag` take the value from the same row
+`territory_id__territory_name` (`european union`) and `territory_id__territory_iso_code_a2_ext`
+(`eu`) are read from the campaign's territory (`EU` in `campaign.xlsx`). `site?` is optional: a
+campaign without a `site` drops that part, so the LUCAS campaign is `lucas european union` /
+`lucas_eu`. Arguments like `dataset_id__dataset_alias` read a column from the parent record;
+plain arguments like `datetime_tag` take the value from the same record
 ([Concat arguments][core_concat_arguments]).
 
 The `name` and `tag` parameters of `manage_sampling_log` (`sampling_log_v10_sql.json`):
@@ -96,11 +100,11 @@ The `name` and `tag` parameters of `manage_sampling_log` (`sampling_log_v10_sql.
   "parameter_type": "text",
   "required": false,
   "default_value": "auto",
-  "hint": "The name of the sampling log",
+  "hint": "Name of the sampling log, auto = campaign name + datetime tag ('no date' if no datetime tag)",
   "schema_table": { "schema": "observation", "table": "sampling_log", "write": true },
   "permission": { "update": true, "delete": false },
   "auto_name": {
-    "concat": "'%s %s' %(campaign_id__campaign_name, campaign_territory_id)"
+    "concat": "'%s %s' %(campaign_id__campaign_name, datetime_tag)"
   }
 },
 {
@@ -111,7 +115,7 @@ The `name` and `tag` parameters of `manage_sampling_log` (`sampling_log_v10_sql.
   "schema_table": { "schema": "observation", "table": "sampling_log", "write": true },
   "permission": { "update": false, "delete": false },
   "auto_name": {
-    "concat": "'%s_%s' %(campaign_id__campaign_tag, campaign_territory_id)"
+    "concat": "'%s_%s' %(campaign_id__campaign_tag, datetime_tag)"
   },
   "format": { "at": false, "capital": false, "blank": false }
 }
@@ -122,7 +126,7 @@ Both default to `auto`, so a record that leaves them out gets them composed.
 ## A record without a name
 
 `lucas_2009_to_xspatula.py` writes the sampling log record with no `name` or `tag`
-(`.../process_lab/sampling_log/manage_process/lucas 2009_sampling_log.json`):
+(`.../process_lab/sampling_log/manage_process/lucas_eu_2009_sampling_log.json`):
 
 ```json
 {
@@ -130,7 +134,11 @@ Both default to `auto`, so a record that leaves them out gets them composed.
     {
       "process": "manage_sampling_log",
       "parameters": {
-        "campaign_id__campaign_name": "lucas 2009",
+        "campaign_id__campaign_name": "lucas_eu",
+        "datetime_tag": "2009",
+        "begun_at": 20090501,
+        "ended_at": 20091031,
+        "url": "https://esdac.jrc.ec.europa.eu/content/lucas-2009-topsoil-data",
         "contact_name": "inherit",
         "contact_email": "inherit",
         "abstract": "Sampling log for lucas eu 2009"
@@ -140,12 +148,14 @@ Both default to `auto`, so a record that leaves them out gets them composed.
 }
 ```
 
-The framework looks up campaign `lucas 2009` (tag `lucas_2009`) and its territory `eu`, and stores
-the sampling log as `lucas 2009 eu` / `lucas_2009_eu`. The observation log records work the same
-way: they give `sampling_log_id__sampling_log_name` and `provision_id__provision_name` and leave
-`name` out. The prepare script still builds the same names as constants (`CAMPAIGN_NAME`,
-`SAMPLING_LOG_NAME`, `*_OBSERVATION_LOG_NAME`) because the sample and observation records refer to
-them; see [Prepare data][prepare_data].
+The parent is given by its tag (`lucas_eu`); the framework finds campaign
+`lucas european union` and stores the sampling log as `lucas european union 2009` /
+`lucas_eu_2009`. The observation log records work the same way: they give
+`sampling_log_id__sampling_log_name` as the tag (`lucas_eu_2009`) plus
+`provision_id__provision_name`, and leave `name` out. The prepare script still holds the names and
+tags as constants (`CAMPAIGN_NAME`/`CAMPAIGN_TAG`, `SAMPLING_LOG_NAME`/`SAMPLING_LOG_TAG`,
+`*_OBSERVATION_LOG_NAME`) because the sample and observation records refer to them; see
+[Prepare data][prepare_data].
 
 ## Rules
 

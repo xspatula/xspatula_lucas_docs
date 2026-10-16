@@ -125,3 +125,7 @@ observation_log names) no longer exist.
   auto" in the sidebar.
 - `grep -rn 'lucas_eu_20' --include='*.md' . | grep -v -e _site -e notes/` returns nothing.
 - Every rule on the new page links to the matching core anchor.
+
+## Instructions written at prompt from code repo to create this doc
+
+Time to update the documentation regarding the auto naming. There are tree documentation sites that needs to be updated; 1 xspatula_core_docs, 2 xspatula_lucas_docs, 3 xspatula_ai4sh_docs. In xspatula_ai4sh_docs a new page with a full description is needed after `process_options` (define_process_options.md) in the setup_processes collection and also the page on `process_options` itself needs a small updates. For 2 xspatula_lucas_docs and 3 xspatula_ai4sh_docs, the new options must be summarised with examples. As it is fairly complex to setup I suggest 1 new page in each of these 2 repos, linking back to the more extensive desscription in 1 xspatula_core_docs. Previously we used the path of writing instrutions for the claude instances in the docs repos and then I used claude from within each do repo to work through the changes. That keeps the information on what is happening in each repo which I favour. In each target docs repo thus write instructions for the repo specific claude instances under a file that in each repo is placed under the path `notes/for_claude_auto_naming_extend_docs.md`

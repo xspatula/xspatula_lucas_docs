@@ -17,17 +17,19 @@ from hand-authored Excel files, not from the generated CSV output.
 
 ## Notebook
 
-**Path**: `xspatula_lucas/lucas/import_data/insert_lucas_dataset_meta.ipynb`
+**Path**: `xspatula_lucas/lucas/import_data/insert_lucas_data.ipynb`, block **2. Dataset metadata**
 
 Four cells, each an `insert_tabular_data` process file — translate and insert in one step:
 
-1. Insert data source (`import_data/dataset_meta/insert_process/data_source.json`)
-2. Insert persons (`import_data/dataset_meta/insert_process/person.json`)
-3. Insert dataset meta (`import_data/dataset_meta/insert_process/dataset.json`)
-4. Insert campaigns (`import_data/dataset_meta/insert_process/campaign.json`)
+| Cell | Process file | Detail |
+|---|---|---|
+| 2.1 Insert data source | `import_data/dataset_meta/insert_process/data_source.json` | [Data source][dm_data_source] |
+| 2.2 Insert persons | `import_data/dataset_meta/insert_process/person.json` | [Person][dm_person] |
+| 2.3 Insert dataset | `import_data/dataset_meta/insert_process/dataset.json` | [Dataset][dm_dataset] |
+| 2.4 Insert campaigns | `import_data/dataset_meta/insert_process/campaign.json` | [Campaign][dm_campaign] |
 
-Set `scheme_file = '../scheme_lucas.json'` in the notebook's setup cell (already the default),
-then run all four cells in order — each depends on the one before it.
+Run the four cells in order — each depends on the one before it. Block 2 covers both LUCAS 2009
+and 2015: `campaign.xlsx` holds the LUCAS campaign and the BIOGEO16 campaign.
 
 ## Full detail
 
@@ -44,3 +46,7 @@ Proceed to [Load LUCAS 2009][load_lucas_2009].
 [utility_inherit_auto]: {{ site.baseurl }}/lucas_2009/utility_inherit_auto_explained/
 [insert_utility]: {{ site.baseurl }}/lucas_2009/insert_utility/
 [load_lucas_2009]: {{ site.baseurl }}/lucas_2009/load_lucas_2009/
+[dm_data_source]: {{ site.baseurl }}/lucas_2009/dataset_meta_explained/#data-source
+[dm_person]: {{ site.baseurl }}/lucas_2009/dataset_meta_explained/#person
+[dm_dataset]: {{ site.baseurl }}/lucas_2009/dataset_meta_explained/#dataset
+[dm_campaign]: {{ site.baseurl }}/lucas_2009/dataset_meta_explained/#campaign
