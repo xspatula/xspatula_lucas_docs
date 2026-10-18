@@ -36,7 +36,7 @@ hours the import takes. Dump again after every change to the import. See
 **LUCAS 2015 falls under the same [LUCAS_SOIL licence agreement][lucas_license] as LUCAS 2009.
 Sharing the data is not permitted**, so do not pass a LUCAS dump, the generated import files or
 extracted datasets to anyone outside your own organisation. See
-[LUCAS license][synopsis_license].
+[LUCAS license][synopsis_license] under the LUCAS 2009 documentation.
 
 ## 1. Download the source files
 
