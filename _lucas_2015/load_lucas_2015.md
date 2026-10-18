@@ -25,11 +25,25 @@ of the notebook `insert_lucas_data.ipynb`. For the detail behind each step, foll
 - LUCAS 2009 does **not** have to be loaded first. But you need `LUCAS.SOIL_corr.csv` on disk
   for the texture backfill (below).
 
+## Dump and restore
+
+Once LUCAS 2015 (and 2009) are loaded, dump the database with
+`xspatula_lucas/setup/dump_restore_db.ipynb`. Restoring the dump takes minutes instead of the
+hours the import takes. Dump again after every change to the import. See
+[Dump once, restore in minutes][synopsis_dump] and, for the full instructions,
+[Dump and restore][dump_restore] on the core docs site.
+
+**LUCAS 2015 falls under the same [LUCAS_SOIL licence agreement][lucas_license] as LUCAS 2009.
+Sharing the data is not permitted**, so do not pass a LUCAS dump, the generated import files or
+extracted datasets to anyone outside your own organisation. See
+[LUCAS license][synopsis_license].
+
 ## 1. Download the source files
 
 LUCAS 2009 comes as one file with lab data, coordinates, dates and spectra together. LUCAS 2015
 splits them up. The soil data are on ESDAC and need the same request form as 2009 (name,
-organisation, purpose, licence acceptance); the master grid is on Eurostat.
+organisation, purpose, acceptance of the [licence agreement][lucas_license]); the master grid is
+on Eurostat.
 
 ### Download list
 
@@ -177,7 +191,8 @@ not exist`. Increase `RECORDS` (or set it to `0`) and re-run the script.
 ## After block 4
 
 LUCAS 2015 is loaded as a second sampling log, `lucas european union 2015` / `lucas_eu_2015`, of
-the same campaign as LUCAS 2009, and shares geolocations for revisited points. The
+the same campaign as LUCAS 2009, and shares geolocations for revisited points. Now is the time
+to [dump the database][synopsis_dump], for your own use only. The
 [Machine learning][explore_select_data] pipeline works the same way. To extract only the 2015
 data, set `"sampling_log": "lucas_eu_2015"` in the select processes; the output files then land
 under `.../lucas_eu_2015/`. To get both rounds, leave `sampling_log` empty and set
@@ -186,6 +201,10 @@ same as for 2009. If you combine 2009 and 2015 extractions, set the same target 
 shared indicator (see [Indicator units][indicator_units]).
 
 [synopsis]: {{ site.baseurl }}/lucas_2009/
+[synopsis_dump]: {{ site.baseurl }}/lucas_2009/#dump-once-restore-in-minutes
+[synopsis_license]: {{ site.baseurl }}/lucas_2009/#lucas-license-the-data-may-not-be-shared
+[dump_restore]: https://xspatula.github.io/xspatula_core_docs/setup_db/dump_restore/
+[lucas_license]: https://esdac.jrc.ec.europa.eu/projects/LUCAS/Documents/LUCAS_SOIL_LIC_AGR_final_for_web.pdf
 [prepare_data]: {{ site.baseurl }}/lucas_2009/prepare_data/
 [prepare_data_output]: {{ site.baseurl }}/lucas_2009/prepare_data/#what-it-generates
 [insert_utility]: {{ site.baseurl }}/lucas_2009/insert_utility/

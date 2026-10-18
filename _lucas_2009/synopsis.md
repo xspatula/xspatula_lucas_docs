@@ -16,6 +16,41 @@ This is the full walkthrough for first loading the LUCAS 2009 soil sampling camp
   the [repository README](https://github.com/xspatula/xspatula_lucas).
 - A [scheme file](https://xspatula.github.io/xspatula_core_docs/framework/scheme_file/) pointing at your database, e.g. `xspatula_lucas/lucas/scheme_lucas.json`.
 
+## Dump once, restore in minutes
+
+Loading LUCAS 2009 and 2015 (setup plus import) takes hours. Once the database is complete, write
+it to a single dump file with `xspatula_lucas/setup/dump_restore_db.ipynb`. Restoring the dump
+later, on the same or another of your own machines, takes minutes and replaces re-running the
+whole setup and import. Set `dump_path` under `postgresdb` in `setup/zzz/scheme_local_setup.json`
+(default `~/xspatula/db_dump/lucas.dump`); keep the file outside the project directory.
+
+- ⚠️ A restore drops an existing `lucas` database (after confirmation) and replaces it with the dump.
+- Re-dump after every change to the import. A restore is only as current as its dump.
+- The dump restores the whole database only. LUCAS data cannot be restored on top of another
+  project's database: the `SERIAL` ids collide.
+
+The full instructions, including command line alternatives, are on the core docs site:
+[Dump and restore][dump_restore].
+
+## LUCAS license: the data may not be shared
+
+The LUCAS topsoil data are released by ESDAC under the
+[LUCAS_SOIL licence agreement][lucas_license], which you accept when you request the download.
+The licence is personal and non-transferable, sub-licensing is not allowed (art. 3), and the data
+may be accessed only by you and staff of your own organisation on a need-to-know basis (art. 8).
+This applies to both LUCAS 2009 and LUCAS 2015, and to anything that contains the data:
+
+- **Do not share a LUCAS dump** outside your organisation. The core docs describe
+  [sharing a premade database][dump_restore_share]; for LUCAS, that option is **not** permitted.
+  Every user must request the data from ESDAC and accept the licence themselves.
+- The same goes for the generated JSON import files and the Parquet files extracted for machine
+  learning.
+- Use is limited to non-commercial purposes (art. 3); developing new products or services with
+  the data requires prior written consent from the JRC (art. 10).
+- Acknowledge the source in reports, papers and presentations (art. 9): *"The LUCAS topsoil
+  dataset used in this work was made available by the European Commission through the European
+  Soil Data Centre managed by the Joint Research Centre (JRC), http://esdac.jrc.ec.europa.eu/"*.
+
 ## The pipeline, end to end
 
 ### Data loading pipeline
@@ -102,6 +137,9 @@ LUCAS 2015 follows the same four steps, with block 4 of the notebook — see [LU
 - [ML modeling][ml_model] — train and evaluate regressors, and the full list of available Machine Learning models
 
 [setup_db]: https://xspatula.github.io/xspatula_core_docs/setup_db/
+[dump_restore]: https://xspatula.github.io/xspatula_core_docs/setup_db/dump_restore/
+[dump_restore_share]: https://xspatula.github.io/xspatula_core_docs/setup_db/dump_restore/#sharing-a-premade-database
+[lucas_license]: https://esdac.jrc.ec.europa.eu/projects/LUCAS/Documents/LUCAS_SOIL_LIC_AGR_final_for_web.pdf
 [prepare_data]: {{ site.baseurl }}/lucas_2009/prepare_data/
 [insert_dataset_meta]: {{ site.baseurl }}/lucas_2009/insert_dataset_meta/
 [insert_utility]: {{ site.baseurl }}/lucas_2009/insert_utility/

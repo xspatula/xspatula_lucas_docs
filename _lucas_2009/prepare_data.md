@@ -12,8 +12,10 @@ Generate the JSON job, pilot, and process files needed to load the LUCAS 2009 ca
 ## 1. Download the source files
 
 The soil data are published by ESDAC (the European Soil Data Centre at the JRC) and are free, but
-you must fill in a request form (name, organisation, purpose, licence acceptance) before you get
-download access. The master grid with the BIOGEO16 regions is published by Eurostat without
+you must fill in a request form (name, organisation, purpose, acceptance of the
+[LUCAS_SOIL licence agreement][lucas_license]) before you get download access. The licence is
+personal: you may not pass the downloaded files, or anything generated from them, to anyone
+outside your own organisation (see [LUCAS license][synopsis_license]). The master grid with the BIOGEO16 regions is published by Eurostat without
 registration.
 
 ### Download list
@@ -232,3 +234,5 @@ Proceed to [Insert utility][insert_utility].
 [insert_utility]: {{ site.baseurl }}/lucas_2009/insert_utility/
 [insert_dataset_meta]: {{ site.baseurl }}/lucas_2009/insert_dataset_meta/
 [load_lucas_2009]: {{ site.baseurl }}/lucas_2009/load_lucas_2009/
+[lucas_license]: https://esdac.jrc.ec.europa.eu/projects/LUCAS/Documents/LUCAS_SOIL_LIC_AGR_final_for_web.pdf
+[synopsis_license]: {{ site.baseurl }}/lucas_2009/#lucas-license-the-data-may-not-be-shared

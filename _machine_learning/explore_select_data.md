@@ -15,6 +15,11 @@ Spectra, indicators (the targets you want to predict) and covariates (e.g. land 
 biogeographic region) are selected **separately**, each into its own tag-named Parquet file. A
 compile step then joins them on `sample_id` into the dataset that every later ML step works on.
 
+The extracted files contain LUCAS data and fall under the
+[LUCAS_SOIL licence agreement][lucas_license]: keep them within your own organisation. Published
+results must be aggregated so that no individual point can be identified, and maps may not show
+detectable sample locations (art. 5).
+
 ## Notebooks
 
 All notebooks are under `xspatula_lucas/lucas/project_lucas_2009/`. Set
@@ -598,3 +603,4 @@ Proceed to [ML preprocessing][ml_preprocess] to clean and transform the compiled
 [auto_naming_explained]: {{ site.baseurl }}/lucas_2009/auto_naming_explained/
 [utility_explained]: {{ site.baseurl }}/lucas_2009/utility_explained/
 [data_cleaning]: {{ site.baseurl }}/lucas_2009/prepare_data/#data-cleaning
+[lucas_license]: https://esdac.jrc.ec.europa.eu/projects/LUCAS/Documents/LUCAS_SOIL_LIC_AGR_final_for_web.pdf

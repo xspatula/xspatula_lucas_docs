@@ -69,6 +69,10 @@ lab observation and one spectral observation per sample, plus land cover, land u
 biogeographic region per point. See [Dataset metadata explained], [Samples
 explained], and [Observations explained] for what the resulting tables look like in more depth.
 
+If you also load LUCAS 2015, do that first. Then [dump the database][synopsis_dump]: restoring a
+dump takes minutes, the import takes hours. The dump is for your own use only; the
+[LUCAS licence][synopsis_license] does not permit sharing it.
+
 You can also continue directly with the [Machine Learning - Explore & Select Data][machine_learning]
 section, or load the next campaign, [LUCAS 2015][lucas_2015].
 
@@ -91,3 +95,5 @@ section, or load the next campaign, [LUCAS 2015][lucas_2015].
 [Dataset metadata explained]: {{ site.baseurl }}/lucas_2009/dataset_meta_explained/
 [lucas_2015]: {{ site.baseurl }}/lucas_2015/
 [machine_learning]: {{ site.baseurl }}/lucas_2009/machine_learning/explore_select_data/
+[synopsis_dump]: {{ site.baseurl }}/lucas_2009/#dump-once-restore-in-minutes
+[synopsis_license]: {{ site.baseurl }}/lucas_2009/#lucas-license-the-data-may-not-be-shared
