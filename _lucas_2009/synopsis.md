@@ -90,12 +90,12 @@ example, switch off every cell in block 4.
 ### Machine learning pipeline
 
 ```
-1. Explore & select   explore_select_data.ipynb  →  browse the loaded data, pull a working subset
-                                                      to local disk, plot it
-2. Preprocess          ml_preprocess.ipynb        →  clean, transform, and select bands, saving
-                                                      each result as a new .parquet/.json pair
-3. Model                ml_model.ipynb             →  train and evaluate regressors against any
-                                                      of the datasets step 2 produced
+1. Select       select_*_only.ipynb    →  count samples, pull a working subset to local disk,
+                                           inspect and plot it
+2. Preprocess   ml_preprocess.ipynb    →  clean, transform, and select bands, saving
+                                           each result as a new .parquet/.json pair
+3. Model        ml_model.ipynb         →  train and evaluate regressors against any
+                                           of the datasets step 2 produced
 ```
 
 Unlike the data loading pipeline above, only the three macro-steps are fixed — data must be
@@ -131,7 +131,9 @@ LUCAS 2015 follows the same four steps, with block 4 of the notebook — see [LU
 
 **Machine learning — once the campaign is loaded:**
 
-- [Explore & select data][explore_select_data] — browse and pull a working subset to local disk
+- [Select data][select_data] — count samples, filter by class and pull a working subset to local disk
+- [Parquet files][parquet_files] — what a selection saves; inspect and compile
+- [Plot data][plot_data] — indicator, class and spectra plots
 - [ML preprocessing][ml_preprocess] — clean, transform, and select bands; the full catalogue of
   available algorithms and how output is chained
 - [ML modeling][ml_model] — train and evaluate regressors, and the full list of available Machine Learning models
@@ -150,7 +152,9 @@ LUCAS 2015 follows the same four steps, with block 4 of the notebook — see [LU
 [foreign_key_explained]: {{ site.baseurl }}/lucas_2009/foreign_key_explained/
 [Samples explained]: {{ site.baseurl }}/lucas_2009/samples_explained/
 [Observations explained]: {{ site.baseurl }}/lucas_2009/observations_explained/
-[explore_select_data]: {{ site.baseurl }}/lucas_2009/machine_learning/explore_select_data/
+[select_data]: {{ site.baseurl }}/lucas_2009/machine_learning/select_data/
+[parquet_files]: {{ site.baseurl }}/lucas_2009/machine_learning/parquet_files/
+[plot_data]: {{ site.baseurl }}/lucas_2009/machine_learning/plot_data/
 [ml_preprocess]: {{ site.baseurl }}/lucas_2009/machine_learning/ml_preprocess/
 [ml_model]: {{ site.baseurl }}/lucas_2009/machine_learning/ml_model/
 [lucas_2015]: {{ site.baseurl }}/lucas_2015/

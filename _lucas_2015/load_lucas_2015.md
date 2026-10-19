@@ -216,8 +216,8 @@ shared indicator (see [Indicator units][indicator_units]).
 [obs_spectra]: {{ site.baseurl }}/lucas_2009/observations_explained/#spectral-observations
 [obs_landscape]: {{ site.baseurl }}/lucas_2009/observations_explained/#landscape-observations
 [obs_biogeo]: {{ site.baseurl }}/lucas_2009/observations_explained/#biogeographic-region-biogeo16-observations
-[explore_select_data]: {{ site.baseurl }}/lucas_2009/machine_learning/explore_select_data/
-[indicator_units]: {{ site.baseurl }}/lucas_2009/machine_learning/explore_select_data/#indicator-units
+[explore_select_data]: {{ site.baseurl }}/lucas_2009/machine_learning/select_data/
+[indicator_units]: {{ site.baseurl }}/lucas_2009/machine_learning/parquet_files/#indicator-units
 [data_cleaning]: {{ site.baseurl }}/lucas_2009/prepare_data/#data-cleaning
 [auto_naming]: {{ site.baseurl }}/lucas_2009/auto_naming_explained/#the-lucas-chain
 [obs_biogeo_sl]: {{ site.baseurl }}/lucas_2009/observations_explained/#biogeo16-sampling-log

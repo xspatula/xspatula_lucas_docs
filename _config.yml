@@ -308,10 +308,11 @@ nav_order:
     - samples_explained
     - observations_explained
   machine_learning:
-    - explore_select_data
+    - select_data
+    - parquet_files
+    - plot_data
     - ml_preprocess
     - ml_model
-    - inspect_dataset
   lucas_2015:
     - load_lucas_2015
 

@@ -94,6 +94,6 @@ section, or load the next campaign, [LUCAS 2015][lucas_2015].
 [Observations explained (BIOGEO16)]: {{ site.baseurl }}/lucas_2009/observations_explained/#biogeographic-region-biogeo16-observations
 [Dataset metadata explained]: {{ site.baseurl }}/lucas_2009/dataset_meta_explained/
 [lucas_2015]: {{ site.baseurl }}/lucas_2015/
-[machine_learning]: {{ site.baseurl }}/lucas_2009/machine_learning/explore_select_data/
+[machine_learning]: {{ site.baseurl }}/lucas_2009/machine_learning/select_data/
 [synopsis_dump]: {{ site.baseurl }}/lucas_2009/#dump-once-restore-in-minutes
 [synopsis_license]: {{ site.baseurl }}/lucas_2009/#lucas-license-the-data-may-not-be-shared

@@ -567,5 +567,5 @@ script's output.
 [auto_naming_explained]: {{ site.baseurl }}/lucas_2009/auto_naming_explained/
 [data_cleaning]: {{ site.baseurl }}/lucas_2009/prepare_data/#data-cleaning
 [utility_explained]: {{ site.baseurl }}/lucas_2009/utility_explained/
-[covariate_ranks]: {{ site.baseurl }}/lucas_2009/machine_learning/explore_select_data/#covariates-and-ranks
+[covariate_ranks]: {{ site.baseurl }}/lucas_2009/machine_learning/select_data/#covariates-and-ranks
 [utility_ranked]: {{ site.baseurl }}/lucas_2009/utility_explained/#land-cover-and-land-use-one-ranked-table-per-scheme

@@ -76,7 +76,7 @@ The conversion formula is `dst_value = (src_value * factor + addon) ** exponent`
 Loaded as part of [Insert utility][insert_utility]'s cell 1.2, in the dependent tier — after `unit`
 and after `foreign_key` (cell 1.1) has already populated the two rows above. See [Utility explained][utility_explained] for the full cell sequence.
 
-**Where it's actually used**: the select processes (see [Indicator units][explore_select_data]) look up
+**Where it's actually used**: the select processes (see [Indicator units][indicator_units]) look up
 `unit_translate` rows on the fly to translate each indicator into its configured target unit. If a
 needed row is missing, it raises an error naming exactly what to add — same fix as below.
 
@@ -124,4 +124,4 @@ Two import rules apply:
 [core_foreign_key]: https://xspatula.github.io/xspatula_core_docs/setup_db/foreign_key/
 [insert_utility]: {{ site.baseurl }}/lucas_2009/insert_utility/
 [utility_explained]: {{ site.baseurl }}/lucas_2009/utility_explained/
-[explore_select_data]: {{ site.baseurl }}/lucas_2009/machine_learning/explore_select_data/
+[indicator_units]: {{ site.baseurl }}/lucas_2009/machine_learning/parquet_files/#indicator-units

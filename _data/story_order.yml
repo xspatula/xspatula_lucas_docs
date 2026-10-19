@@ -17,8 +17,9 @@
 - /lucas_2009/foreign_key_explained/
 - /lucas_2009/samples_explained/
 - /lucas_2009/observations_explained/
-- /lucas_2009/machine_learning/explore_select_data/
+- /lucas_2009/machine_learning/select_data/
+- /lucas_2009/machine_learning/parquet_files/
+- /lucas_2009/machine_learning/plot_data/
 - /lucas_2009/machine_learning/ml_preprocess/
 - /lucas_2009/machine_learning/ml_model/
-- /lucas_2009/machine_learning/inspect_dataset/
 - /lucas_2015/

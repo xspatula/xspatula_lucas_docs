@@ -7,8 +7,8 @@ permalink: /lucas_2009/machine_learning/ml_preprocess/
 author_profile: false
 ---
 
-Cleans and transforms the dataset [Explore & select data][explore_select_data] pulled out of the
-database — outlier removal, scaling, scatter correction, derivatives, decomposition, filtering,
+Cleans and transforms the dataset [Select data][explore_select_data] pulled out of the
+database and [compiled][compile] — outlier removal, scaling, scatter correction, derivatives, decomposition, filtering,
 band agglomeration, and feature selection — each step saving a new, separately named dataframe
 rather than overwriting the last.
 
@@ -35,16 +35,19 @@ appends an abbreviation to the previous file's base name:
 Derived files keep the stem of the dataset plus the step suffixes (`DERIVED_STEM_RE` in
 `src/ai4sh/parquet_units.py` recognises them, so a derived file is never mistaken for the
 selection itself). So starting from `lucas_2009_10nm.parquet` (the compiled dataset from
-[Explore & select data][explore_select_data], in `data/compiled/lucas_2009_10nm/`), meancentring produces `..._mc.parquet`, a
+[Compile the project dataset][compile], in `data/compiled/lucas_2009_10nm/`), meancentring produces `..._mc.parquet`, a
 first derivative on that produces `..._mc_d1.parquet`, and a 5-component PCA on that produces
 `..._mc_d1_pca5.parquet` — each a real file on disk, all three keepable side by side.
 
 ### The hidden `.previous_dataframe` file
 
 Rather than typing out the exact chained filename in every process file, set
-`"dataframe": "previous"` and the framework resolves it from `.previous_dataframe` — a small JSON
-file at the project's data root (`data/compiled/lucas_2009_10nm/.previous_dataframe`) that every step
-updates after it runs:
+`"dataframe": "previous"` and the framework resolves it from `.previous_dataframe`, a small JSON
+file at the project's data root (`data/compiled/lucas_2009_10nm/.previous_dataframe`). Every step
+appends a record to its `history` after it runs; the last record is the previous dataframe. Compile
+registers the compiled dataset there too, so right after compiling, "previous" is the compiled
+dataset. The default `"dataframe": "raw"` reads the latest selected (not derived) file. See
+[The previous dataframe][previous_dataframe] for the file format. The last record looks like:
 
 ```json
 {
@@ -383,5 +386,7 @@ shown above corrected to `project_lucas_2009/...`.
 Once you have a dataframe you're happy with, proceed to [ML modeling][ml_model] to train and
 evaluate regressors against it.
 
-[explore_select_data]: {{ site.baseurl }}/lucas_2009/machine_learning/explore_select_data/
+[explore_select_data]: {{ site.baseurl }}/lucas_2009/machine_learning/select_data/
+[compile]: {{ site.baseurl }}/lucas_2009/machine_learning/parquet_files/#compile-the-project-dataset
+[previous_dataframe]: {{ site.baseurl }}/lucas_2009/machine_learning/parquet_files/#the-previous-dataframe-previous_dataframe
 [ml_model]: {{ site.baseurl }}/lucas_2009/machine_learning/ml_model/

@@ -204,7 +204,7 @@ If you load (or reload) the data after these fixes:
 3. Load 2009 ([Load LUCAS 2009][load_lucas_2009]), and 2015 if you use it.
 
 The selection step in machine learning screens the values once more; see
-[Invalid values]({{ site.baseurl }}/lucas_2009/machine_learning/explore_select_data/#invalid-values).
+[Invalid values]({{ site.baseurl }}/lucas_2009/machine_learning/parquet_files/#invalid-values).
 
 ## What it generates
 
