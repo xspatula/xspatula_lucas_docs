@@ -181,3 +181,11 @@ Deviations from the notes above (checked against code at `xspatula_lucas` HEAD `
   abstracts contradict `iuss_by_tg` (e.g. sandy clay loam clay 25–45 in xlsx vs 15–25 in code;
   loam clay 0–25 vs <15; silty clay/light clay clay 45–65 vs 25–45). Page lists class names and
   major groups only. Fix the xlsx abstracts in the code repo, then ranges can be added.
+
+## Done 2026-10-19 (later)
+
+- IUSS abstracts fixed in `nominal_classes.xlsx` in `xspatula_lucas` (86cc0f0) and `xspatula_ai4sh`
+  (48def453f): bounding ranges of `iuss_by_tg` on a 0.1 % grid. DB needs cell 1.2 re-run with
+  overwrite to update `nominal_classification.abstract`.
+- Ranges table (USDA + IUSS sand/silt/clay per class, from the xlsx abstracts) added after the
+  major-group table in `observations_explained.md` (and in ai4sh `_observation/synopsis.md`).
