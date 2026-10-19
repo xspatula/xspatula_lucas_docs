@@ -11,20 +11,48 @@ Reference page — not required reading to complete the [Load LUCAS 2009][load_l
 walkthrough, only if you want the detail behind its observation-log and observation steps —
 laboratory, spectral, landscape (land cover/use) and biogeographic region (BIOGEO16).
 
-## Two kinds of observation
+## Three kinds of observation value
 
 LUCAS 2009 records two different shapes of measurement, and the underlying `manage_observation`
 process stores them in different tables depending on the shape of the `@`-prefixed parameter
-value it's given:
+value it's given. A third kind, soil texture classes, is not in the source data but derived from
+the laboratory values while they are loaded:
 
-| Measurement shape | Example | Stored in |
+| Value | Example | Stored in |
 |---|---|---|
 | Single value per indicator (laboratory) | `@ph-h2o: 6.8` | `observation.observation_measurement` |
 | Array per indicator (spectra) | `@diffuse reflectance: [0.34, 0.34, ...]` | `observation.observation_measurement_array` |
+| Class per texture system, derived from `@clay`, `@silt`, `@sand` | `soil texture usda`: `silt loam` | `observation.observation_classification` |
 
-Both kinds share the same `observation.observation` record shape otherwise — an observation log,
-sample, provision, subsample, replicate, and timestamp — the only difference is which child table
-the indicator's value lands in.
+All three hang on the same `observation.observation` record — an observation log, sample,
+provision, subsample, replicate, and timestamp — the only difference is which child table the
+value lands in.
+
+### The `@` prefix
+
+In a `manage_observation` process file (and in the source Excel/CSV it is built from), any
+parameter whose name starts with `@` is an observation value, not a column of
+`observation.observation`. The general explanation is in the AI4SH documentation,
+[The @ prefix for observation values][at_prefix_ai4sh]. In short:
+
+- The text after `@` must be the **name or alias** of an indicator registered for the
+  observation's provision in `observation_utility.provision_indicator` (from
+  `lucas/import_data/utility/observation/excel/provision_indicator.xlsx`). An `@` key that is not
+  registered **stops the import** with `No indicator found for name/alias: <key>`.
+- Value handling, per `@` key:
+
+| Value given | Stored |
+|---|---|
+| number | as is |
+| string starting with `<` (below detection limit, e.g. `"<6"`) | half the limit (`3.0`) |
+| other non-numeric string | nothing; warning `⚠️ Value for indicator … is not a number` |
+| missing or empty | nothing for that indicator |
+| list (spectra) | the array, in `observation_measurement_array` |
+
+- For LUCAS 2009 the prepare script already halves `<` values (see [Data cleaning][data_cleaning]);
+  the database loader halves any `<` value it still receives.
+- The unit is not in the observation record. It comes from the provision's `provision_indicator`
+  row.
 
 ## Laboratory observations
 
@@ -152,7 +180,133 @@ optional, not fixed-width.
 | `CEC` | `@cec` | Cation exchange capacity | cmolc/kg |
 
 The unit is not in the observation record: it comes from the provision's row in
-`provision_indicator.xlsx` (`lucas wetlab 2009`).
+`provision_indicator.xlsx` (`lucas wetlab 2009`). For `@` value handling (below-detection
+strings, non-numeric values, unregistered keys) see [The `@` prefix](#the--prefix).
+
+## Derived soil texture classes
+
+After a laboratory observation's `@` values are written to `observation_measurement`, the loader
+derives soil texture classes from the same `@clay`, `@silt` and `@sand` values and stores them.
+There is no extra notebook cell or process file: it happens inside the normal lab-observation load
+(**3.4.2**, 2015: **4.4.2** in `insert_lucas_data.ipynb`).
+
+**Code**: `_Insert_derived_classifications` in `src/ai4sh/import_data/import_data.py`; the
+classifiers are in `src/ai4sh/import_data/nominal_classification.py`.
+
+### Four derived indicators
+
+| Indicator name | Alias | Classes | Meaning |
+|---|---|---|---|
+| `soil texture class usda` | `soil texture usda` | 12 | USDA texture triangle |
+| `soil texture class usda major group` | `soil texture usda major group` | 4 | aggregation of the 12 USDA classes |
+| `soil texture class iuss` | `soil texture iuss` | 12 | IUSS (ISSS) texture triangle |
+| `soil texture class iuss major group` | `soil texture iuss major group` | 4 | aggregation of the 12 IUSS classes |
+
+The classes, and how they aggregate to the four major groups (as in
+`lucas/import_data/utility/observation/excel/nominal_classes.xlsx` and the classifier):
+
+| Major group | USDA classes | IUSS classes |
+|---|---|---|
+| heavy clayey soils | clay, silty clay | clay, silty clay, light clay |
+| light clayey soils | sandy clay, silty clay loam, clay loam, sandy clay loam | sandy clay, silty clay loam, clay loam, sandy clay loam |
+| loamy soils | silt loam, silt, loam, sandy loam | silt loam, loam, sandy loam |
+| sandy soils | loamy sand, sand | loamy sand, sand |
+
+### Inputs and formulas
+
+Inputs are the `@` values of the same observation. The classifier also accepts split fractions
+(`@fine silt`, `@coarse silt`, `@fine sand`, `@coarse sand`, as in AI4SH laboratory data), but
+LUCAS has only `@clay`, `@silt` and `@sand`.
+
+- **USDA**: sand = `@sand`, silt = `@silt`, clay = `@clay`.
+- **IUSS**: the IUSS silt/sand boundary is 0.02 mm, not 0.05 mm as in USDA, so coarse silt counts
+  as sand. LUCAS has no coarse silt, so the classifier approximates:
+  sand = SAND + SILT/2, silt = SILT/2, clay = CLAY. Half the measured silt is assumed to be coarse
+  silt.
+- **Sanity check**: if any of sand, silt or clay is missing, or sand + silt + clay (before the IUSS
+  transform) is outside **98–102 %**, no class is derived for that observation. This is not an
+  error; the observation simply gets no texture class.
+- A below-detection value (`"<x"`) has already been halved when the classifier sees it (see
+  [The `@` prefix](#the--prefix)), so the class is derived from the halved value.
+
+### Accuracy
+
+- **USDA, sand ≥ 70 % corner**: the decision tree uses box limits there (sand > 85 and clay < 8 →
+  sand; clay < 12 → loamy sand; else sandy loam) instead of the true diagonal lines of the
+  triangle. A small number of samples near the sand / loamy sand / sandy loam boundaries can get
+  the neighbouring class. Elsewhere the USDA tree matches the reference table.
+- **IUSS** is exact against the IUSS polygon vertices (tested on all 5151 integer
+  sand + silt + clay = 100 points). For LUCAS the input itself is approximate (the SILT/2 split
+  above), which is a larger source of uncertainty than the classifier.
+
+### Opt-in per provision
+
+A derived class is stored only if its indicator is registered for the observation's provision in
+`provision_indicator.xlsx`, with analysis method `derived` and unit `class`. In LUCAS all four
+indicators are registered for both `lucas wetlab 2009` and `lucas wetlab 2015`. Removing a row
+(e.g. a major group) switches that indicator off for that provision.
+
+Database prerequisites, all from [Insert utility][insert_utility] (see
+[Utility explained][utility_explained]):
+
+| Prerequisite | Excel file | Cell |
+|---|---|---|
+| quantity `class`, unit `class` | `quantity.xlsx`, `unit.xlsx` | 1.2 |
+| the four indicators, quantity `class` | `indicator.xlsx` | 1.2 |
+| analysis method `derived` | `analysis_method.xlsx` | 1.2 |
+| the 32 classes in `observation_utility.nominal_classification` | `nominal_classes.xlsx` (via `nominal_classes.json`) | 1.2 |
+| the `provision_indicator` rows | `provision_indicator.xlsx` | 1.3 |
+
+### Where it is stored
+
+`observation.observation_classification` — **not** `observation_measurement`:
+
+| Column | Content |
+|---|---|
+| `id` | BIGSERIAL |
+| `observation_id` | → `observation.observation(id)`, the lab observation |
+| `indicator_id` | → `observation_utility.indicator(id)`, e.g. `soil texture usda` |
+| `value_id` | → `observation_utility.nominal_classification(id)`, the class, e.g. `silt loam` |
+
+`UNIQUE (observation_id, indicator_id)`: one class per observation and texture system, so a lab
+observation with valid texture gets up to four rows. The table is audited for UPDATE and DELETE.
+
+List the classes per observation:
+
+```sql
+SELECT oc.observation_id,
+       i.alias AS indicator,
+       nc.name AS class
+FROM observation.observation_classification oc
+JOIN observation_utility.indicator i ON i.id = oc.indicator_id
+JOIN observation_utility.nominal_classification nc ON nc.id = oc.value_id
+ORDER BY oc.observation_id, i.alias;
+```
+
+### Re-runs and errors
+
+- Re-running the lab-observation cell on observations that already exist derives and stores
+  missing classes. Existing rows are left alone unless `overwrite` is set. No delete is needed
+  after fixing the utility data.
+- If texture can be derived but none of the four indicators is registered for the provision, the
+  loader prints an ERROR at every verbosity level, **once per provision per run**, lists what is
+  missing, and continues. Example, utility insert run without quantity `class`:
+
+```
+.  ❌ ERROR: soil texture can be derived for provision lucas wetlab 2009 but no derived class indicator is registered - no observation_classification will be stored for this provision (reported once per run, import continues):
+.      - quantity "class" missing in observation_utility.quantity (quantity.xlsx) - every derived class indicator depends on it
+.      - indicator "soil texture iuss" missing in observation_utility.indicator (indicator.xlsx)
+...
+```
+
+- The same once-per-run ERROR is printed for a `provision_indicator` row without analysis method,
+  and for a derived class missing in `nominal_classes.xlsx`.
+
+### Selection
+
+The derived classes are what class-filtered selection uses: `texture_class_array` in the select
+process, with the classification given by `texture_classification` (default `soil texture usda`).
+See [Select data → Soil texture][select_texture].
 
 ## Spectral observations
 
@@ -569,3 +723,5 @@ script's output.
 [utility_explained]: {{ site.baseurl }}/lucas_2009/utility_explained/
 [covariate_ranks]: {{ site.baseurl }}/lucas_2009/machine_learning/select_data/#covariates-and-ranks
 [utility_ranked]: {{ site.baseurl }}/lucas_2009/utility_explained/#land-cover-and-land-use-one-ranked-table-per-scheme
+[select_texture]: {{ site.baseurl }}/lucas_2009/machine_learning/select_data/#soil-texture
+[at_prefix_ai4sh]: https://xspatula.github.io/xspatula_ai4sh_docs/observation/translate_agrolab/#the--prefix-for-observation-values

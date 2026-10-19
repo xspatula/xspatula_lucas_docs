@@ -142,6 +142,10 @@ files.
   and stops as soon as all needed points are found. On the full dataset, about 60,000 values are
   backfilled across about 15,500 points. Note that these values are 2009 measurements stored under
   the 2015 lab observation.
+- **Texture classes** (USDA, IUSS and their major groups) are derived from `@clay`, `@silt` and
+  `@sand` during the lab-observation load (cell **4.4.2**), exactly as for 2009 — see
+  [Derived soil texture classes][obs_texture]. For revisited points with backfilled 2009 texture,
+  the 2015 texture class is therefore derived from those 2009 values.
 - **BIOGEO16** is joined from `LUCAS-Master-Grid.csv` exactly as for 2009. Its sampling log and
   observation log (`biogeo16 european union 2016`, `biogeo16 european union 2016@compilation`) are identical in both scripts. See
   [BIOGEO16 explained][obs_biogeo].
@@ -214,6 +218,7 @@ shared indicator (see [Indicator units][indicator_units]).
 [samples]: {{ site.baseurl }}/lucas_2009/samples_explained/
 [obs_lab]: {{ site.baseurl }}/lucas_2009/observations_explained/#laboratory-observations
 [obs_spectra]: {{ site.baseurl }}/lucas_2009/observations_explained/#spectral-observations
+[obs_texture]: {{ site.baseurl }}/lucas_2009/observations_explained/#derived-soil-texture-classes
 [obs_landscape]: {{ site.baseurl }}/lucas_2009/observations_explained/#landscape-observations
 [obs_biogeo]: {{ site.baseurl }}/lucas_2009/observations_explained/#biogeographic-region-biogeo16-observations
 [explore_select_data]: {{ site.baseurl }}/lucas_2009/machine_learning/select_data/

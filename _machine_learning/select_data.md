@@ -221,6 +221,8 @@ Common rules:
   `soil texture usda`, the default) and `soil texture class iuss` (alias `soil texture iuss`).
   `texture_classification` takes the name or alias.
 - Texture is an observation of the sample, unlike the three landscape classifications below.
+- The classes are derived from clay, silt and sand when the lab observations are loaded, see
+  [Derived soil texture classes][obs_texture].
 
 USDA classes, LUCAS samples (all sampling logs, current DB):
 
@@ -499,3 +501,4 @@ compile it.
 [utility_explained]: {{ site.baseurl }}/lucas_2009/utility_explained/
 [ai4sh_select]: https://xspatula.github.io/xspatula_ai4sh_docs/machine_learning/select_data/
 [lucas_license]: https://esdac.jrc.ec.europa.eu/projects/LUCAS/Documents/LUCAS_SOIL_LIC_AGR_final_for_web.pdf
+[obs_texture]: {{ site.baseurl }}/lucas_2009/observations_explained/#derived-soil-texture-classes

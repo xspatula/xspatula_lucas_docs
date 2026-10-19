@@ -55,6 +55,13 @@ follow the plain `xxx_id__yyy` convention, the `foreign_key` table from step 1; 
 [Foreign key explained][foreign_key_explained]), `nominal_classes` (needs `indicator`,
 `analysis_method` and `method_tier`)
 
+**Derived texture classes**: `nominal_classes.xlsx` holds the 32 soil texture classes (12 USDA,
+12 IUSS, 4 major groups for each), all with analysis method `derived`. Their four indicators
+(`soil texture usda`, `soil texture usda major group`, `soil texture iuss`,
+`soil texture iuss major group`) have quantity `class`, and unit `class` is in `unit.xlsx`. The
+classes are computed from clay, silt and sand while the lab observations load — see
+[Derived soil texture classes][obs_texture].
+
 **Shipped disabled** (commented out in the pilot file): `quantity_default_unit`. No
 `classification_species` records are defined yet — the predefined `unknown` species and the
 names copied down from genus (see below) are all there is. A few `# LEFT TODO` placeholders mark
@@ -77,6 +84,11 @@ detail later without breaking existing links. Adding records for `classification
 | `provision` | `apparatus`, `provider`, `method_tier` |
 | `provision_indicator` | `provision`, `indicator`, `method_tier` |
 | `provision_serial_nr` | `provision` |
+
+`provision_indicator.xlsx` registers, per provision, which indicators it measures, with analysis
+method and unit. Besides the measured lab indicators, `lucas wetlab 2009` and `lucas wetlab 2015`
+each register the four derived texture indicators with analysis method `derived` and unit
+`class`. Removing one of these rows switches that derived class off for the provision.
 
 ## 4. Insert landscape utility
 
@@ -138,3 +150,4 @@ of its fields (territory, license, spatial reference) resolve against tables ins
 [foreign_key_explained]: {{ site.baseurl }}/lucas_2009/foreign_key_explained/
 [load_lucas_2009]: {{ site.baseurl }}/lucas_2009/load_lucas_2009/
 [setup_db]: https://xspatula.github.io/xspatula_core_docs/setup_db/
+[obs_texture]: {{ site.baseurl }}/lucas_2009/observations_explained/#derived-soil-texture-classes
