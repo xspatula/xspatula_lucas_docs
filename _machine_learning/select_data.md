@@ -340,7 +340,7 @@ indicator file. In a test run, 37 indicator samples gave 37 spectra.
 Queries the database, resamples the spectra to a target wavelength grid, optionally converts the signal,
 and saves the result.
 
-**Process file**: `project_lucas_2009/process/select_lucas_spectra_2009_10nm.json`
+**Process file**: `project_lucas_2009/process/select/select_lucas_spectra_2009_10nm.json`
 
 ```json
 {
@@ -455,7 +455,7 @@ samples by position. `covariate_rank` is explained in [Covariates and ranks](#co
 `select_spectra` (role `all`) saves spectra, indicators and covariates in one file, without a compile
 step. Used by `explore_select_data.ipynb`.
 
-**Process file**: `project_lucas_2009/process/select_lucas_2009_10nm.json`: the parameters of
+**Process file**: `project_lucas_2009/process/select/select_lucas_2009_10nm.json`: the parameters of
 `select_lucas_spectra_2009_10nm.json` plus `indicator_array` and `data_range`.
 
 Default output name: `{begin}-{end}_{bandwidth}+{indicator aliases}[+{covariate aliases}]_{min}-{max}`

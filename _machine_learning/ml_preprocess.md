@@ -64,6 +64,15 @@ dataset. The default `"dataframe": "raw"` reads the latest selected (not derived
 }
 ```
 
+Each record also holds the **provenance** of the step: the process parameters, every settings
+set or file it read (with version and checksum), the software versions and the git commit. A
+[registered model][ml_predict] collects the parameter sets of all steps behind its input from these
+records.
+
+Settings parameters (`chemometrics`, `filter_fp`, `multi_filter_fp`, `model_parameters_fp`,
+`colormap`) take `none`, `default`, the name of a parameter set or a JSON file path; see
+[ML settings][ml_settings].
+
 The framework prints the resolved filename and asks you to confirm it interactively before
 proceeding — useful as a sanity check that you're chaining from the step you think you are. This
 is convenient for a linear chain but easy to point at the wrong thing if you've been branching
@@ -92,7 +101,7 @@ Checked directly against `src/ai4sh/machine_learning_preprocess.py`, `chemometri
 
 Flags and removes outlier rows for the chosen indicators.
 
-**Process file**: `project_lucas_2009/process/outlier_detection.json`
+**Process file**: `project_lucas_2009/process/ml_preprocess/outlier_detection.json`
 
 ```json
 {
@@ -115,7 +124,7 @@ Flags and removes outlier rows for the chosen indicators.
 "Always good to start with meancentring" — two chained sub-steps in one process file: scaling,
 then scatter correction reading `"dataframe": "previous"` (the just-written meancentred output).
 
-**Process file**: `project_lucas_2009/process/meancentring.json`
+**Process file**: `project_lucas_2009/process/ml_preprocess/meancentring.json`
 
 ```json
 {
@@ -140,7 +149,7 @@ then scatter correction reading `"dataframe": "previous"` (the just-written mean
 
 Drops low-variance bands to reduce overfitting risk, saving a new dataframe.
 
-**Process file**: `project_lucas_2009/process/variance_threshold_selection.json`
+**Process file**: `project_lucas_2009/process/ml_preprocess/variance_threshold_selection.json`
 
 ```json
 {
@@ -160,7 +169,7 @@ Drops low-variance bands to reduce overfitting risk, saving a new dataframe.
 
 ## Chemometric scatter correction
 
-**Process file**: `project_lucas_2009/process/chemometric_scatter_correction.json`
+**Process file**: `project_lucas_2009/process/ml_preprocess/chemometric_scatter_correction.json`
 
 ```json
 {
@@ -180,11 +189,11 @@ Drops low-variance bands to reduce overfitting risk, saving a new dataframe.
 **Fix needed**: the notebook cell's `process_file` currently reads
 `project_neospectra/process/chemometric_scatter_correction.json` — that directory doesn't exist
 in this repo. Shown above pointing at the matching file that does exist,
-`project_lucas_2009/process/chemometric_scatter_correction.json`. See `notes/xspatula_lucas.md`.
+`project_lucas_2009/process/ml_preprocess/chemometric_scatter_correction.json`. See `notes/xspatula_lucas.md`.
 
 ## Chemometric derivatives on scatter correction
 
-**Process file**: `project_lucas_2009/process/chemometric_derivatives.json`
+**Process file**: `project_lucas_2009/process/ml_preprocess/chemometric_derivatives.json`
 
 ```json
 {
@@ -203,7 +212,7 @@ in this repo. Shown above pointing at the matching file that does exist,
 
 ## Chemometric decomposition on derivatives
 
-**Process file**: `project_lucas_2009/process/chemometric_decomposition.json`
+**Process file**: `project_lucas_2009/process/ml_preprocess/chemometric_decomposition.json`
 
 ```json
 {
@@ -227,7 +236,7 @@ Runs scaling, scatter correction, and decomposition as one combined step instead
 separate cells — a shortcut for the common case, using the same defaults as running them one at a
 time.
 
-**Process file**: `project_lucas_2009/process/chemometric_default_chain.json`
+**Process file**: `project_lucas_2009/process/ml_preprocess/chemometric_default_chain.json`
 
 ```json
 {
@@ -247,13 +256,13 @@ time.
 
 **Fix needed**: same as the scatter correction step above — the notebook cell currently points at
 `project_neospectra/process/chemometric_default_chain.json`; shown above pointing at
-`project_lucas_2009/process/chemometric_default_chain.json`, which exists with correct content.
+`project_lucas_2009/process/ml_preprocess/chemometric_default_chain.json`, which exists with correct content.
 
 ## Filter raw data
 
 Smooths the raw spectra with a configurable filter before further processing.
 
-**Process file**: `project_lucas_2009/process/filter_spectra.json`
+**Process file**: `project_lucas_2009/process/ml_preprocess/filter_spectra.json`
 
 ```json
 {
@@ -271,7 +280,7 @@ Smooths the raw spectra with a configurable filter before further processing.
 ```
 
 **Fix needed**: notebook cell points at `project_neospectra/process/filter_spectra.json`; shown
-above pointing at `project_lucas_2009/process/filter_spectra.json`, which exists with correct
+above pointing at `project_lucas_2009/process/ml_preprocess/filter_spectra.json`, which exists with correct
 content. The `filter_fp` value itself, `savitzky-golay_neospectra.json`, is just an oddly-named
 filename left over from the same AI4SH template — it does exist at that path and works fine, no
 fix needed there.
@@ -280,7 +289,7 @@ fix needed there.
 
 Groups adjacent spectral bands into fewer, wider bands.
 
-**Process file**: `project_lucas_2009/process/agglomerate_spectra.json`
+**Process file**: `project_lucas_2009/process/ml_preprocess/agglomerate_spectra.json`
 
 ```json
 {
@@ -304,7 +313,7 @@ filter config above, just an oddly-named file that does exist.
 
 ## Autoscale the Ward-clustered output
 
-**Process file**: `project_lucas_2009/process/autoscale_agglomeration_output.json`
+**Process file**: `project_lucas_2009/process/ml_preprocess/autoscale_agglomeration_output.json`
 
 ```json
 {
@@ -328,7 +337,7 @@ filter config above, just an oddly-named file that does exist.
 
 Ranks bands per indicator using `SelectKBest`/`f_regression`.
 
-**Process file**: `project_lucas_2009/process/univariate_selection.json`
+**Process file**: `project_lucas_2009/process/ml_preprocess/univariate_selection.json`
 
 ```json
 {
@@ -347,6 +356,11 @@ Ranks bands per indicator using `SelectKBest`/`f_regression`.
 }
 ```
 
+`test_size` (default 0.3) holds out the same test samples as [ML modeling][ml_model] (from a hash of
+the `sample_id`) and selects the bands from the training samples only. Use the same `test_size` in
+the selection and the modeling, otherwise the model's test metrics include samples the selection has
+seen. The selected bands and the holdout are recorded in the companion JSON.
+
 **Fix needed**: notebook cell points at `project_neospectra/process/univariate_selection.json`;
 shown above corrected to `project_lucas_2009/...`. `univariate_selector_fp` itself is fine as
 shipped.
@@ -356,7 +370,7 @@ shipped.
 Ranks bands using a chosen regressor as the underlying estimator — one or more of `permutation`,
 `rfe`, or tree-based importance.
 
-**Process file**: `project_lucas_2009/process/permutation_selector.json`
+**Process file**: `project_lucas_2009/process/ml_preprocess/permutation_selector.json`
 
 ```json
 {
@@ -378,6 +392,9 @@ Ranks bands using a chosen regressor as the underlying estimator — one or more
 }
 ```
 
+`test_size` works as for univariate selection above. `model_parameters_fp: "default"` uses the
+`standard` regressor set; the selector settings come from the `standard` selector set.
+
 **Fix needed**: notebook cell points at `project_neospectra/process/permutation_selector.json`;
 shown above corrected to `project_lucas_2009/...`.
 
@@ -390,3 +407,5 @@ evaluate regressors against it.
 [compile]: {{ site.baseurl }}/lucas_2009/machine_learning/parquet_files/#compile-the-project-dataset
 [previous_dataframe]: {{ site.baseurl }}/lucas_2009/machine_learning/parquet_files/#the-previous-dataframe-previous_dataframe
 [ml_model]: {{ site.baseurl }}/lucas_2009/machine_learning/ml_model/
+[ml_settings]: {{ site.baseurl }}/lucas_2009/machine_learning/ml_settings/
+[ml_predict]: {{ site.baseurl }}/lucas_2009/machine_learning/ml_predict/

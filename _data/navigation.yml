@@ -69,8 +69,12 @@ lucas_2009:
         url: /lucas_2009/machine_learning/plot_data/
       - title: "ML preprocessing"
         url: /lucas_2009/machine_learning/ml_preprocess/
+      - title: "ML settings"
+        url: /lucas_2009/machine_learning/ml_settings/
       - title: "ML modeling"
         url: /lucas_2009/machine_learning/ml_model/
+      - title: "Predict and register"
+        url: /lucas_2009/machine_learning/ml_predict/
 
 lucas_2015:
   - title: LUCAS 2015

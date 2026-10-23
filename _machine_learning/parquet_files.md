@@ -156,8 +156,8 @@ Different provisions and campaigns can record the same indicator in different un
 processes harmonise them at extraction time, so every value in the saved `.parquet` ends up in one
 consistent unit per indicator.
 
-**Where the target unit comes from**: `lucas/default/plot/targetfeaturesymbols.json`, keyed by indicator
-name, e.g.:
+**Where the target unit comes from**: the plot symbol set `targetfeaturesymbols`
+([ML settings][ml_settings]), keyed by indicator alias, e.g.:
 
 ```json
 "c-org": {
@@ -168,9 +168,10 @@ name, e.g.:
 }
 ```
 
-All indicators in the default file use `"unit": "native"`. Point `targetfeaturesymbols` at a different
-file (a path, instead of `"default"`) to use your own per-indicator unit settings. The same file also
-drives the axis units and colours of the [plots][plot_data].
+All indicators in the preset use `"unit": "native"`. Set `targetfeaturesymbols` to your own custom set
+(or a JSON file path) instead of `"default"` to use your own per-indicator units. The same set also
+drives the axis units and colours of the [plots][plot_data]. A new indicator gets a grey placeholder
+symbol with `"unit": "native"` until you give it a real one.
 
 **Two ways to set an indicator's `unit`:**
 
@@ -343,7 +344,7 @@ listed. That is useful for finding the exact indicator or band name.
 Joins saved selections into one dataset. The compiled folder is the `project_root_fp` of all later ML
 steps.
 
-**Process file**: `project_lucas_2009/process/compile_lucas_2009_10nm.json`
+**Process file**: `project_lucas_2009/process/compile/compile_lucas_2009_10nm.json`
 
 ```json
 {
@@ -391,3 +392,4 @@ to `input_array`.
 [observations_explained]: {{ site.baseurl }}/lucas_2009/observations_explained/
 [foreign_key_explained]: {{ site.baseurl }}/lucas_2009/foreign_key_explained/#adding-a-new-unit-translation
 [data_cleaning]: {{ site.baseurl }}/lucas_2009/prepare_data/#data-cleaning
+[ml_settings]: {{ site.baseurl }}/lucas_2009/machine_learning/ml_settings/
