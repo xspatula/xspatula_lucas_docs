@@ -7,9 +7,10 @@ permalink: /lucas_2009/machine_learning/ml_model/
 author_profile: false
 ---
 
-Trains and evaluates regressors against any of the dataframes produced in
-[ML preprocessing][ml_preprocess] — raw, meancentred, derivative, PCA-reduced, band-selected, or
-any other chained variant.
+Trains and evaluates regressors on any dataframe produced in [ML preprocessing][ml_preprocess]:
+raw, meancentred, derivative, PCA-reduced, band-selected, or any other chained variant. Every saved
+model is a complete pipeline, from unprocessed spectra to a prediction in the native unit of the
+indicator, so it can be applied to new spectra (see [Predict and register][ml_predict]).
 
 ## Notebook
 
@@ -20,7 +21,7 @@ default), then run the modeling cell.
 
 ## Machine Learning modeling with train-test
 
-**Process file**: `project_lucas_2009/process/regression_modeling.json`
+**Process file**: `project_lucas_2009/process/ml_model/regression_modeling.json`
 
 ```json
 {
@@ -29,11 +30,13 @@ default), then run the modeling cell.
       "process": "regression_modeling",
       "overwrite": true,
       "parameters": {
-        "project_root_fp": "./project_lucas_2009/data/compiled/lucas_2009_10nm",
-        "dataframe": "raw",
+        "project_root_fp": "./project_lucas_2009/data/compiled/lucas_2009_wetlab_foss-xds_10nm",
+        "dataframe": "previous",
         "indicator_array": ["c-org", "sand"],
         "regressor_array": ["ols", "huber"],
-        "model_parameters_fp": "./project_lucas_2009/regressors/regression_model_parameters.json",
+        "model_parameters_fp": "default",
+        "indicator_transformation": "standard",
+        "indicator_standardisation": "none",
         "traintest": true,
         "test_size": 0.3,
         "kfold": false
@@ -45,72 +48,108 @@ default), then run the modeling cell.
 
 | Parameter | Description |
 |---|---|
-| `dataframe` | Which preprocessed dataframe to train against — `"raw"` for the unprocessed selection, an explicit chained name, or `"previous"` |
-| `indicator_array` | Which target indicators to fit a separate model for, one at a time |
-| `regressor_array` | Which regressors to fit per indicator — see the table below |
-| `model_parameters_fp` | Path to the hyperparameter file for every regressor, or `"default"` |
-| `traintest` | Split into train/test and evaluate on the held-out set |
-| `test_size` | Fraction held out for testing (0.3 = 30%) |
-| `kfold` | Use k-fold cross-validation instead of/alongside a single train-test split |
+| `dataframe` | The dataframe to model: `"raw"` for the unprocessed selection, an explicit chained name, or `"previous"` |
+| `indicator_array` | The target indicators; one model per indicator and regressor |
+| `regressor_array` | The regressors to fit per indicator, see the table below |
+| `model_parameters_fp` | Regressor hyper-parameters: `default` (the `standard` set), `none` (scikit-learn defaults), a set name or a JSON file. See [ML settings][ml_settings] |
+| `indicator_transformation` | Transformation of the indicator before fitting: `none`, `default`/`standard`, a set name or a JSON file. Default `none` |
+| `indicator_standardisation` | Z-score standardisation of the indicator: same forms. Default `none` |
+| `refit_preprocessing` | Refit the preprocessing chain of the dataframe inside the model on the training samples (default `true`, see below) |
+| `traintest` | Split into train and test samples and evaluate on the test samples |
+| `test_size` | Fraction of samples held out for testing (0.3 = 30%) |
+| `kfold` | Evaluate with k-fold cross-validation (`folds` folds, default 10) |
+| `model_fp` | Folder for the saved models, relative to the project root. Empty = `<project_root_fp>/models` |
+
+Set `indicator_transformation` and `indicator_standardisation` here, deliberately. They are not
+taken over from the transformation you last looked at in a plot.
 
 ## Available regressors
 
-From `xspatula_lucas/lucas/project_lucas_2009/regressors/regression_model_parameters.json`,
-checked against `src/ai4sh/machine_learning_model.py`:
+Hyper-parameters of the `standard` regressor set (`model_parameters_fp: "default"`):
 
-| Key | Regressor | Hyperparameters shipped |
+| Key | Regressor | Hyper-parameters |
 |---|---|---|
-| `ols` | Ordinary least squares | `fit_intercept: false` |
-| `theil_sen` | Theil-Sen estimator | none set (library defaults) |
-| `huber` | Huber regressor | none set |
-| `knn` | K-nearest neighbours | none set |
-| `dectree` | Decision tree | none set |
+| `ols` | Ordinary least squares | `fit_intercept: true` |
+| `theil_sen` | Theil-Sen estimator | `random_state: 42` |
+| `huber` | Huber regressor | library defaults |
+| `knn` | K-nearest neighbours | library defaults |
+| `dectree` | Decision tree | `random_state: 42` |
 | `svr` | Support vector regression | `kernel: linear`, `C: 1.5`, `epsilon: 0.05` |
-| `randfor` | Random forest | `n_estimators: 30` |
-| `mlp` | Multi-layer perceptron | `hidden_layer_sizes: [100, 100]`, `max_iter: 200`, `tol: 0.001`, `epsilon: 1e-8` |
-| `cubist` | Cubist | none set |
+| `randfor` | Random forest | `n_estimators: 30`, `random_state: 42` |
+| `mlp` | Multi-layer perceptron | `hidden_layer_sizes: [100, 100]`, `max_iter: 200`, `tol: 0.001`, `epsilon: 1e-8`, `random_state: 42` |
+| `cubist` | Cubist | `random_state: 42` |
 
-Any subset of these keys can go in `regressor_array` — `regression_modeling.json` above only
-fits `ols` and `huber`, for example. Edit `regression_model_parameters.json` directly to change
-hyperparameters for any of them.
+`random_state: 42` makes the stochastic regressors give the same model every run. To change
+hyper-parameters, create a custom regressor set ([ML settings][ml_settings]) rather than editing a
+file.
+
+## Train and test samples
+
+The test samples are chosen from the `sample_id`, not from the row order: the `round(test_size × n)`
+samples with the lowest hash of their `sample_id` are the test samples. The same sample is therefore
+always a test sample for the same `test_size`, whatever order or subset the dataframe has.
+
+Band selection ([permutation and univariate selection][ml_preprocess]) uses the same rule. Give the
+selection and the modeling the **same `test_size`**, otherwise the model's test samples include
+samples the band selection has already seen, and the test metrics are too optimistic. The model
+prints a note when the two differ.
+
+## The preprocessing is refitted inside the model
+
+With `refit_preprocessing: true` (the default), the model does not train on the preprocessed
+dataframe directly. It starts from the unprocessed source spectra (`source_parquet` in the
+dataframe's companion JSON) and replays its `preprocessing_chain` as steps of a scikit-learn
+pipeline, fitted on the training samples only. Mean centring, scaling, the MSC reference spectrum,
+PCA, Ward clusters, variance threshold and univariate band selection therefore never see the test
+samples, and their fitted values are saved with the model.
+
+Two steps are not refitted, and the model run says so in its notes:
+
+- **Outlier detection** (`_ol`): indicator outliers were set to missing using all samples.
+- **Permutation selection**: the selected bands are taken as fixed. They are clean only if the
+  selection used the same `test_size` (see above).
+
+The indicator transformation and standardisation are part of the pipeline too, so predictions are
+returned in the native unit of the indicator.
 
 ## Output
 
-Three things get written under `project_root_fp`, all keyed by the source dataframe's name:
+Written under `project_root_fp`, named after the input dataframe:
 
-- **`<name>_regression.json`** (e.g. `lucas_2009_10nm_regression.json`) — one entry per indicator, each with one entry per regressor
-  fit, holding the evaluation metrics: `r2`, `rmse`, `mae`, `mape`, `medae`, `bias`, `rpiq`, `ccc`,
-  plus `n_train`/`n_test` and a `model_fp` pointing at the saved model.
-- **`models/<name>_tt/`** — the fitted models themselves, one `.joblib` file per
-  indicator/regressor combination (`<name>_<indicator>_<regressor>_tt.joblib`).
-- **`covariate_importance/<name>_tt/`** — feature/band importance output for the fitted models.
+- **`<name>_regression.json`**: per indicator and regressor the test metrics `r2`, `rmse`, `mae`,
+  `mape`, `medae`, `bias`, `rpiq`, `ccc`, with `n_train`/`n_test`, the model file and its sha256.
+  `input_parquet` is the dataframe you gave, `source_parquet` the unprocessed spectra the pipeline
+  starts from.
+- **`models/<name>_tt/`** (or `_kf/`), per indicator and regressor:
+  - `<name>_<indicator>_<regressor>_tt.joblib`: the fitted pipeline (preprocessing, regressor,
+    indicator transformation);
+  - `<name>_<indicator>_<regressor>_tt.manifest.json`: everything needed to trust and reuse the
+    model: the sha256 of the `.joblib`, indicator and unit, regressor and hyper-parameters, the input
+    bands and signal type, the preprocessing chain, the training sample ids, the metrics, and the
+    provenance (process parameters, every settings set or file used with its checksum, the software
+    versions and the git commit).
+- **`covariate_importance/<name>_tt/`**: feature and band importance of the fitted models.
+- **`plot/<name>_tt/`**: the observed-predicted and importance plots, if saved.
 
-Example, from a real run against `c-org` and `sand` with `ols` and `huber`:
+Example, `c-org` from a run on `lucas_2009_wetlab_foss-xds_10nm_ol_mc`:
 
 ```json
-{
-  "source_parquet": "lucas_2009_10nm.parquet",
-  "results": {
-    "c-org": {
-      "traintest": {
-        "ols":   { "r2": 0.8108, "rmse": 20.313, "rpiq": 2.0418, "ccc": 0.8701, "n_train": 17, "n_test": 8 },
-        "huber": { "r2": 0.6308, "rmse": 28.373, "rpiq": 1.4618, "ccc": 0.7080, "n_train": 17, "n_test": 8 }
-      }
-    },
-    "sand": {
-      "traintest": {
-        "ols":   { "r2": -0.8317, "rmse": 27.868, "rpiq": 1.4533, "ccc": 0.1763, "n_train": 17, "n_test": 8 },
-        "huber": { "r2": 0.8454,  "rmse": 8.095,  "rpiq": 5.0031, "ccc": 0.9167, "n_train": 17, "n_test": 8 }
-      }
-    }
+"c-org": {
+  "traintest": {
+    "ols":   { "r2": 0.2467,  "rmse": 11.916,  "rpiq": 1.7455, "ccc": 0.5445, "n_train": 32, "n_test": 13 },
+    "huber": { "r2": -0.0707, "rmse": 14.2058, "rpiq": 1.4642, "ccc": 0.3111, "n_train": 32, "n_test": 13 }
   }
 }
 ```
 
-Note how the two regressors disagree sharply on `sand` (`ols` r² of -0.83 vs. `huber`'s 0.85) —
-with only 25 test records in this example (`n_train: 17`, `n_test: 8`), that's expected noise, not
-a signal to read into. Re-run against the full campaign (`RECORDS = 0` in
-[Prepare data][prepare_data]) before drawing conclusions from any single regressor's metrics.
+This run had 50 samples and 211 bands: more unknowns than training samples, so the metrics mean
+little. Model the full campaign before drawing conclusions.
+
+## Next step
+
+[Predict and register][ml_predict]: apply a saved model to new spectra, and register the final
+model in the database.
 
 [ml_preprocess]: {{ site.baseurl }}/lucas_2009/machine_learning/ml_preprocess/
-[prepare_data]: {{ site.baseurl }}/lucas_2009/prepare_data/
+[ml_settings]: {{ site.baseurl }}/lucas_2009/machine_learning/ml_settings/
+[ml_predict]: {{ site.baseurl }}/lucas_2009/machine_learning/ml_predict/

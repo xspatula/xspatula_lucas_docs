@@ -92,7 +92,7 @@ class counts: largest on top, at most `max_classes` (default 15), the rest summe
 
 A rank other than `lowest` is shown in the title, e.g. "Land cover (order)".
 
-**Bar style** per covariate in `lucas/default/plot/targetfeaturesymbols.json`:
+**Bar style** per covariate in the plot symbol set `targetfeaturesymbols` ([ML settings][ml_settings]):
 
 ```json
 "landcover": {
@@ -109,8 +109,8 @@ A rank other than `lowest` is shown in the title, e.g. "Land cover (order)".
 - `fill: false` draws the outline only
 
 Defaults: landcover olivedrab `//`, landuse goldenrod `\\`, biogeo16 teal `xx`, all at alpha 0.6. The
-transformation and standardisation defaults for the three covariates are `false`
-(`lucas/default/transform/*.json`); non-numeric columns are skipped anyway.
+`standard` transformation and standardisation sets leave the three covariates unchanged; non-numeric
+columns are skipped anyway.
 
 `targetfeaturesymbols` is the same file used for [indicator units][indicator_units]. In the plot it only
 controls colour, label and axis unit; no translation happens on the plotted values.
@@ -180,3 +180,4 @@ Proceed to [ML preprocessing][ml_preprocess] to clean and transform the compiled
 [previous_dataframe]: {{ site.baseurl }}/lucas_2009/machine_learning/parquet_files/#the-previous-dataframe-previous_dataframe
 [indicator_units]: {{ site.baseurl }}/lucas_2009/machine_learning/parquet_files/#indicator-units
 [class_filters]: {{ site.baseurl }}/lucas_2009/machine_learning/select_data/#class-filters
+[ml_settings]: {{ site.baseurl }}/lucas_2009/machine_learning/ml_settings/

@@ -312,7 +312,9 @@ nav_order:
     - parquet_files
     - plot_data
     - ml_preprocess
+    - ml_settings
     - ml_model
+    - ml_predict
   lucas_2015:
     - load_lucas_2015
 
