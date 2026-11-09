@@ -46,6 +46,11 @@ returns the indicator in its native unit. This page covers applying models to ne
 | `dataframe` | The parquet with the spectra: its name, or `previous` |
 | `model_array` | Models to apply: a `.joblib` path (relative to the project root, with its `.manifest.json` next to it) or the name of a [registered model](#register-a-final-model) |
 | `dst_fp` | Output folder. Empty = `<project_root_fp>/predictions` |
+| `show_observed_predicted` | Show the observed vs predicted plots (models whose indicator has observed values). Default `true` |
+| `save_observed_predicted` | Save one plot per model under `<dst_fp>/plot/`. Default `false` |
+| `plot_layout` | Arrangement of the shown plots, as in [regression_modeling][ml_model]: `default`, a preset (`scatter-1` … `scatter-4`, `scatter-tt-kf`), a parameter set, a JSON file, or `none` |
+| `save_plot_layout` | Also save the grid figures under `<dst_fp>/plot/grid/`. Default `false` |
+| `targetfeaturesymbols`, `regressionmodelsymbols` | Plot symbols, as in regression_modeling. Default `default` |
 
 **Give unprocessed spectra.** The models refit and apply their own preprocessing. A dataframe whose
 companion JSON shows spectral preprocessing (anything but outlier detection) is refused: it has the
@@ -71,6 +76,12 @@ are computed on the samples that were **not** used to train the model (the train
 in the manifest). Samples that were used for training are excluded, and the run says how many. For a
 registered model these metrics are also written to the registry (dataset
 `independent:<parquet name>`; a rerun on the same parquet replaces them).
+
+The same samples are plotted observed vs predicted, as in `regression_modeling`. The default layout
+puts one indicator per row when several regressors predict it; with a single regressor the indicators
+flow four per row; train/test and k-fold models of the same indicator and regressor sit side by side.
+Two models with the same indicator, regressor and mode (e.g. different preprocessing) are numbered
+(`plsr`, `plsr-2`).
 
 ## Register a final model
 
@@ -100,14 +111,15 @@ retired.
 | Parameter | Description |
 |---|---|
 | `model_array` | Saved models (`.joblib` with `.manifest.json`), relative to the project root |
-| `name` | Registry name (one model only). Empty = the file name without `.joblib` |
+| `name` | Registry name (one model only). Empty = the file name without `.joblib`. May contain `_`, not `@` or `#` |
+| `suffix` | Appended to the name of every model in `model_array`, e.g. `-swir` or `_run2`. Use it when a new run gives model files the same names as already registered ones |
 | `abstract` | What the model is for, the data it was trained on, and its limits |
 
 Registration stores:
 
 | Table | Content |
 |---|---|
-| `ml_model.model` | Name, indicator, regressor, mode, signal type, number of bands and samples, the model file path and sha256, the source data and its sha256, the full manifest, status, who registered it and when |
+| `ml_model.model` | Name, indicator, regressor, mode, signal type, number of bands and samples, spectral range (`spectral_domain`, `spectral_unit`, `band_min`, `band_max`, `band_step`), the model file path and sha256, the source data and its sha256, the full manifest, status, who registered it and when |
 | `ml_model.model_step` | The preprocessing chain, one row per step with its parameters |
 | `ml_model.model_parameter_set` | The [parameter sets][ml_settings] the model used, and in which step |
 | `ml_model.model_metric` | The test (or k-fold) metrics, and later the independent metrics |
@@ -120,8 +132,27 @@ checksum are kept in the manifest.
 The model file stays where it is: the registry stores its path and sha256, not the file. Keep
 registered model files in a folder you do not clean up (set `model_fp` in `regression_modeling`), and
 do not overwrite them: a changed file no longer matches its sha256 and is refused.
+`regression_modeling` never overwrites a registered model file: a new model with the same file name
+is saved as `<name>-2.joblib` (`-3`, ...) and a warning is printed.
 
 A file that is already registered, or a name that is already taken, is refused.
+
+Keep the name short and human: what the model is built from is stored in columns and tables, not in
+the name. `band_min`/`band_max` are the range of the spectra the model needs as input; `band_step`
+is the spectral resolution of the spectra before band selection (in the unit of `spectral_unit`:
+`nm`, `um` or `cm-1`). Find models by indicator, region and resolution, e.g. organic carbon models
+that need nothing outside 1000–2500 nm at 10 nm or finer:
+
+```sql
+SELECT m.name, m.regressor, m.band_min, m.band_max, m.band_step
+FROM ml_model.model m
+JOIN observation_utility.indicator i ON i.id = m.indicator_id
+WHERE i.alias = 'c-org' AND m.status = 'registered'
+  AND m.spectral_unit = 'nm' AND m.band_min >= 1000 AND m.band_max <= 2500 AND m.band_step <= 10;
+```
+
+Add `JOIN ml_model.model_step s ON s.model_id = m.id WHERE s.process = '...'` to filter on a
+preprocessing step, and `ml_model.model_metric` to rank by e.g. independent `rmse`.
 
 ## Retire a model
 
