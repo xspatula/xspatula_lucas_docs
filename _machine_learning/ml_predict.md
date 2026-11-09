@@ -67,7 +67,8 @@ Before predicting, each model is checked:
 **Output** in `dst_fp`:
 
 - `<name>_pred.parquet`: the key columns of the input plus one column per model,
-  `<indicator>__<regressor>_tt`, in the indicator's unit;
+  `<indicator>__<regressor>_tt` (a model with covariates: `<indicator>__<regressor>+<covariate>_tt`, e.g.
+  `c-org__plsr+biogeo16_tt`), in the indicator's unit;
 - `<name>_pred.json`: the source parquet and its sha256, and per model its file, sha256 and the
   metrics from training.
 

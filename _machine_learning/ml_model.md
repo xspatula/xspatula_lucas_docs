@@ -59,6 +59,8 @@ default), then run the modeling cell.
 | `test_size` | Fraction of samples held out for testing (0.3 = 30%) |
 | `kfold` | Evaluate with k-fold cross-validation (`folds` folds, default 10) |
 | `model_fp` | Folder for the saved models, relative to the project root. Empty = `<project_root_fp>/models` |
+| `covariate_array` | Covariates next to the spectra: empty = spectra only, `all`, or covariate names (see below) |
+| `class_grouping` | Pool (or leave out) classes of nominal covariates (see below) |
 
 Set `indicator_transformation` and `indicator_standardisation` here, deliberately. They are not
 taken over from the transformation you last looked at in a plot.
@@ -82,6 +84,35 @@ Hyper-parameters of the `standard` regressor set (`model_parameters_fp: "default
 `random_state: 42` makes the stochastic regressors give the same model every run. To change
 hyper-parameters, create a custom regressor set ([ML settings][ml_settings]) rather than editing a
 file.
+
+## Covariates
+
+A covariate is used next to the spectra: a numeric covariate standardised with the training mean and
+standard deviation, a nominal (class) covariate one-hot encoded. Models with covariates are saved
+with `_cv-<covariate>` in their names, so they never replace the spectra-only models.
+
+Rare classes give unstable models. Pool them with `class_grouping`, and leave out the classes you do
+not want with `"other"`:
+
+```json
+"covariate_array": ["landcover"],
+"class_grouping": [
+  {
+    "covariate": "landcover",
+    "groups": [["cultivated"], ["grass-l-no-trees", "grass-l-trees"],
+               ["conif-woodl", "broadl-woodl", "mixed-woodl"]],
+    "other": "exclude"
+  }
+]
+```
+
+| `"other"` | Classes not in any group |
+|---|---|
+| not given | Not allowed: every class in the data must be placed in a group |
+| `"exclude"` | Their samples are left out: not used for training or testing, and not predicted |
+| any other text | Pooled into one group of that name |
+
+A group is named by its classes joined with `|` (e.g. `grass-l-no-trees|grass-l-trees`).
 
 ## Train and test samples
 
