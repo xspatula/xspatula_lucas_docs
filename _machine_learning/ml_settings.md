@@ -26,7 +26,6 @@ exactly which set and version it used, so a model can always be traced back to i
 |---|---|---|
 | `transformation` | `indicator_transformation` (modeling), `transformation` (plots) | `none`, `standard` |
 | `standardisation` | `indicator_standardisation` (modeling), `standardisation` (plots) | `none`, `standard` |
-| `chemometric` | `chemometrics` | `none`, `standard` |
 | `filter` | `filter_fp` | `none`, `gauss`, `loess`, `lowess`, `moving-average`, `savitzky-golay` |
 | `multi_filter` | `multi_filter_fp` | `standard` |
 | `selector` | band selection (permutation, RFE, tree based) | `none`, `standard` |
