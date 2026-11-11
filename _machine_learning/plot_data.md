@@ -166,8 +166,8 @@ A plain spectra plot of the selected dataset, no processing applied.
 
 ### Plot filter spectra
 
-Overlays the raw spectra against each available smoothing filter (moving-average, gauss, Savitzky-Golay,
-lowess).
+Plots the spectra smoothed with the `filter` preset: moving-average, gauss, savitzky-golay, lowess or
+loess. The process file uses `lowess`.
 
 **Process file**: `project_lucas_2009/process/plot/plot_filter_spectra.json`
 

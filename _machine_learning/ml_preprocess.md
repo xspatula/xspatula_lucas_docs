@@ -28,7 +28,7 @@ appends an abbreviation to the previous file's base name:
 | `_snv`, `_msc`, `_l1`, `_l2`, `_max` (chainable, e.g. `_snvmsc`) | Scatter correction | Which scaler(s) applied |
 | `_d<N>` (or `_d<N>app` if appended rather than replacing) | Derivative | Order-`N` spectral derivative |
 | `_pca<N>` | Decomposition | PCA with `N` components |
-| `_sg` / `_ma` / `_gf` / `_lw` | Filtering | Savitzky-Golay / moving-average / gauss / lowess |
+| `_sg` / `_ma` / `_gf` / `_lw` / `_lo` | Filtering | Savitzky-Golay / moving-average / gauss / lowess / loess |
 | `_wc` | Agglomeration | Ward-clustered bands |
 | `_vt` | Selection | Variance-threshold selected |
 
@@ -91,7 +91,7 @@ Checked directly against `src/ai4sh/machine_learning_preprocess.py`, `chemometri
 | Scatter correction | `spectra_scatter_correction` | `snv`, `msc`, `l1`, `l2`, `max` — pass a list to chain more than one |
 | Derivative | `spectra_derivative` | any integer `derivative` order; `append: true` keeps the raw columns alongside instead of replacing them |
 | Decomposition | `spectra_decomposition` | `pca` (only method currently implemented), `n_components` configurable |
-| Filtering | `filter_spectra` | `moving-average`, `gauss`, `savitzky-golay`, `lowess` |
+| Filtering | `filter_spectra` | `moving-average`, `gauss`, `savitzky-golay`, `lowess`, `loess` (tricube-weighted local quadratic, `n_points` 7) |
 | Agglomeration | `ward_clustering` | Ward hierarchical clustering of spectral bands into fewer, wider bands |
 | Selection | `select_variance_threshold` | scikit-learn `VarianceThreshold` on a chosen `scaler` (`minmax`, `standard`, or `robust`) |
 | Selection | `spectra_indicator_univariate_selection` | scikit-learn `SelectKBest` with `f_regression` |
