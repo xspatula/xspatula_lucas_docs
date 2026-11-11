@@ -69,7 +69,7 @@ Same process, `process/compile/compile_validation.json`, with `sampling_log: syn
 
 **Process files**: `process/plot/plot_indicators_calibration.json`, `process/plot/plot_spectra_calibration.json`
 
-`plot_indicators` draws box plots and histograms of the 7 indicators. With `"transformation": "standard"` it shows them as the models will see them: **c-org, n-tot and ec are log-transformed**, because they are strongly right-skewed. Removing outliers does not remove the skew; the transformation does.
+`plot_indicators` draws box plots and histograms of the 7 indicators. With `"transformation": "standard"` it shows them as the models will see them: **c-org, n-tot and ec are log-transformed**, because they are strongly right-skewed. Removing outliers does not remove the skew; the transformation does. In the figures below c-org, n-tot and ec are plotted as natural-log (ln) values.
 
 ![Box plots of the calibration indicators]({{ "/assets/media/synthetic/1.3%20Look%20at%20the%20calibration%20data%20box.png" | relative_url }})
 

@@ -15,7 +15,7 @@ last_modified_at: 2026-11-11
 </div>
 
 <div class="notice--info" markdown="1">
-**The synthetic dataset is not yet distributed.** Permission to share data derived from LUCAS 2015 has been requested from the data owner. Until it is granted, these pages show how the project is run, with the outputs of a complete run.
+**The code is public; the data are not yet.** The code, process files and notebooks are in the public [xspatula_lucas][repo] repository, folder `synthetic_dataset/` (notebook outputs are stripped on commit); its [README][repo_readme] gives the run order. The synthetic **data** are not yet distributed: permission to share data derived from LUCAS 2015 has been requested from the data owner. Until it is granted you can read the notebooks but not run them, and these pages show the outputs of a complete run.
 </div>
 
 This tutorial takes you from an empty PostgreSQL database to a registered model that predicts soil organic carbon from spectra. Every step is a Jupyter notebook cell you run in order. The dataset is small (2300 samples), so a full run takes an afternoon instead of the days a full LUCAS campaign needs.
@@ -56,6 +56,8 @@ Steps 1–2 build the database. Steps 3–7 are the machine-learning chain: comp
 
 Each page links to the general machine-learning pages of the LUCAS documentation for the full parameter reference.
 
+[repo]: https://github.com/xspatula/xspatula_lucas
+[repo_readme]: https://github.com/xspatula/xspatula_lucas/blob/main/synthetic_dataset/README.md
 [core_prereq]: https://xspatula.github.io/xspatula_core_docs/setup_db/#prerequisits
 [core_hba]: https://xspatula.github.io/xspatula_core_docs/setup_db/postgres/#securing-authentication-pg_hbaconf
 [setup]: {{ "/synthetic/setup_database/" | relative_url }}

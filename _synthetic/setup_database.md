@@ -91,15 +91,20 @@ Open `xspatula_lucas/setup/setup_db.ipynb`.
    ```python
    scheme_file = './zzz/scheme_local_setup_synthetic.json'
    ```
-2. Run the setup cell. Answer `y` when asked whether to set up the database `synthetic`.
-3. Run the audit cell (optional). It turns on the audit trail of inserts, updates and deletes.
+2. Run the cell **Check credentials** first (optional, read-only):
+   ```python
+   Check_credentials(notebook_path, scheme_file)
+   ```
+   It lists every `.netrc` id the scheme needs as OK or MISSING, with the login name but never the password, and warns if `~/.netrc` is not `chmod 600`. It connects to nothing. Fix every MISSING line before you go on.
+3. Run the setup cell. Setup resolves all credentials **before** it asks anything: a missing `.netrc` entry stops it with an error. Then answer `y` when asked whether to set up the database `synthetic`.
+4. Run the audit cell (optional). It turns on the audit trail of inserts, updates and deletes.
 
-**One checkout works with one database at a time.** Setup rewrites the environment files in `src/postgres/environment/` so that they point at `synthetic`. After this, the LUCAS notebooks in the same checkout also talk to `synthetic`. Switch with:
+**One checkout works with one database at a time.** Setup rewrites the environment files in `src/postgres/environment/` so that they point at `synthetic`. After this, the LUCAS notebooks in the same checkout also talk to `synthetic`. Switch from the root of `xspatula_lucas` with:
 
 ```bash
-python synthetic_dataset/switch_db.py lucas       # back to LUCAS
-python synthetic_dataset/switch_db.py synthetic   # to the synthetic database
-python synthetic_dataset/switch_db.py             # show the current one
+python setup/switch_db.py lucas       # back to LUCAS
+python setup/switch_db.py synthetic   # to the synthetic database
+python setup/switch_db.py             # show the current one
 ```
 
 ### Rebuilding from scratch
@@ -161,14 +166,14 @@ If it stops with *permission denied* (the login role has no rights on the schema
 
 **Notebook**: `synthetic_dataset/user_management/register_users.ipynb`
 
-The project schemes log in as `ini_user_synthetic`, so this step is **not required**. It shows how to add an organisation (`synthetic soil lab`) and a user (`dummy.user`, stratum 5) without sending an e-mail:
+The project scheme `synthetic_dataset/scheme_synthetic.json` logs in as `ini_user_synthetic` (this notebook uses it too, as `../scheme_synthetic.json`), so this step is **not required**. It shows how to add an organisation (`synthetic soil lab`) and a user (`dummy.user`, stratum 5) without sending an e-mail:
 
 | Cell | Does |
 |---|---|
 | 1 | General utilities (territories), needed by organisation and user |
 | 2 | Inserts the organisation |
 | 3 | Translates the user excel sheet to JSON |
-| 4 | Writes a **bcrypt hash** of `dummy_password` into `user/manage_process/manage_user.json`; the plaintext is never stored. **Change `dummy_password` before you run it** |
+| 4 | Writes a **bcrypt hash** of `dummy_password` into `user/manage_process/manage_user.json`; the plaintext is never stored. The notebook ships `dummy_password = 'change-me'`: **change it before you run the cell** |
 | 5 | Inserts the user |
 
 To work as that user, add a line to `.netrc`

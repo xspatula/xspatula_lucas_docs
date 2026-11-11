@@ -38,8 +38,9 @@ hang on one main navigation entry**, so it can be removed in one place:
   block with `description:`). No links to `/synthetic/` from other collections.
 - Add a comment above each of these three spots: `# synthetic tutorial: remove this block (and set
   output: false) to take it offline`. Write the same instructions in `README.md`.
-- On the synopsis page, add a `notice--info`: the synthetic dataset is not yet distributed; the pages
-  show how the project is run.
+- On the synopsis page, add a `notice--info`: the code, process files and notebooks are in the
+  `xspatula_lucas` repository (`synthetic_dataset/`), but the synthetic **data** are not yet distributed
+  (LUCAS licence, permission asked); the pages show how the project is run.
 - Permalinks `/synthetic/<page>/`, `sidebar: nav: "synthetic"`.
 - Update `README.md`.
 - Delete `_synthetic/for_claude_20261108.md` from the collection folder when done (it would be rendered
@@ -80,7 +81,7 @@ Use the JSON from the sketch. Add a table explaining the keys:
 |---|---|
 | `project_path` | `./lucas`, relative to the scheme file: the folder `setup/zzz/lucas` holding the database definitions. Keep it. |
 | `postgresdb.db` | Name of the new database (`synthetic`) |
-| `postgresdb.host_netrc_id` | `.netrc` machine name of your PostgreSQL superuser (the sketch uses `karttur`: tell the reader to use their own) |
+| `postgresdb.host_netrc_id` | `.netrc` machine name of your PostgreSQL superuser. Show `my_pg_superuser` and tell the reader to use their own. The file in the repo keeps Thomas's id on purpose: `scheme_template_*` files carry placeholders, `scheme_local_*` are the maintainer's working copies. |
 | `postgresdb.dump_path` | Where `dump_restore_db.ipynb` writes the dump |
 | `postgresdb.db_users` | The database roles and their `.netrc` machine names. Keep the role names. |
 | `initial_user` | The first application user, stratum 5. Login and password come from `.netrc` (`user_netrc_id`). `organisation_id__organisation_name` and `territory_id__territory_name` must exist in the seed tables (`xspectre`, `sweden` do). |
@@ -130,11 +131,16 @@ Facts from the code:
 ### 4.4 Run `setup/setup_db.ipynb`
 
 - Scheme cell: `scheme_file = './zzz/scheme_local_setup_synthetic.json'`.
+- Run the optional read-only cell **"Check credentials"** first (`Check_credentials(notebook_path,
+  scheme_file)`). It lists every `.netrc` id the scheme needs as OK or MISSING, with the login name but
+  never a password, and warns if `~/.netrc` is not `chmod 600`. It connects to nothing.
+- Setup itself resolves all credentials **before** it asks "Set up database synthetic?": a missing entry
+  stops it with an error, before any question.
 - Answer `y` when asked whether to set up the database.
 - Then run the audit cell (optional; it turns on the audit trail of inserts, updates and deletes).
 - Setup rewrites the env files in `src/postgres/environment/` to point at `synthetic`. One checkout works
-  with one database at a time; `python synthetic_dataset/switch_db.py lucas` switches back
-  (`switch_db.py` without an argument shows the current one).
+  with one database at a time; `python setup/switch_db.py lucas` (from the repository root) switches
+  back (`python setup/switch_db.py` without an argument shows the current one).
 - Rebuilding from scratch: first `setup/delete_db.ipynb` with
   `scheme_file = './zzz/scheme_local_delete_synthetic.json'`. It drops the database `synthetic` and
   deletes the env files. Roles that other databases use are kept.
@@ -152,13 +158,14 @@ itself, without a traceback.
 
 ### 4.7 Register an extra user, `synthetic_dataset/user_management/register_users.ipynb` (optional)
 
-The project schemes (`synthetic_dataset/scheme_synthetic.json`, `scheme_synthetic_admin.json`) log in as
-`ini_user_synthetic`, so this step is **not required**. It shows how to add an organisation
+The project scheme `synthetic_dataset/scheme_synthetic.json` logs in as `ini_user_synthetic` (this
+notebook uses it too; there is no separate admin scheme), so this step is **not required**. It shows how to add an organisation
 (`synthetic soil lab`) and a user (`dummy.user`, stratum 5) without e-mail:
 
 - Cells 1–3: general utilities (territories), organisation, translate the user excel to JSON.
 - Cell 4 writes a **bcrypt hash** of `dummy_password` into `user/manage_process/manage_user.json`; the
-  plaintext is never stored. Tell the reader to change `dummy_password` before running.
+  plaintext is never stored. The notebook ships `dummy_password = 'change-me'`: tell the reader to
+  change it before running.
 - To work as that user, add `machine dummy_synthetic login dummy.user password <that password>` to
   `.netrc` and set `"user_netrc_id": "dummy_synthetic"` in `synthetic_dataset/scheme_synthetic.json`.
 
@@ -352,7 +359,7 @@ the page in this order:
 
    | Notebook | Covariate | Groups | Left out |
    |---|---|---|---|
-   | 5 | `biogeo16` | boreal+alpine; atlantic; continental+pannonian+steppic+black-sea; mediterranean | none (rare regions pooled: steppic 16, black-sea 3 calibration samples) |
+   | 5 | `biogeo16` | boreal+alpine; atlantic; continental+pannonian+steppic+black-sea; mediterranean | none (all 8 regions are grouped; rare ones pooled: steppic 16, black-sea 3 calibration samples). Its JSON has `"other": "exclude"` explicitly, which changes nothing here |
    | 6 | `landcover` | cultivated; grassland (with/without trees); forest (coniferous, broadleaved, mixed) | agroforest, lichens, spontaneous vegetation, shrubland, swamp |
    | 7 | `landuse` | agriculture; forestry | natural/semi-natural, recreation, unused, mining |
    | 8 | `soil texture usda major group` | sandy, loamy, light clayey, heavy clayey (no grouping) | samples without texture (about 23%) |
@@ -402,7 +409,43 @@ The file names contain spaces: URL-encode them (`%20`) in the image links. Missi
 - Figures for 3.2, 4.4 and the covariate grids; the numbers for the results table in 5.5.
 - How readers will get the dataset once permission is granted (section 2's notice changes then).
 
+## 8. Code changes of 2026-11-11 — apply to the pages already written
+
+From the "Done" reply in `xspatula_lucas/notes/comments_from_xspatula_lucas_docs_synthetic_20261111.md`
+(code commits: xspatula_lucas `dcd9a9e`, `2fbc4fb`, `75f65cb`). Sections above are updated; check the pages:
+
+- [x] **switch_db**: `python setup/switch_db.py <db>` from the repository root everywhere (was
+  `synthetic_dataset/switch_db.py`, now deleted). The same script is in xspatula_ai4sh and xspatula_core.
+- [x] **setup_database, step 4.4**: add the "Check credentials" cell (run it first) and that setup checks
+  credentials before its confirm prompt.
+- [x] **No admin scheme**: remove every mention of `scheme_synthetic_admin.json`; `register_users.ipynb`
+  uses `../scheme_synthetic.json`.
+- [x] **register_users cell 4**: shipped value is `dummy_password = 'change-me'`.
+- [x] **synopsis notice**: code and notebooks are now in the public repo (outputs stripped on commit by
+  nbstripout); only the data stay local. Link to `synthetic_dataset/README.md` on GitHub for the run order.
+  Readers without the data can read the notebooks but not run them.
+- [x] **host_netrc_id**: keep `my_pg_superuser` in the docs; the mismatch with the repo file is intended
+  (template vs local scheme convention), no note needed beyond "use your own id".
+- [x] **compile page, 1.3**: indicator plots now label transformed axes `ln(g*kg^-1)` (natural log),
+  `sqrt(…)`, `1/(…)`, `Box-Cox(…)`, or `z-score`. The current 1.3 figures show the raw unit on log axes:
+  until Thomas re-shoots them, add one sentence that c-org, n-tot and ec are plotted as ln values.
+- [x] **covariates page**: notebook 5 title is now "Spectra + biogeographic region (biogeo16)"; the biogeo16
+  JSON may be shown with `"other": "exclude"`.
+- [x] `insert_synthetic_data.ipynb` already has `## 7.1 Spectrometer` (inside the `# 7. Spectra` cell): no
+  change in the docs.
+- [ ] Core docs (separate session) replace their `.netrc` check snippet with `Check_credentials`; link to
+  that page from step 4.4 once it is live.
+- [x] Then commit `_synthetic/`, `assets/media/synthetic/`, `_config.yml`, `_data/navigation.yml`,
+  `README.md` (not yet committed; this note was committed separately in `ba816f2`).
+
 ## Work log
+
+### 2026-11-11 (section 8 applied, committed)
+- setup_database: `python setup/switch_db.py` from repo root; "Check credentials" cell added as step 3.2, setup checks credentials before the confirm prompt; register_users uses `../scheme_synthetic.json`, no admin scheme; `dummy_password = 'change-me'` shown.
+- synopsis: notice rewritten (code/notebooks public, outputs stripped, data local, link to `synthetic_dataset/README.md` on GitHub).
+- compile 1.3: sentence that c-org, n-tot, ec are plotted as ln values (until figures are re-shot).
+- covariates: notebook 5 title; biogeo16 row notes `"other": "exclude"`.
+- Still open: link step 3.2 to the core docs `Check_credentials` page once live.
 
 ### 2026-11-11 (done, not committed)
 - Decisions (Thomas): nav title "Try Xspatula"; links out to lucas/core docs as full URLs (collection movable); nav entry + landing line.

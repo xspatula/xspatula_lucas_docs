@@ -49,13 +49,14 @@ See [Covariates in ML modeling][lucas_covariates].
 
 | Notebook | Covariate | Groups | Left out |
 |---|---|---|---|
-| 5 | `biogeo16` | boreal + alpine; atlantic; continental + pannonian + steppic + black-sea; mediterranean | none. Rare regions are pooled (steppic has 16 calibration samples, black-sea 3) |
+| 5 | `biogeo16` | boreal + alpine; atlantic; continental + pannonian + steppic + black-sea; mediterranean | none. All 8 regions are grouped; rare ones are pooled (steppic has 16 calibration samples, black-sea 3). Its JSON sets `"other": "exclude"` explicitly, which changes nothing here |
 | 6 | `landcover` | cultivated; grassland with and without trees; forest (coniferous, broadleaved, mixed) | agroforest, lichens, spontaneous vegetation, shrubland, swamp |
 | 7 | `landuse` | agriculture; forestry | natural/semi-natural, recreation, unused, mining |
 | 8 | `soil texture usda major group` | sandy, loamy, light clayey, heavy clayey (no grouping) | samples without texture (about 23%) |
 
 ## The cells, with biogeo16 as the example
 
+Notebook 5 is titled **Spectra + biogeographic region (biogeo16)**.
 Notebooks 6–8 are identical apart from the covariate.
 
 **5.1 Train and test with biogeo16** (`process/covariate_biogeo16/regression_modeling_biogeo16.json`). Models go to `models/synthetic_calibration_10nm.olif.snv.mc_cv-biogeo16_tt/`.
