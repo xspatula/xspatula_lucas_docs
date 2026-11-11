@@ -292,6 +292,9 @@ collections:
     output: true
   lucas_2015:
     output: true
+  # synthetic tutorial: remove this block (and set output: false) to take it offline
+  synthetic:
+    output: true
 
 # collection navigation orders
 nav_order:
@@ -317,6 +320,16 @@ nav_order:
     - ml_predict
   lucas_2015:
     - load_lucas_2015
+  # synthetic tutorial: remove this block (and set output: false) to take it offline
+  synthetic:
+    - synopsis
+    - setup_database
+    - import_data
+    - compile
+    - preprocess
+    - model
+    - predict_register
+    - covariates
 
 # Defaults
 defaults:

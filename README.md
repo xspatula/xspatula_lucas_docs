@@ -47,6 +47,35 @@ LUCAS 2015 is a single page at `/lucas_2015/` (collection `_lucas_2015/`, sideba
 It covers the differences from 2009 plus the cells of notebook block 4, and its sidebar links back
 to the shared 2009 pages.
 
+## Synthetic tutorial ("Try Xspatula")
+
+The collection `_synthetic/` (permalinks `/synthetic/...`, sidebar `synthetic`) is a complete newcomer
+run on a small synthetic soil spectral library derived from LUCAS 2015: database setup, data import,
+and the machine-learning chain from compiling a dataset to registering a model, plus covariates.
+Code: `xspatula_lucas/synthetic_dataset/` and `setup/zzz/scheme_local_*_synthetic.json`. Figures:
+`assets/media/synthetic/`.
+
+Rules for this collection:
+
+- **Self-contained.** Pages link out to `xspatula_lucas_docs` and `xspatula_core_docs` with **full URLs**
+  (`https://xspatula.github.io/...`), so the collection can move to its own site unchanged. Links between
+  its own pages use `{{ "/synthetic/..." | relative_url }}`.
+- **Nothing links in.** No page of another collection links to `/synthetic/`. The only entry points are
+  in `_data/navigation.yml`.
+- The synthetic dataset itself is not yet distributed (permission requested from the LUCAS data owner);
+  the synopsis page says so in a `notice--info`. Update that notice when the data can be shared.
+
+**To take it offline**, remove the five blocks marked
+`# synthetic tutorial: remove this block (and set output: false) to take it offline`:
+
+| File | Block |
+|---|---|
+| `_config.yml` | `collections: synthetic:` (or set `output: false`) |
+| `_config.yml` | `nav_order: synthetic:` |
+| `_data/navigation.yml` | the "Try Xspatula" entry in `main_navigation` (landing-page sidebar) |
+| `_data/navigation.yml` | the `synthetic:` sidebar |
+| `_data/navigation.yml` | the "Try Xspatula" entry in `main` (top menu) |
+
 ## Site architecture
 
 - **Engine**: Jekyll with the Minimal Mistakes theme (v4.27.3, local install via `Gemfile`).

@@ -27,6 +27,11 @@ main_navigation:
     children:
       - title: "Load LUCAS 2015"
         url: /lucas_2015/
+  # synthetic tutorial: remove this block (and set output: false) to take it offline
+  - title: "Try Xspatula"
+    children:
+      - title: "Synthetic soil data"
+        url: /synthetic/
 
 lucas_2009:
   - title: Seed LUCAS data
@@ -96,6 +101,29 @@ lucas_2015:
       - title: "Machine learning"
         url: /lucas_2009/machine_learning/select_data/
 
+# synthetic tutorial: remove this block (and set output: false) to take it offline
+synthetic:
+  - title: Try Xspatula
+    children:
+      - title: "Synopsis"
+        url: /synthetic/
+      - title: "Set up the database"
+        url: /synthetic/setup_database/
+      - title: "Import the data"
+        url: /synthetic/import_data/
+  - title: Machine learning
+    children:
+      - title: "Compile and inspect"
+        url: /synthetic/compile/
+      - title: "Preprocess"
+        url: /synthetic/preprocess/
+      - title: "Model"
+        url: /synthetic/model/
+      - title: "Predict and register"
+        url: /synthetic/predict_register/
+      - title: "Covariates"
+        url: /synthetic/covariates/
+
 main:
   - title: "Xspatula"
     url: /
@@ -106,5 +134,9 @@ main:
   - title: "LUCAS 2015"
     url: /lucas_2015/
     description: "Load the LUCAS 2015 campaign — what differs from 2009"
+  # synthetic tutorial: remove this block (and set output: false) to take it offline
+  - title: "Try Xspatula"
+    url: /synthetic/
+    description: "Run Xspatula end to end on a small synthetic soil spectral library"
   - title: "About"
     url: https://xspatula.github.io/about/
