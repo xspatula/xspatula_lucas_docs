@@ -73,7 +73,7 @@ Same process, `process/compile/compile_validation.json`, with `sampling_log: syn
 
 ![Box plots of the calibration indicators]({{ "/assets/media/synthetic/1.3%20Look%20at%20the%20calibration%20data%20box.png" | relative_url }})
 
-![Histograms of the calibration indicators]({{ "/assets/media/synthetic/1.3%20Look%20at%20the%20calibration%20data.png" | relative_url }})
+![Histograms of the calibration indicators]({{ "/assets/media/synthetic/1.3%20Look%20at%20the%20calibration%20data%20indicators.png" | relative_url }})
 
 `plot_spectra` draws 100 spectra, raw and after the two preprocessing steps of the next page (SNV, then meancentring), so you can see what they do before you run them:
 
